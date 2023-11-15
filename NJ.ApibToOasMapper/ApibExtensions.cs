@@ -4,9 +4,9 @@ namespace NJ.ApibToOasMapper
 {
   public static class ApibExtensions
   {
-    public static IEnumerable<ResourceSection> GetAllResourceSections(this Apib apb)
+    public static IEnumerable<ResourceSection> GetAllResourceSections(this Apib apib)
     {
-      var resourceGroups = apb.ResourceGroupSections;
+      var resourceGroups = apib.ResourceGroupSections;
 
       IEnumerable<ResourceSection> resourcesFromGroups;
       if (resourceGroups is null)
@@ -14,7 +14,7 @@ namespace NJ.ApibToOasMapper
       else
         resourcesFromGroups = resourceGroups.SelectMany(g => g.ResourceSections);
 
-      var resources = apb.ResourceSections;
+      var resources = apib.ResourceSections;
       IEnumerable<ResourceSection> directResources;
       if (resources is null)
         directResources = Array.Empty<ResourceSection>();

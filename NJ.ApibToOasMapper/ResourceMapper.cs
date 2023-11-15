@@ -9,19 +9,19 @@ namespace NJ.ApibToOasMapper
   {
     private const string ResourceQueryPathParameterPattern = @"\{\?[^\}]+\}";
 
-    public static PathsObject MapResources(Apib apb, IReadOnlyCollection<ApiType> apiNamedTypes)
+    public static PathsObject MapResources(Apib apib, IReadOnlyCollection<ApiType> apiNamedTypes)
     {
       var result = new PathsObject
       {
-        PathItems = ResourceMapper.MapResourcesToDictionary(apb, apiNamedTypes)
+        PathItems = ResourceMapper.MapResourcesToDictionary(apib, apiNamedTypes)
       };
       return result;
     }
 
-    public static IReadOnlyDictionary<string, PathItemObject> MapResourcesToDictionary(Apib apb, IReadOnlyCollection<ApiType> apiNamedTypes)
+    public static IReadOnlyDictionary<string, PathItemObject> MapResourcesToDictionary(Apib apib, IReadOnlyCollection<ApiType> apiNamedTypes)
     {
-      var resourcesWithExistingParentSections = apb.ResourceGroupSections?.SelectMany(g => g.ResourceSections.Select(r => new ResourceInfo(r, g))) ?? Enumerable.Empty<ResourceInfo>();
-      var resourcesWithNullParentSections = apb.ResourceSections?.Select(r => new ResourceInfo(r)) ?? Enumerable.Empty<ResourceInfo>();
+      var resourcesWithExistingParentSections = apib.ResourceGroupSections?.SelectMany(g => g.ResourceSections.Select(r => new ResourceInfo(r, g))) ?? Enumerable.Empty<ResourceInfo>();
+      var resourcesWithNullParentSections = apib.ResourceSections?.Select(r => new ResourceInfo(r)) ?? Enumerable.Empty<ResourceInfo>();
       var resourceInfos = resourcesWithExistingParentSections.Concat(resourcesWithNullParentSections);
       var operationInfos = resourceInfos.SelectMany(ri => MapResourceSectionToOperationInfo(ri, apiNamedTypes));
       var operationInfosGroupedByPath = operationInfos.GroupBy(o => o.Path);

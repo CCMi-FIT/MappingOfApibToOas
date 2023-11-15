@@ -6,11 +6,11 @@ namespace NJ.ApibToOasMapper
 {
   public static class MapperToComponentsObject
   {
-    public static ComponentsObject Map(Apib apb, IReadOnlyCollection<ApiType> apiNamedTypes)
+    public static ComponentsObject Map(Apib apib, IReadOnlyCollection<ApiType> apiNamedTypes)
     {
       var typeNamesWithSchemas = new Dictionary<string, SchemaObject>();
 
-      var resources = apb.GetAllResourceSections().ToList();
+      var resources = apib.GetAllResourceSections().ToList();
       foreach (var resource in resources)
       {
         var typeName = resource.Identifier;
@@ -22,8 +22,8 @@ namespace NJ.ApibToOasMapper
           typeNamesWithSchemas.Add(typeName, schemaObject);
       }
 
-      if (apb.DataStructuresSections is not null)
-        foreach (var dataStructureSection in apb.DataStructuresSections)
+      if (apib.DataStructuresSections is not null)
+        foreach (var dataStructureSection in apib.DataStructuresSections)
         {
           var typeName = dataStructureSection.Identifier;
           var schemaObject = MapTypeNameToSchema(typeName, apiNamedTypes);

@@ -10,9 +10,9 @@ namespace NJ.ApibToOasMapper
 
     #region Public Methods
 
-    public static IReadOnlyCollection<ApiType> GetNamedApiTypes(Apib apb)
+    public static IReadOnlyCollection<ApiType> GetNamedApiTypes(Apib apib)
     {
-      var resultInternal = GetNamedTypesInternal(apb);
+      var resultInternal = GetNamedTypesInternal(apib);
       var result = ConvertNamedTypesInternal(resultInternal);
       return result;
     }
@@ -56,13 +56,13 @@ namespace NJ.ApibToOasMapper
 
     #region Other Methods
 
-    private static IReadOnlyCollection<ApiTypeInternal> GetNamedTypesInternal(Apib apb)
+    private static IReadOnlyCollection<ApiTypeInternal> GetNamedTypesInternal(Apib apib)
     {
-      var resources = apb.GetAllResourceSections();
+      var resources = apib.GetAllResourceSections();
       // TODO: Is this syntax for LINQ more appropriate?
       var resourceTypes = from r in resources let typeName = r.Identifier let attributesSection = r.AttributesSection where typeName is not null && attributesSection is not null select GetApiTypeInternal(attributesSection, typeName);
 
-      var dataStructures = apb.DataStructuresSections;
+      var dataStructures = apib.DataStructuresSections;
       IEnumerable<ApiTypeInternal> dataStructureTypes;
       if (dataStructures is null)
         dataStructureTypes = Array.Empty<ApiTypeInternal>();

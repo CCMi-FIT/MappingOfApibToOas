@@ -18,15 +18,15 @@ module Mapper =
         else
             [ServerObject(value)];
 
-    let MapApibToOpenApiObject (apb : Apib) =
-        let apiNamedTypes = ApiTypesProvider.GetNamedApiTypes(apb);
+    let MapApibToOpenApiObject (apib : Apib) =
+        let apiNamedTypes = ApiTypesProvider.GetNamedApiTypes(apib);
         new OpenApiObject(
             OpenApi = "3.0.3",
-            Servers = ResizeArray<ServerObject>(MapToServerObjects(apb)),
-            Info = ApiNameAndOverviewSectionMapper.Map(apb.ApiNameAndOverviewSection),
-            Paths = ResourceMapper.MapResources(apb, apiNamedTypes),
-            Tags = ResourceGroupSectionToTagsMapper.MapToTagObjects(apb.ResourceGroupSections),
-            Components = MapperToComponentsObject.Map(apb, apiNamedTypes)
+            Servers = ResizeArray<ServerObject>(MapToServerObjects(apib)),
+            Info = ApiNameAndOverviewSectionMapper.Map(apib.ApiNameAndOverviewSection),
+            Paths = ResourceMapper.MapResources(apib, apiNamedTypes),
+            Tags = ResourceGroupSectionToTagsMapper.MapToTagObjects(apib.ResourceGroupSections),
+            Components = MapperToComponentsObject.Map(apib, apiNamedTypes)
         )
 
     let MapResources (apib : Apib, apiNamedTypes : IReadOnlyCollection<ApiType>) =
