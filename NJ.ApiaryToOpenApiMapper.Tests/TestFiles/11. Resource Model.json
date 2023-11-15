@@ -1,0 +1,133 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Resource Model API",
+        "version": "1.0.0",
+        "description": "Resource model is a [resource manifestation](http://www.w3.org/TR/di-gloss/#def-resource-manifestation).\nOne particular representation of your resource.\n\nFurthermore, in API Blueprint, any `resource model` you have defined can be\nreferenced in a request or response section, saving you lots of time\nmaintaining your API blueprint. You simply define a resource model as any\npayload (e.g. [request](https://github.com/apiaryio/api-blueprint/blob/master/examples/06.%20Requests.md)\nor [response](https://github.com/apiaryio/api-blueprint/blob/master/examples/5.%20Responses.md))\nand then reference it later where you would normally write a `request` or\n`response`.\n\n## API Blueprint\n\n+ [Previous: Data Structures](10.%20Data%20Structures.md)\n\n+ [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/11.%20Resource%20Model.md)\n\n+ [Next: Advanced Action](12.%20Advanced%20Action.md)"
+    },
+    "paths": {
+        "/message": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "This is the `application/vnd.siren+json` message resource representation.",
+                        "headers": {
+                            "Location": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "application/vnd.siren+json": {
+                                "schema": {
+                                    "$ref": "#/components/schemasMy MessageModel"
+                                },
+                                "example": {
+                                    "class": [
+                                        "message"
+                                    ],
+                                    "properties": {
+                                        "message": "Hello World!"
+                                    },
+                                    "links": [
+                                        {
+                                            "rel": "self",
+                                            "href": "/message"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "summary": "Retrieve a Message",
+                "operationId": "Retrieve a Message",
+                "description": "At this point we will utilize our `Message` resource model and reference it in\n`Response 200`.",
+                "tags": [
+                    "Messages"
+                ],
+                "parameters": []
+            },
+            "put": {
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "headers": {},
+                        "content": {}
+                    }
+                },
+                "summary": "Update a Message",
+                "operationId": "Update a Message",
+                "description": "",
+                "tags": [
+                    "Messages"
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "text/plain": {
+                            "example": "All your base are belong to us.\n"
+                        },
+                        "application/json": {
+                            "example": {
+                                "message": "All your base are belong to us."
+                            },
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "message": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "My MessageModel": {
+                "type": "object",
+                "properties": {
+                    "class": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "properties": {
+                        "type": "object",
+                        "properties": {
+                            "message": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "links": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "rel": {
+                                    "type": "string"
+                                },
+                                "href": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Messages",
+            "description": "Group of all messages-related resources."
+        }
+    ]
+}

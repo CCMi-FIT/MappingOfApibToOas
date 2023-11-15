@@ -1,0 +1,129 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Advanced JSON Schema",
+        "version": "1.0.0",
+        "description": "The JSON body and JSON Schema for a request or response can be generated from\nthe attributes section MSON data structure. The generated schema can also be\noverridden by providing an explicit schema, as you can see in the examples\nbelow.\n\n## API Blueprint\n\n+ [Previous: JSON Schema](14.%20JSON%20Schema.md)\n\n+ [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/15.%20Advanced%20JSON%20Schema.md)"
+    },
+    "paths": {
+        "/notes/{id}": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {},
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "id": {
+                                            "type": "string"
+                                        },
+                                        "title": {
+                                            "type": "string"
+                                        },
+                                        "content": {
+                                            "type": "string"
+                                        },
+                                        "tags": {
+                                            "type": "array",
+                                            "items": {}
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "id": "abc123",
+                                    "title": "This is a note",
+                                    "content": "This is the note content.",
+                                    "tags": [
+                                        "todo",
+                                        "home"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "summary": "Get a note",
+                "operationId": "Get a note",
+                "description": "Gets a single note by its unique identifier.",
+                "tags": [],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Unique identifier for a note",
+                        "required": true,
+                        "example": "abc123",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ]
+            },
+            "patch": {
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "headers": {},
+                        "content": {}
+                    }
+                },
+                "summary": "Update a note",
+                "operationId": "Update a note",
+                "description": "Modify a note's data using its unique identifier. You can edit the `title`,\n`content`, and `tags`.",
+                "tags": [],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Unique identifier for a note",
+                        "required": true,
+                        "example": "abc123",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "title": "This is another note",
+                                "content": "",
+                                "tags": [
+                                    "todo",
+                                    "work"
+                                ]
+                            },
+                            "schema": {
+                                "type": "object",
+                                "description": "This is a custom schema!",
+                                "properties": {
+                                    "title": {
+                                        "type": "string"
+                                    },
+                                    "content": {
+                                        "type": "string"
+                                    },
+                                    "tags": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {}
+    },
+    "tags": []
+}

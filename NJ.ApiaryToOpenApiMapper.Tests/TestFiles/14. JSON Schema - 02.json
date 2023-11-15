@@ -1,0 +1,128 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "JSON Schema",
+    "version": "1.0.0",
+    "description": "Every request and response can have a schema. Below you will find examples\nusing [JSON Schema](http://json-schema.org/) to describe the format of request\nand response body content.\n\n## API Blueprint\n\n+ [Previous: Named Endpoints](13.%20Named%20Endpoints.md)\n\n+ [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/14.%20JSON%20Schema.md)\n\n+ [Next: Advanced JSON Schema](15.%20Advanced%20JSON%20Schema.md)"
+  },
+  "paths": {
+    "/notes/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {},
+            "content": {
+              "application/json": {
+                "example": {
+                  "id": "abc123",
+                  "title": "This is a note",
+                  "content": "This is the note content.",
+                  "tags": [
+                    "todo",
+                    "home"
+                  ]
+                },
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "content": {
+                      "type": "string"
+                    },
+                    "tags": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "Get a note",
+        "operationId": "Get a note",
+        "description": "Gets a single note by its unique identifier.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier for a note",
+            "required": true,
+            "example": "abc123",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      },
+      "patch": {
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "headers": {},
+            "content": {}
+          }
+        },
+        "summary": "Update a note",
+        "operationId": "Update a note",
+        "description": "Modify a note's data using its unique identifier. You can edit the `title`,\n`content`, and `tags`.",
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Unique identifier for a note",
+            "required": true,
+            "example": "abc123",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "example": {
+                "title": "This is another note",
+                "tags": [
+                  "todo",
+                  "work"
+                ]
+              },
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  },
+                  "content": {
+                    "type": "string"
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {}
+  },
+  "tags": []
+}
