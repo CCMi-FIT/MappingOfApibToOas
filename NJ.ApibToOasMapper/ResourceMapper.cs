@@ -40,8 +40,6 @@ namespace NJ.ApibToOasMapper
       OperationObject patch = default;
       OperationObject trace = default;
 
-      get = samePathOperationInfos.FirstOrDefault(o => o.HttpRequestMethod == HttpRequestMethod.Get).OperationObject;
-
       foreach (var operationInfo in samePathOperationInfos)
       {
         switch (operationInfo.HttpRequestMethod)
