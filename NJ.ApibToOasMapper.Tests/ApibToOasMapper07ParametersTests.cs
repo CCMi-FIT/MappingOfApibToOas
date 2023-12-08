@@ -159,7 +159,7 @@ communicating with our API about messages.
 + [Next: Attributes](08.%20Attributes.md)"
       };
 
-      ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/07. Parameters.json");
+      ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/07. Parameters - 02.json");
     }
   }
 }
