@@ -1,6 +1,8 @@
 ﻿using NJ.ApibModel;
 using NJ.ApibToOasMapper.Model;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json.Linq;
+using NJ.OasModel;
 
 namespace NJ.ApibToOasMapper
 {
@@ -52,9 +54,39 @@ namespace NJ.ApibToOasMapper
       throw new NotSupportedException();
     }
 
+    public static ApiType GetApiType(AttributesSection attributesSection, SchemaSection schemaSection, IReadOnlyCollection<ApiType> namedTypes)
+    {
+      var apiNamedType = GetApiType(attributesSection.TypeDefinition, namedTypes);
+      if (apiNamedType is ApiArrayType)
+        return apiNamedType;
+
+      if (apiNamedType is ApiPropertyType)
+      {
+        var attributes = attributesSection.Attributes;
+        if (attributes is null || attributes.Count == 0)
+          return apiNamedType;
+        var properties = attributes.Select(a => new ApiTypeProperty(GetTypeName(a, schemaSection), a.Name, a.Required, a.SampleValue, a.Default, a.Description));
+        var result = new ApiPropertyType(null, properties, apiNamedType);
+        return result;
+      }
+
+      throw new NotSupportedException();
+    }
+
     #endregion Public Methods
 
     #region Other Methods
+
+    private static string GetTypeName(AttributeSection attributeSection, SchemaSection schemaSection)
+    {
+      var result = attributeSection.TypeName;
+      if (result is not null)
+        return result;
+      // TODO: What about nonJson?
+      var schemaJObject = JObject.Parse(schemaSection.Schema);
+      result = schemaJObject["properties"][attributeSection.Name]["type"].ToString();
+      return result;
+    }
 
     private static IReadOnlyCollection<ApiTypeInternal> GetNamedTypesInternal(Apib apib)
     {

@@ -27,10 +27,15 @@
                       "type": "string"
                     },
                     "tags": {
-                      "type": "array",
-                      "items": {}
+                      "type": "array[string]"
                     }
-                  }
+                  },
+                  "required": [
+                    "id",
+                    "title",
+                    "content",
+                    "tags"
+                  ]
                 },
                 "example": {
                   "id": "abc123",
@@ -40,13 +45,7 @@
                     "todo",
                     "home"
                   ]
-                },
-                "required": [
-                  "id",
-                  "title",
-                  "content",
-                  "tags"
-                ]
+                }
               }
             }
           }

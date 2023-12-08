@@ -22,7 +22,7 @@ namespace NJ.ApibToOasMapper
         if (content is not null)
           example = MapContentToExample(content, mediaType);
         else if (attributesSection is not null)
-          example = MapAttributesToExample(attributesSection, mediaType, apiNamedTypes);
+          example = MapAttributesToExample(attributesSection, schemaSection, mediaType, apiNamedTypes);
         else
           example = default;
       }
@@ -76,9 +76,27 @@ namespace NJ.ApibToOasMapper
       return result;
     }
 
+    private static dynamic MapAttributesToExample(AttributesSection attributes, SchemaSection schemaSection, string mediaType, IReadOnlyCollection<ApiType> apiNamedTypes)
+    {
+      dynamic result = mediaType switch
+      {
+        null => null,
+        "application/json" => MapAttributesToJsonExample(attributes, schemaSection, apiNamedTypes),
+        _ => throw new NotSupportedException()
+      };
+      return result;
+    }
+
     private static dynamic MapAttributesToJsonExample(AttributesSection attributes, IReadOnlyCollection<ApiType> apiNamedTypes)
     {
       var apiType = ApiTypesProvider.GetApiType(attributes, apiNamedTypes);
+      var result = TypeToJsonMapper.MapTypeToJToken(apiType);
+      return result;
+    }
+
+    private static dynamic MapAttributesToJsonExample(AttributesSection attributes, SchemaSection schemaSection, IReadOnlyCollection<ApiType> apiNamedTypes)
+    {
+      var apiType = ApiTypesProvider.GetApiType(attributes, schemaSection, apiNamedTypes);
       var result = TypeToJsonMapper.MapTypeToJToken(apiType);
       return result;
     }
