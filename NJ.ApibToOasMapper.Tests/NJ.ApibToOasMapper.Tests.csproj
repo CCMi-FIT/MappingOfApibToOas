@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NJ.ApibModel\NJ.ApibModel.csproj" />
-    <ProjectReference Include="..\NJ.ApibToOasMapper.FSharp\NJ.ApibToOasMapper.FSharp.fsproj" />
     <ProjectReference Include="..\NJ.ApibToOasMapper\NJ.ApibToOasMapper.csproj" />
     <ProjectReference Include="..\NJ.OasModel\NJ.OasModel.csproj" />
   </ItemGroup>
