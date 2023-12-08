@@ -105,6 +105,9 @@
     <None Update="TestFiles\11. Resource Model.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="TestFiles\12. Advanced Action - 02.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="TestFiles\12. Advanced Action.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

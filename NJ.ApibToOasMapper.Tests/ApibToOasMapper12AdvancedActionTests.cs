@@ -94,7 +94,7 @@ demonstrates an action - state transition - to another resource.
 + [Next: Named Endpoints](13.%20Named%20Endpoints.md)"
       };
 
-      ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/12. Advanced Action.json");
+      ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/12. Advanced Action - 02.json");
     }
   }
 }
