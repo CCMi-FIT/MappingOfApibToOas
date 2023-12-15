@@ -1,13 +1,11 @@
 ﻿using Newtonsoft.Json;
 
-namespace NJ.ApibToOasMapper.Tests.JsonConverters
+namespace NJ.ApibToOasMapper.Tests.JsonHelpers
 {
   public class StringNewLineJsonConverter : JsonConverter
   {
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
-      if (value is null)
-        return;
       if (value is string originalString)
       {
         var replaced = originalString.Replace("\r\n", "\n");

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NJ.ApibModel;
-using NJ.ApibToOasMapper.Tests.JsonConverters;
+using NJ.ApibToOasMapper.Tests.JsonHelpers;
 
 namespace NJ.ApibToOasMapper.Tests
 {

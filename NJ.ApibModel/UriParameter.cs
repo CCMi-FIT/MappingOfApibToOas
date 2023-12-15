@@ -9,8 +9,6 @@
     public object DefaultValue { get; set; }
     public string Type { get; set; }
     public bool Required { get; set; }
-
-    // TODO Separate?
     public ICollection<object> Members { get; set; }
 
     public UriParameter(string name = default, bool required = default, string type = null, string description = null)

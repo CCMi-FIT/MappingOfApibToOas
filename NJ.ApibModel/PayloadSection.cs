@@ -9,8 +9,9 @@ public abstract class PayloadSection : NamedSection
   public BodySection BodySection { get; set; }
   public SchemaSection SchemaSection { get; set; }
 
-  protected PayloadSection(string identifier = default)
+  protected PayloadSection(string identifier = default, string mediaType = default)
   {
     Identifier = identifier;
+    MediaType = mediaType;
   }
 }
