@@ -33,7 +33,6 @@ namespace NJ.ApibToOasMapper
       var result = new ResponseObject
       {
         Description = Constants.StatusCodesWithDescriptions[statusCode],
-        // TODO: If there are the same Keys, check if values are the same - if not, throw exception
         Headers = responseSectionCollection.SelectMany(r => MapHeaderSectionToNamesWithHeaderObjects(r.HeadersSection)).DistinctBy(r => r.Key).ToDictionary(r => r.Key, r => r.Value),
         Content = responseSectionCollection.Where(r => r.MediaType is not null).ToDictionary(r => r.MediaType, r => MapperToMediaTypeObject.MapToMediaTypeObject(r.MediaType, r.BodySection?.Content, r.SchemaSection, r.AttributesSection, apiNamedTypes, false))
       };
@@ -53,12 +52,10 @@ namespace NJ.ApibToOasMapper
     {
       var typeString = headerValue switch
       {
-        // TODO: More types? What is the standard here?
         int => "string",
         string => "string",
         _ => "object"
       };
-      // TODO: Can Schema be more advanced?
       var headerObject = new HeaderObject
       {
         Schema = new SchemaObject { Type = typeString }
@@ -100,9 +97,7 @@ namespace NJ.ApibToOasMapper
         In = @in,
         Description = parameter.Description,
         Required = parameter.Required,
-        // TODO: 1 -> "1" - is this correct? (Unit Test 07)
         Example = parameter.ExampleValue?.ToString(),
-        // TODO: Different handling of parameters from other places
         Schema = new SchemaObject { Type = parameter.Type, Default = parameter.DefaultValue },
       };
       return result;
@@ -137,11 +132,8 @@ namespace NJ.ApibToOasMapper
 
     public static MediaTypeObject MapRequestSection(RequestSection requestSection, ActionSection actionSection, IReadOnlyCollection<ApiType> apiNamedTypes)
     {
-      // TODO: Examples?
       var content = requestSection.BodySection?.Content;
-      // TODO: Merge instead?
       var attributesSection = requestSection.AttributesSection ?? actionSection.AttributesSection;
-      // TODO: MapExample? what should be the logic exactly?
       var result = MapperToMediaTypeObject.MapToMediaTypeObject(requestSection.MediaType, content, requestSection.SchemaSection, attributesSection, apiNamedTypes, true);
       return result;
     }

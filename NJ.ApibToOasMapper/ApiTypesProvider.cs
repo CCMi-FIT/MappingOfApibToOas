@@ -82,7 +82,6 @@ namespace NJ.ApibToOasMapper
       var result = attributeSection.TypeName;
       if (result is not null)
         return result;
-      // TODO: What about nonJson?
       var schemaJObject = JObject.Parse(schemaSection.Schema);
       result = schemaJObject["properties"][attributeSection.Name]["type"].ToString();
       return result;
@@ -91,7 +90,6 @@ namespace NJ.ApibToOasMapper
     private static IReadOnlyCollection<ApiTypeInternal> GetNamedTypesInternal(Apib apib)
     {
       var resources = apib.GetAllResourceSections();
-      // TODO: Is this syntax for LINQ more appropriate?
       var resourceTypes = from r in resources let typeName = r.Identifier let attributesSection = r.AttributesSection where typeName is not null && attributesSection is not null select GetApiTypeInternal(attributesSection, typeName);
 
       var dataStructures = apib.DataStructuresSections;
@@ -103,21 +101,6 @@ namespace NJ.ApibToOasMapper
 
       var objectType = new ApiTypeInternal("object");
       IEnumerable<ApiTypeInternal> otherTypes = new[] { objectType };
-
-      //var resourceModels = resources.Select(r => r.ResourceModelSection).Where(r => r is not null);
-      //foreach (var resourceModel in resourceModels)
-      //{
-      //  var typeName = resourceModel.Identifier;
-      //  var bodySection = resourceModel.BodySection;
-      //  if (bodySection is null)
-      //    continue;
-      //  var content = bodySection.Content;
-      //  if (content is null)
-      //    continue;
-      //  // TODO: What about Attributes?
-      //  // TODO: Convert content over schema to ApiType ?
-      //  //var typeInternal = new ApiTypeInternal(typeName, )
-      //}
 
       IReadOnlyCollection<ApiTypeInternal> result = resourceTypes.Concat(dataStructureTypes).Concat(otherTypes).ToList();
       return result;
@@ -179,7 +162,6 @@ namespace NJ.ApibToOasMapper
           if (parentType is ApiArrayType parentArrayType)
             result = new ApiArrayType(typeName, parentArrayType.ItemType);
           else if (parentType is ApiPropertyType)
-            // TODO Internally mutable Properties?
             result = new ApiPropertyType(typeName, typeInternal.Properties, parentType);
           else
             throw new NotSupportedException();

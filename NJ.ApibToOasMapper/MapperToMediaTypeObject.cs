@@ -15,9 +15,6 @@ namespace NJ.ApibToOasMapper
 
       if (schemaSection is not null)
       {
-        // TODO Is it correct to ignore Example? Or is this just some kind of apib2swagger specific stuff?
-        // - Is this some kind of extension we could introduce?
-        // TODO: Will this always be JSON?
         schema = MapperToSchemaObject.Map(schemaSection);
         if (content is not null)
           example = MapContentToExample(content, mediaType);

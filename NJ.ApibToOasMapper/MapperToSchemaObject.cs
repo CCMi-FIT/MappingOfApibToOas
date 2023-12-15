@@ -13,7 +13,6 @@ namespace NJ.ApibToOasMapper
       var schemaJObject = JObject.Parse(schemaSection.Schema);
       var result = new SchemaObject
       {
-        // TODO: Do properties make sense here? It should be pretty much dynamic ...
         Properties = schemaJObject["properties"]?.ToObject<dynamic>(),
         Type = schemaJObject["type"]?.ToString(),
         AdditionalProperties = schemaJObject["allowAdditionalProperties"]?.ToString() == "true",
@@ -22,19 +21,18 @@ namespace NJ.ApibToOasMapper
       return result;
     }
 
-    public static SchemaObject Map(string content, string mediaTypeString = null, bool mapExample = false)
+    public static SchemaObject Map(string content, string mediaTypeString = null)
     {
       var result = mediaTypeString switch
       {
         null => new SchemaObject { Type = "string" },
-        "application/json" => MapJsonContentToSchemaObject(content, mapExample),
+        "application/json" => MapJsonContentToSchemaObject(content),
         "text/plain" => null,
         _ => throw new NotSupportedException()
       };
       return result;
     }
 
-    // TODO: Support Attributes + Example Schema Merge?
     public static SchemaObject MapFromApiType(ApiType apiType, string mediaTypeString, bool mapExample)
     {
       var result = mediaTypeString switch
@@ -57,14 +55,12 @@ namespace NJ.ApibToOasMapper
 
       if (apiType is ApiArrayType)
       {
-        // TODO? Just to make this wor the same as apib2swagger
         type = "array";
         items = new object();
       }
       else if (apiType is ApiPropertyType apiPropertyType)
       {
         type = "object";
-        // TODO: More Immutability?
         var propertiesDictionary = new Dictionary<string, dynamic>();
         foreach (var property in apiPropertyType.PropertiesWithParentProperties)
         {
@@ -98,18 +94,14 @@ namespace NJ.ApibToOasMapper
       return result;
     }
 
-    private static SchemaObject MapJsonContentToSchemaObject(string content, bool mapExample)
+    private static SchemaObject MapJsonContentToSchemaObject(string content)
     {
-      // TODO: if mapExample == true
-      //result.Example = content;
       var sampleJsonSchemaGenerator = new NJsonSchema.Generation.SampleJsonSchemaGenerator();
       var dollarSchema = sampleJsonSchemaGenerator.Generate(content).ToJson();
       var parsedDollarSchema = JObject.Parse(dollarSchema);
       parsedDollarSchema.Remove("$schema");
       ReplaceIntegerTypeWithNumber(parsedDollarSchema);
 
-
-      // TODO: All Properties? Better?
       dynamic properties;
       var propertiesString = parsedDollarSchema.GetValue("properties")?.ToString();
       if (propertiesString is not null)
