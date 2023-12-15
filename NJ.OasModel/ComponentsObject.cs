@@ -4,7 +4,6 @@ namespace NJ.OasModel;
 
 public class ComponentsObject
 {
-  [JsonProperty(PropertyName = "schemas")]
   public IReadOnlyDictionary<string, SchemaObject> Schemas { get; init; }
   public IReadOnlyDictionary<string, IResponseOrReferenceObject> Responses { get; init; }
   public IReadOnlyDictionary<string, IParameterOrReferenceObject> Parameters { get; init; }

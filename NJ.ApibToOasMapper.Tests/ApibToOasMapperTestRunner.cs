@@ -20,8 +20,8 @@ namespace NJ.ApibToOasMapper.Tests
       var resultJson = JsonConvert.SerializeObject(result, jsonSettings);
       var expectedJson = File.ReadAllText(pathToExpectedOasJsonFile);
 
-      var resultJObject = JObject.Parse(resultJson);
-      var expectedResultJObject = JObject.Parse(expectedJson);
+      var resultJObject = JsonHelper.DeserializeWithLowerCasePropertyNames(resultJson);
+      var expectedResultJObject = JsonHelper.DeserializeWithLowerCasePropertyNames(expectedJson);
       var equals = JObject.EqualityComparer.Equals(resultJObject, expectedResultJObject);
 
       Assert.True(equals);
