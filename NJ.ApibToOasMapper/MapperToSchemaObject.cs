@@ -27,6 +27,7 @@ namespace NJ.ApibToOasMapper
       {
         null => new SchemaObject { Type = "string" },
         "application/json" => MapJsonContentToSchemaObject(content),
+        "application/vnd.siren+json" => MapJsonContentToSchemaObject(content),
         "text/plain" => null,
         _ => throw new NotSupportedException()
       };

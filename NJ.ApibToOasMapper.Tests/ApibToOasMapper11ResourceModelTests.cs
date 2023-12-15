@@ -42,7 +42,7 @@ namespace NJ.ApibToOasMapper.Tests
       {
         ResourceModelSection = new ResourceModelSection
         {
-          MediaType = "application.vnd.siren+json",
+          MediaType = "application/vnd.siren+json",
           Description = "This is the `application/vnd.siren+json` message resource representation.",
           HeadersSection = new HeadersSection(new Dictionary<string, object> { ["Location"] = "http://api.acme.com/message" }),
           BodySection = new BodySection(@"{

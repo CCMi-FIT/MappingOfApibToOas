@@ -21,6 +21,15 @@ namespace NJ.ApibToOasMapper
           typeNamesWithSchemas.Add(typeName, schemaObject);
       }
 
+      foreach (var resource in resources)
+      {
+        if (resource.ResourceModelSection is not null)
+        {
+          var resourceModelSchema = MapResourceModelToSchema(resource.ResourceModelSection);
+          typeNamesWithSchemas.Add($"{resource.Identifier.ToLower()}model", resourceModelSchema);
+        }
+      }
+
       if (apib.DataStructuresSections is not null)
         foreach (var dataStructureSection in apib.DataStructuresSections)
         {
@@ -40,6 +49,16 @@ namespace NJ.ApibToOasMapper
         return null;
       var type = ApiTypesProvider.GetApiType(typeName, apiNamedTypes);
       var result = MapperToSchemaObject.MapFromApiType(type, "application/json", true);
+      return result;
+    }
+
+    private static SchemaObject MapResourceModelToSchema(ResourceModelSection model)
+    {
+      var result = new SchemaObject
+      {
+        Type = "object",
+        Properties = MapperToSchemaObject.Map(model.BodySection.Content, model.MediaType)
+      };
       return result;
     }
   }
