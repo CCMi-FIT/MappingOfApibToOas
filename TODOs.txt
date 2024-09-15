@@ -1,0 +1,17 @@
+Minimal TODOs
+- Verify OasModel (3.1.0) against OAS Spec
+  - Add Constraints
+- Central Model
+- Verify ApibModel against APIB Spec
+- Finalize APIB -> Central Model -> OAS
+- OAS -> Central Model -> APIB
+
+Nice-to-have
+- Smart API ?
+- OAS Parser ?
+- APIB Parser ?
+
+Technical TODOs
+- Central Package Versions
+- .NET 8
+- Nullable enable

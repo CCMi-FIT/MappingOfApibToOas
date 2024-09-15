@@ -11,6 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NJ.ApibToOasMapper", "NJ.Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NJ.ApibToOasMapper.Tests", "NJ.ApibToOasMapper.Tests\NJ.ApibToOasMapper.Tests.csproj", "{FE35A36D-139C-43FC-B3D2-4F6BE078C781}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{492FF64D-DEA6-4891-B4AD-BEE4C4D5AACA}"
+	ProjectSection(SolutionItems) = preProject
+		TODOs.txt = TODOs.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
