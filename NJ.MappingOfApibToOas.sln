@@ -16,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		TODOs.txt = TODOs.txt
 	EndProjectSection
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NJ.Common", "NJ.Common\NJ.Common.csproj", "{8B44BB61-1AB6-4D30-B5A3-4977836E378F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NJ.Common.Tests", "NJ.Common.Tests\NJ.Common.Tests.csproj", "{389B36C6-7BB7-4418-AA56-EBE944511C7C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +42,14 @@ Global
 		{FE35A36D-139C-43FC-B3D2-4F6BE078C781}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE35A36D-139C-43FC-B3D2-4F6BE078C781}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE35A36D-139C-43FC-B3D2-4F6BE078C781}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B44BB61-1AB6-4D30-B5A3-4977836E378F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B44BB61-1AB6-4D30-B5A3-4977836E378F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B44BB61-1AB6-4D30-B5A3-4977836E378F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B44BB61-1AB6-4D30-B5A3-4977836E378F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{389B36C6-7BB7-4418-AA56-EBE944511C7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{389B36C6-7BB7-4418-AA56-EBE944511C7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{389B36C6-7BB7-4418-AA56-EBE944511C7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{389B36C6-7BB7-4418-AA56-EBE944511C7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
