@@ -1,9 +1,13 @@
-﻿namespace NJ.OasModel;
+﻿using NJ.OasModel.AdditionalDomainObjects;
+using OneOf;
+
+namespace NJ.OasModel;
 
 public class ResponseObject : IResponseOrReferenceObject
 {
-  public string Description { get; init; }
-  public IReadOnlyDictionary<string, IHeaderOrReferenceObject> Headers { get; init; }
-  public IReadOnlyDictionary<string, MediaTypeObject> Content { get; init; }
-  public IReadOnlyDictionary<string, ILinkOrReferenceObject> Links { get; init; }
+  public Description Description { get; init; }
+  public IReadOnlyDictionary<string, OneOf<HeaderObject, ReferenceObject>> Headers { get; init; }
+  public IReadOnlyDictionary<MediaRange, MediaTypeObject> Content { get; init; }
+  // TODO: Validate that key is a short name for the link
+  public IReadOnlyDictionary<string, OneOf<LinkObject, ReferenceObject>> Links { get; init; }
 }

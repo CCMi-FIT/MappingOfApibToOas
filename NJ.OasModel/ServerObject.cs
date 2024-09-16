@@ -1,13 +1,21 @@
-﻿namespace NJ.OasModel;
+﻿using NJ.OasModel.AdditionalDomainObjects;
+
+namespace NJ.OasModel;
 
 public class ServerObject
 {
-  public string Url { get; init; }
-  public string Description { get; init; }
-  public IReadOnlyDictionary<string, ServerVariableObject> Variables { get; init; }
+  public Uri Url { get; init; }
 
-  public ServerObject(string url = default)
+  public Description? Description { get; init; }
+  public IReadOnlyDictionary<string, ServerVariableObject>? Variables { get; init; }
+
+  public ServerObject(string url) : this(new Uri(url))
+  {
+  }
+
+  public ServerObject(Uri url)
   {
     Url = url;
+    Variables = new Dictionary<string, ServerVariableObject>();
   }
 }

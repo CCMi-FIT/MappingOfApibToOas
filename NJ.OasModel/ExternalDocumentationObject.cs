@@ -1,7 +1,18 @@
-﻿namespace NJ.OasModel;
+﻿using NJ.OasModel.AdditionalDomainObjects;
+
+namespace NJ.OasModel;
 
 public class ExternalDocumentationObject
 {
-  public string Description { get; init; }
-  public string Url { get; init; }
+  public Description? Description { get; init; }
+  public Uri Url { get; }
+
+  public ExternalDocumentationObject(string url) : this(new Uri(url))
+  {
+  }
+
+  public ExternalDocumentationObject(Uri url)
+  {
+    Url = url;
+  }
 }

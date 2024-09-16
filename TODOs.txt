@@ -1,6 +1,7 @@
 Minimal TODOs
 - Verify OasModel (3.1.0) against OAS Spec
-  - Add Constraints
+  - Add Constraints ?
+  - Atm on Callback Object
 - Central Model
 - Verify ApibModel against APIB Spec
 - Finalize APIB -> Central Model -> OAS
@@ -12,6 +13,7 @@ Nice-to-have
 - APIB Parser ?
 
 Technical TODOs
+- Remove JSON Converters from OAS / APIB DO
 - Central Package Versions
 - .NET 8
 - Nullable enable

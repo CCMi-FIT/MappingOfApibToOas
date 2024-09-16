@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using NJ.OasModel.AdditionalDomainObjects;
 
 namespace NJ.OasModel;
 
@@ -14,5 +15,5 @@ public class HeaderObject : IHeaderOrReferenceObject
   public SchemaObject Schema { get; init; }
   public object Example { get; init; }
   public IReadOnlyDictionary<string, IExampleOrReferenceObject> Examples { get; init; }
-  public IReadOnlyDictionary<string, MediaTypeObject> Content { get; init; }
+  public IReadOnlyDictionary<MediaRange, MediaTypeObject> Content { get; init; }
 }

@@ -1,8 +1,18 @@
-﻿namespace NJ.OasModel;
+﻿using NJ.OasModel.AdditionalDomainObjects;
+
+namespace NJ.OasModel;
 
 public class ServerVariableObject
 {
-  public IReadOnlyCollection<string> Enum { get; init; }
+  // TODO: If Enum is defined, Default must be in Enum
+  public IReadOnlyCollection<string>? Enum { get; init; }
   public string Default { get; init; }
-  public string Description { get; init; }
+  public Description? Description { get; init; }
+  public SpecificationExtensions? SpecificationExtensions { get; init; }
+
+  public ServerVariableObject(string @default)
+  {
+    Default = @default;
+    Enum = new List<string>();
+  }
 }
