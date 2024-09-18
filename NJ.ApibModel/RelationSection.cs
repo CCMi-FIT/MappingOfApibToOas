@@ -2,9 +2,11 @@
 
 public class RelationSection
 {
-  public string Identifier { get; set; }
+  public string Keyword { get; } = "Relation";
+  public string Identifier { get; }
 
-  public RelationSection(string identifier = null)
+  // TODO: Check uniqueness of identifiersacross whole document
+  public RelationSection(string identifier)
   {
     Identifier = identifier;
   }

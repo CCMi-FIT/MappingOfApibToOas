@@ -1,22 +1,24 @@
-﻿namespace NJ.ApibModel;
+﻿using NJ.ApibModel.AdditionalDomainObjects;
+
+namespace NJ.ApibModel;
 
 public class ResourceSection : NamedSection
 {
-  public UriTemplate UriTemplate { get; set; }
-  public HttpRequestMethod HttpRequestMethod { get; set; }
+  public override string Keyword { get; } = "";
 
-  public string Description { get; set; }
-  public UriParametersSection ParametersSection { get; set; }
-  public AttributesSection AttributesSection { get; set; }
-  public ResourceModelSection ResourceModelSection { get; set; }
-  public ICollection<ActionSection> ActionSections { get; set; }
+  public UriTemplate UriTemplate { get; }
+  public HttpRequestMethod? HttpRequestMethod { get; }
+  public UriParametersSection? ParametersSection { get; init; }
+  public AttributesSection? AttributesSection { get; init; }
+  public ResourceModelSection? ResourceModelSection { get; init; }
+  public IReadOnlyCollection<ActionSection> ActionSections { get; }
 
-  public override string Keyword { get; set; } = "";
-  public sealed override string Identifier { get; set; }
-
-  public ResourceSection(string identifier = null, UriTemplate uriTemplate = null)
+  protected ResourceSection(UriTemplate uriTemplate, IEnumerable<ActionSection> actionSections)
   {
-    Identifier = identifier;
     UriTemplate = uriTemplate;
+    var actionSectionsList = actionSections.ToList();
+    if (actionSectionsList.Count == 0)
+      throw new ArgumentException($"{nameof(actionSections)} must not be empty");
+    ActionSections = actionSectionsList;
   }
 }

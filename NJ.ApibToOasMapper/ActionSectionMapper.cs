@@ -66,8 +66,8 @@ namespace NJ.ApibToOasMapper
     private static IEnumerable<ParameterObject> MapUriTemplate(ActionSection actionSection, ResourceSection resourceSection)
     {
       List<UriParameter> pathParameters;
-      if (actionSection.UriParametersSection?.Parameters is not null)
-        pathParameters = actionSection.UriParametersSection.Parameters.ToList();
+      if (actionSection.ParametersSection?.Parameters is not null)
+        pathParameters = actionSection.ParametersSection.Parameters.ToList();
       else if (resourceSection.ParametersSection?.Parameters is not null)
         pathParameters = resourceSection.ParametersSection.Parameters.ToList();
       else

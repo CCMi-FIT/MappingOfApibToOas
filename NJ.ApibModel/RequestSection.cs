@@ -2,9 +2,9 @@
 
 public class RequestSection : PayloadSection
 {
-  public override string Keyword { get; set; } = "Request";
+  public override string Keyword { get; } = "Request";
 
-  public RequestSection(string identifier = null, string mediaType = null) : base(identifier, mediaType)
+  public RequestSection(string? identifier = default, string? mediaType = default) : base(identifier, mediaType)
   {
   }
 }

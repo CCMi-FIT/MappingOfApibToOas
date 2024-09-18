@@ -2,21 +2,27 @@
 {
   public class UriParameter
   {
-    public string Name { get; set; }
-    public object ExampleValue { get; set; }
-    public string Description { get; set; }
-    public string AdditionalDescription { get; set; }
-    public object DefaultValue { get; set; }
-    public string Type { get; set; }
-    public bool Required { get; set; }
-    public ICollection<object> Members { get; set; }
+    public Uri Name { get; }
+    // TODO: Markdown ?
+    public string? Description { get; init; }
+    // TODO: Markdown ?
+    public string? AdditionalDescription { get; init; }
+    public dynamic? ExampleValue { get; init; }
+    public dynamic? DefaultValue { get; init; }
+    public string Type { get; }
+    public IReadOnlyCollection<dynamic?>? Members { get; }
+    public bool Required { get; init; }
+    public bool Optional { get; init; }
 
-    public UriParameter(string name = default, bool required = default, string type = null, string description = null)
+    public UriParameter(string name, string type = "string", ICollection<dynamic?>? members = default)
     {
-      Name = name;
-      Required = required;
+      Name = new Uri(name);
       Type = type;
-      Description = description;
+      if (members is not null)
+      {
+        Members = members.ToList();
+        // TODO: Validate that type is "enum[...]"
+      }
     }
   }
 }

@@ -2,6 +2,9 @@
 
 public abstract class NamedSection
 {
-  public abstract string Keyword { get; set; }
-  public abstract string Identifier { get; set; }
+  public abstract string? Keyword { get; }
+  public string? Identifier { get; init; }
+  // TODO: Markdown ?
+  public string? Description { get; init; }
+  public string? Name => Identifier;
 }

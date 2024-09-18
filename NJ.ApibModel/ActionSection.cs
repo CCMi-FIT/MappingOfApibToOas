@@ -1,25 +1,25 @@
-﻿namespace NJ.ApibModel;
+﻿using NJ.ApibModel.AdditionalDomainObjects;
+
+namespace NJ.ApibModel;
 
 public class ActionSection : NamedSection
 {
-  public override string Keyword { get; set; } = "";
-  public sealed override string Identifier { get; set; }
-  public string Description { get; set; }
-  public HttpRequestMethod HttpRequestMethod { get; set; }
+  public override string Keyword { get; } = "";
+  public HttpRequestMethod HttpRequestMethod { get; }
 
-  public RelationSection RelationSection { get; set; }
-  public UriTemplate UriTemplate { get; set; }
-  public UriParametersSection UriParametersSection { get; set; }
-  public AttributesSection AttributesSection { get; set; }
+  public UriTemplate? UriTemplate { get; init; }
+  public RelationSection? RelationSection { get; init; }
+  public UriParametersSection? ParametersSection { get; init; }
+  public AttributesSection? AttributesSection { get; init; }
 
-  public ICollection<RequestSection> RequestSections { get; set; }
-  public ICollection<ResponseSection> ResponseSections { get; set; }
+  public IReadOnlyCollection<ActionTransaction> Transactions { get; }
 
-  public ActionSection(string identifier = null, string description = null, HttpRequestMethod httpRequestMethod = default, UriTemplate uriTemplate = null)
+  public ActionSection(HttpRequestMethod httpRequestMethod, IEnumerable<ActionTransaction> transactions)
   {
-    Identifier = identifier;
-    Description = description;
     HttpRequestMethod = httpRequestMethod;
-    UriTemplate = uriTemplate;
+    var transactionsList = transactions.ToList();
+    if (transactionsList.Count == 0)
+      throw new ArgumentException($"{nameof(transactionsList)} must not be empty");
+    Transactions = transactionsList;
   }
 }

@@ -1,8 +1,9 @@
 ﻿using NJ.ApibModel;
+using NJ.ApibModel.AdditionalDomainObjects;
 
 namespace NJ.ApibToOasMapper.Tests
 {
-  public class ApibToOasMapper03NamedResourceAndActionsTests
+    public class ApibToOasMapper03NamedResourceAndActionsTests
   {
     [Fact]
     public void ApibToOasMapper03NamesResourceAndActionsTest()

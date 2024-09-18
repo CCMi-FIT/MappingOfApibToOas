@@ -1,8 +1,9 @@
 ﻿using NJ.ApibModel;
+using NJ.ApibModel.AdditionalDomainObjects;
 
 namespace NJ.ApibToOasMapper.Tests
 {
-  public class ApibToOasMapper09AdvancedAttributesTests
+    public class ApibToOasMapper09AdvancedAttributesTests
   {
     [Fact]
     public void ApibToOasMapper09AttributesTest()
@@ -39,10 +40,10 @@ namespace NJ.ApibToOasMapper.Tests
           TypeDefinition = "object",
           Attributes = new List<AttributeSection>
           {
-            new("id", null, true, "string", "250FF"),
-            new("created", "Time stamp", false, "number", 1415203908),
-            new("percent_off", "A positive integer between 1 and 100 that represents the discount the coupon will apply.", false, "number", 25),
-            new("redeem_by", "Date after which the coupon can no longer be redeemed", false, "number")
+            new("id", "string", null, true, "250FF"),
+            new("created", "number", "Time stamp", false, 1415203908),
+            new("percent_off", "number", "A positive integer between 1 and 100 that represents the discount the coupon will apply.", false, 25),
+            new("redeem_by", "number", "Date after which the coupon can no longer be redeemed", false)
           }
         }
       };
@@ -50,7 +51,7 @@ namespace NJ.ApibToOasMapper.Tests
       var listAllCouponsAction =
         new ActionSection("List all Coupons", "Returns a list of your coupons.", HttpRequestMethod.Get)
         {
-          UriParametersSection = new UriParametersSection(new[] {new UriParameter("limit", false, "number", "A limit on the number of objects to be returned. Limit can range\nbetween 1 and 100 items.") { DefaultValue = 10} }),
+          ParametersSection = new UriParametersSection(new[] {new UriParameter("limit", false, "number", "A limit on the number of objects to be returned. Limit can range\nbetween 1 and 100 items.") { DefaultValue = 10} }),
           ResponseSections = new List<ResponseSection>
           {
             new ResponseSection(200, "application/json")
@@ -67,8 +68,8 @@ namespace NJ.ApibToOasMapper.Tests
           TypeDefinition = "object",
           Attributes = new List<AttributeSection>
           {
-            new("percent_off", null, false, "number", 25),
-            new("redeem_by", null, false, "number")
+            new("percent_off", "number", null, false, 25),
+            new("redeem_by", "number", null, false)
           }
         },
         RequestSections = new List<RequestSection> { new RequestSection(null, "application/json") },

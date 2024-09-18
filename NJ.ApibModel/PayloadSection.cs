@@ -2,14 +2,14 @@
 
 public abstract class PayloadSection : NamedSection
 {
-  public sealed override string Identifier { get; set; }
-  public string MediaType { get; set; }
-  public HeadersSection HeadersSection { get; set; }
-  public AttributesSection AttributesSection { get; set; }
-  public BodySection BodySection { get; set; }
-  public SchemaSection SchemaSection { get; set; }
+  public string? MediaType { get; init; }
+  // TODO: At least one of the following should be present
+  public HeadersSection? HeadersSection { get; init; }
+  public AttributesSection? AttributesSection { get; init; }
+  public BodySection? BodySection { get; init; }
+  public SchemaSection? SchemaSection { get; init; }
 
-  protected PayloadSection(string identifier = default, string mediaType = default)
+  protected PayloadSection(string? identifier = default, string? mediaType = default)
   {
     Identifier = identifier;
     MediaType = mediaType;

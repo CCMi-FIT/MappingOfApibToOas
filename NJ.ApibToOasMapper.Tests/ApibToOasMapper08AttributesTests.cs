@@ -1,8 +1,9 @@
 ﻿using NJ.ApibModel;
+using NJ.ApibModel.AdditionalDomainObjects;
 
 namespace NJ.ApibToOasMapper.Tests
 {
-  public class ApibToOasMapper08AttributesTests
+    public class ApibToOasMapper08AttributesTests
   {
     [Fact]
     public void ApibToOasMapper08AttributesTest()
@@ -12,10 +13,10 @@ namespace NJ.ApibToOasMapper.Tests
         TypeDefinition = "object",
         Attributes = new List<AttributeSection>
         {
-          new("id", null, true, "string", "250FF"),
-          new("created", "Time stamp", false, "number", 1415203908),
-          new("percent_off", "A positive integer between 1 and 100 that represents the discount\nthe coupon will apply.", false, "number", 25),
-          new("redeem_by", "Date after which the coupon can no longer be redeemed", false, "number")
+          new("id", "string", null, true, "250FF"),
+          new("created", "number", "Time stamp", false, 1415203908),
+          new("percent_off", "number", "A positive integer between 1 and 100 that represents the discount\nthe coupon will apply.", false, 25),
+          new("redeem_by", "number", "Date after which the coupon can no longer be redeemed", false)
         }
       };
 

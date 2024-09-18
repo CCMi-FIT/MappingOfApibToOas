@@ -1,7 +1,22 @@
-﻿namespace NJ.ApibModel;
+﻿using NJ.ApibModel.AdditionalDomainObjects;
+
+namespace NJ.ApibModel;
 
 public class AttributesSection
 {
-  public string TypeDefinition { get; set; }
-  public ICollection<AttributeSection> Attributes { get; set; }
+  public virtual string Keyword { get; } = "Attributes";
+
+  public MsonTypeDefinition TypeDefinition { get; }
+
+  // TODO: Get Attributes from TypeDefinition ?
+  //public ICollection<AttributeSection> Attributes { get; }
+
+  public AttributesSection(MsonTypeDefinition typeDefinition)
+  {
+    TypeDefinition = typeDefinition;
+  }
+
+  public AttributesSection(string typeDefinition) : this(new MsonTypeDefinition(typeDefinition))
+  {
+  }
 }

@@ -1,8 +1,9 @@
 ﻿using NJ.ApibModel;
+using NJ.ApibModel.AdditionalDomainObjects;
 
 namespace NJ.ApibToOasMapper.Tests
 {
-  public class ApibToOasMapper10DataStructuresTests
+    public class ApibToOasMapper10DataStructuresTests
   {
     [Fact]
     public void ApibToOasMapper10DataStructuresTest()
@@ -39,8 +40,8 @@ namespace NJ.ApibToOasMapper.Tests
           TypeDefinition = "Coupon Base",
           Attributes = new List<AttributeSection>
           {
-            new("id", null, true, "string", "250FF"),
-            new("created", "Time stamp", false, "number", 1415203908)
+            new("id", "string", null, true, "250FF"),
+            new("created", "number", "Time stamp", false, 1415203908)
           }
         }
       };
@@ -48,7 +49,7 @@ namespace NJ.ApibToOasMapper.Tests
       var listAllCouponsAction =
         new ActionSection("List all Coupons", "Returns a list of your coupons.", HttpRequestMethod.Get)
         {
-          UriParametersSection = new UriParametersSection(new[] { new UriParameter("limit", false, "number", "A limit on the number of objects to be returned. Limit can range\nbetween 1 and 100 items.") { DefaultValue = 10 } }),
+          ParametersSection = new UriParametersSection(new[] { new UriParameter("limit", false, "number", "A limit on the number of objects to be returned. Limit can range\nbetween 1 and 100 items.") { DefaultValue = 10 } }),
           ResponseSections = new List<ResponseSection>
           {
             new ResponseSection(200, "application/json")
@@ -93,8 +94,8 @@ namespace NJ.ApibToOasMapper.Tests
           Identifier = "Coupon Base",
           TypeDefinition = "object",
           Attributes = new List<AttributeSection> {
-            new("percent_off", "A positive integer between 1 and 100 that represents the discount the coupon will apply.", false, "number", 25),
-            new("redeem_by", "Date after which the coupon can no longer be redeemed", false, "number")
+            new("percent_off", "number", "A positive integer between 1 and 100 that represents the discount the coupon will apply.", false, 25),
+            new("redeem_by", "number", "Date after which the coupon can no longer be redeemed", false)
           }
         }
       };

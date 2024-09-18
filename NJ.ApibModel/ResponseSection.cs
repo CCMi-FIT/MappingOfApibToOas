@@ -2,12 +2,11 @@
 
 public class ResponseSection : PayloadSection
 {
-  public override string Keyword { get; set; } = "Response";
-  public int HttpStatusCode { get; set; }
+  public override string Keyword { get; } = "Response";
+  public int HttpStatusCode { get; }
 
-  public ResponseSection(int httpStatusCode = default, string mediaType = null)
+  public ResponseSection(int httpStatusCode = default, string? mediaType = default) : base(httpStatusCode.ToString(), mediaType)
   {
     HttpStatusCode = httpStatusCode;
-    MediaType = mediaType;
   }
 }

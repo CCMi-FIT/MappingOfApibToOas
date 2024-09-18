@@ -1,11 +1,12 @@
 ﻿using NJ.ApibModel;
+using NJ.ApibModel.AdditionalDomainObjects;
 using NJ.ApibToOasMapper.Model;
 using NJ.OasModel;
 using System.Text.RegularExpressions;
 
 namespace NJ.ApibToOasMapper
 {
-  public static class ResourceMapper
+    public static class ResourceMapper
   {
     private const string ResourceQueryPathParameterPattern = @"\{\?[^\}]+\}";
 

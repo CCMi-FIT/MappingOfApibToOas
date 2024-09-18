@@ -1,8 +1,9 @@
 ﻿using NJ.ApibModel;
+using NJ.ApibModel.AdditionalDomainObjects;
 
 namespace NJ.ApibToOasMapper.Tests
 {
-  public class ApibToOasMapper12AdvancedActionTests
+    public class ApibToOasMapper12AdvancedActionTests
   {
     [Fact]
     public void ApibToOasMapper12AdvancedActionTest()
@@ -33,7 +34,7 @@ namespace NJ.ApibToOasMapper.Tests
 
       var retrieveTaskAction = new ActionSection("Retrieve Task", "This is a state transition to another resource.", HttpRequestMethod.Get, new UriTemplate("/task/{id}"))
       {
-        UriParametersSection = new UriParametersSection()
+        ParametersSection = new UriParametersSection()
         {
           Parameters = new List<UriParameter> { new UriParameter("id", true, "string", "") }
         },
@@ -55,7 +56,7 @@ namespace NJ.ApibToOasMapper.Tests
       var deleteTaskAction =
         new ActionSection("Delete Task", null, HttpRequestMethod.Delete, new UriTemplate("/task/{id}"))
         {
-          UriParametersSection = new UriParametersSection(new List<UriParameter> { new UriParameter("id", true, "string", "") }),
+          ParametersSection = new UriParametersSection(new List<UriParameter> { new UriParameter("id", true, "string", "") }),
           ResponseSections = new List<ResponseSection> { deleteTaskResponse }
         };
 

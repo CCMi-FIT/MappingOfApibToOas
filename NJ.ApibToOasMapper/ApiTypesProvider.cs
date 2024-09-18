@@ -3,10 +3,11 @@ using NJ.ApibToOasMapper.Model;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using NJ.OasModel;
+using NJ.ApibModel.AdditionalDomainObjects;
 
 namespace NJ.ApibToOasMapper
 {
-  public static class ApiTypesProvider
+    public static class ApiTypesProvider
   {
     private const string ArrayTypePattern = @"^array\[(.*)\]$";
 

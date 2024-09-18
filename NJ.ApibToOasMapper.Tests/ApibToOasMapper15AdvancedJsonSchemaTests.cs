@@ -1,8 +1,9 @@
 ﻿using NJ.ApibModel;
+using NJ.ApibModel.AdditionalDomainObjects;
 
 namespace NJ.ApibToOasMapper.Tests
 {
-  public class ApibToOasMapper15AdvancedJsonSchemaTests
+    public class ApibToOasMapper15AdvancedJsonSchemaTests
   {
     [Fact]
     public void ApibToOasMapper15AdvancedJsonSchemaTest()
@@ -13,10 +14,10 @@ namespace NJ.ApibToOasMapper.Tests
         {
           Attributes = new List<AttributeSection>
           {
-            new AttributeSection("id", null, true, "string", "abc123"),
-            new AttributeSection("title", null, true, "string", "This is a note"),
-            new AttributeSection("content", null, true, "string", "This is the note content."),
-            new AttributeSection("tags", null, true, "array[string]", new[] {"todo", "home"}),
+            new AttributeSection("id", "string", null, true, "abc123"),
+            new AttributeSection("title", "string", null, true, "This is a note"),
+            new AttributeSection("content", "string", null, true, "This is the note content."),
+            new AttributeSection("tags", "array[string]", null, true, new[] {"todo", "home"}),
           }
         }
       };
@@ -32,9 +33,9 @@ namespace NJ.ApibToOasMapper.Tests
         {
           Attributes = new List<AttributeSection>
           {
-            new AttributeSection("title", null, true, "string", "This is another note"),
-            new AttributeSection("content", null, true),
-            new AttributeSection("tags", null, true, "array[string]", new[] { "todo", "work" }),
+            new AttributeSection("title", "string", null, true, "This is another note"),
+            new AttributeSection("content", description: null, required: true),
+            new AttributeSection("tags", "array[string]", null, true, new[] { "todo", "work" }),
           }
         },
         SchemaSection = new SchemaSection

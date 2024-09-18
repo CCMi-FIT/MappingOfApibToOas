@@ -2,18 +2,15 @@
 
 namespace NJ.ApibModel;
 
-public class HeadersSection : IEnumerable<KeyValuePair<string, object>>
+public class HeadersSection : PayloadSection, IEnumerable<KeyValuePair<string, object>>
 {
-  public IDictionary<string, object> KeysWithValues { get; set; }
+  public override string? Keyword { get; } = "Headers";
 
-  public HeadersSection(IDictionary<string, object> keysWithValues = null)
-  {
-    KeysWithValues = keysWithValues ?? new Dictionary<string, object>();
-  }
+  public IReadOnlyDictionary<string, object> KeysWithValues { get; }
 
-  public void Add(string key, string value)
+  public HeadersSection(IEnumerable<KeyValuePair<string, object>>? keysWithValues = default)
   {
-    KeysWithValues.Add(key, value);
+    KeysWithValues = keysWithValues?.ToDictionary(kv => kv.Key, kv => kv.Value) ?? new Dictionary<string, object>();
   }
 
   public IEnumerator<KeyValuePair<string, object>> GetEnumerator() => KeysWithValues.GetEnumerator();

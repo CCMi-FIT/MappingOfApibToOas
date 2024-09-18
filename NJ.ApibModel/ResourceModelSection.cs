@@ -2,6 +2,5 @@
 
 public class ResourceModelSection : PayloadSection
 {
-  public override string Keyword { get; set; } = "Model";
-  public string Description { get; set; }
+  public override string Keyword { get; } = "Model";
 }

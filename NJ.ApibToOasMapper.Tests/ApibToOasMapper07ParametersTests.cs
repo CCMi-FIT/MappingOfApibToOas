@@ -1,8 +1,9 @@
 ﻿using NJ.ApibModel;
+using NJ.ApibModel.AdditionalDomainObjects;
 
 namespace NJ.ApibToOasMapper.Tests
 {
-  public class ApibToOasMapper07ParametersTests
+    public class ApibToOasMapper07ParametersTests
   {
     [Fact]
     public void ApibToOasMapper07ParametersTest()
@@ -105,7 +106,7 @@ also set its example value to `1` and declare it of an arbitrary 'number' type."
       {
         Identifier = "Retrieve all Messages",
         HttpRequestMethod = HttpRequestMethod.Get,
-        UriParametersSection = new UriParametersSection
+        ParametersSection = new UriParametersSection
         {
           Parameters = new List<UriParameter>
           {

@@ -2,14 +2,13 @@
 
 public class UriParametersSection
 {
-  public UriParametersSection(IEnumerable<UriParameter> parameters = null)
+  public string Keyword { get; } = "Parameters";
+
+  public UriParametersSection(IEnumerable<UriParameter> parameters)
   {
-    if (parameters is not null)
-      Parameters = parameters.ToList();
-    else
-      Parameters = new List<UriParameter>();
+    Parameters = parameters.ToList();
   }
 
-  public ICollection<UriParameter> Parameters { get; set; }
+  public IReadOnlyCollection<UriParameter> Parameters { get; set; }
 
 }

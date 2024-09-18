@@ -1,7 +1,12 @@
-﻿namespace NJ.ApibModel
+﻿using NJ.ApibModel.AdditionalDomainObjects;
+
+namespace NJ.ApibModel
 {
   public class DataStructureSection : AttributesSection
   {
-    public string Identifier { get; set; }
+    public override string Keyword { get; } = "Data Structures";
+    public DataStructureSection(MsonTypeDefinition typeDefinition) : base(typeDefinition)
+    {
+    }
   }
 }

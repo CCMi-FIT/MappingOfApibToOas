@@ -1,6 +1,6 @@
 ﻿namespace NJ.ApibModel;
 
-public class SchemaSection
+public class SchemaSection : AssetSection
 {
-  public string Schema { get; set; }
+  public override string Keyword { get; } = "Schema";
 }
