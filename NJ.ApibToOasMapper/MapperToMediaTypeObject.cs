@@ -2,12 +2,13 @@
 using NJ.ApibModel;
 using NJ.ApibToOasMapper.Model;
 using NJ.OasModel;
+using NJ.SharedModel;
 
 namespace NJ.ApibToOasMapper
 {
   public static class MapperToMediaTypeObject
   {
-    public static MediaTypeObject MapToMediaTypeObject(string mediaType, string content, SchemaSection schemaSection, AttributesSection attributesSection, IReadOnlyCollection<ApiType> apiNamedTypes, bool mapExampleInSchema)
+    public static MediaTypeObject MapToMediaTypeObject(MediaType mediaType, string content, SchemaSection schemaSection, AttributesSection attributesSection, IReadOnlyCollection<ApiType> apiNamedTypes, bool mapExampleInSchema)
     {
 
       SchemaObject schema;
@@ -50,9 +51,9 @@ namespace NJ.ApibToOasMapper
       return mediaTypeObject;
     }
 
-    private static dynamic MapContentToExample(string content, string mediaType)
+    private static dynamic MapContentToExample(string content, MediaType? mediaType)
     {
-      dynamic result = mediaType switch
+      dynamic result = mediaType?.Pattern switch
       {
         null => null,
         "text/plain" => content,
@@ -62,9 +63,9 @@ namespace NJ.ApibToOasMapper
       return result;
     }
 
-    private static dynamic MapAttributesToExample(AttributesSection attributes, string mediaType, IReadOnlyCollection<ApiType> apiNamedTypes)
+    private static dynamic MapAttributesToExample(AttributesSection attributes, MediaType mediaType, IReadOnlyCollection<ApiType> apiNamedTypes)
     {
-      dynamic result = mediaType switch
+      dynamic result = mediaType.Pattern switch
       {
         null => null,
         "application/json" => MapAttributesToJsonExample(attributes, apiNamedTypes),

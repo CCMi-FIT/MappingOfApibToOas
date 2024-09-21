@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using NJ.ApibModel;
 using NJ.ApibToOasMapper.Model;
 using NJ.OasModel;
+using NJ.SharedModel;
 
 namespace NJ.ApibToOasMapper
 {
@@ -10,7 +11,7 @@ namespace NJ.ApibToOasMapper
   {
     public static SchemaObject Map(SchemaSection schemaSection)
     {
-      var schemaJObject = JObject.Parse(schemaSection.Schema);
+      var schemaJObject = JObject.Parse(schemaSection.Content);
       var result = new SchemaObject
       {
         Properties = schemaJObject["properties"]?.ToObject<dynamic>(),
@@ -21,9 +22,9 @@ namespace NJ.ApibToOasMapper
       return result;
     }
 
-    public static SchemaObject Map(string content, string mediaTypeString = null)
+    public static SchemaObject Map(string content, MediaType? mediaType = default)
     {
-      var result = mediaTypeString switch
+      var result = mediaType?.Pattern switch
       {
         null => new SchemaObject { Type = "string" },
         "application/json" => MapJsonContentToSchemaObject(content),
@@ -34,9 +35,9 @@ namespace NJ.ApibToOasMapper
       return result;
     }
 
-    public static SchemaObject MapFromApiType(ApiType apiType, string mediaTypeString, bool mapExample)
+    public static SchemaObject MapFromApiType(ApiType apiType, MediaType? mediaType, bool mapExample)
     {
-      var result = mediaTypeString switch
+      var result = mediaType?.Pattern switch
       {
         null => new SchemaObject { Type = "string" },
         "application/json" => MapAttributesSectionToSchemaObject(apiType, mapExample),

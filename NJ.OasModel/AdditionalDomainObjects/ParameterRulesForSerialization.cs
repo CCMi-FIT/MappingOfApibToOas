@@ -7,7 +7,7 @@ namespace NJ.OasModel.AdditionalDomainObjects
   {
   }
 
-  public class ParameterSchemaStyleRulesForSerialization
+  public class ParameterSchemaStyleRulesForSerialization : ParameterRulesForSerialization
   {
     public StyleValue Style { get; }
     public bool Explode { get; }
@@ -18,7 +18,7 @@ namespace NJ.OasModel.AdditionalDomainObjects
     public object? Example { get; init; }
     public IReadOnlyDictionary<string, OneOf<ExampleObject, ReferenceObject>>? Examples { get; init; }
 
-    public ParameterSchemaStyleRulesForSerialization(SchemaObject schema, ParameterIn parameterIn, bool allowReserved, bool? explode = default) : this(schema, GetDefaultStyleForIn(parameterIn), allowReserved, explode)
+    public ParameterSchemaStyleRulesForSerialization(SchemaObject schema, ParameterIn parameterIn, bool allowReserved = default, bool? explode = default) : this(schema, GetDefaultStyleForIn(parameterIn), allowReserved, explode)
     {
     }
 
@@ -44,7 +44,7 @@ namespace NJ.OasModel.AdditionalDomainObjects
     }
   }
 
-  public class ParameterContentRulesForSerialization
+  public class ParameterContentRulesForSerialization : ParameterRulesForSerialization
   {
     public IReadOnlyDictionary<MediaRange, MediaTypeObject> Content { get; }
 

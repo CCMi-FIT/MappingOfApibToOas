@@ -1,18 +1,22 @@
 ﻿namespace NJ.SharedModel
 {
-    public abstract class Description
-    {
-        public abstract string Text { get; init; }
-    }
+  public abstract class Description
+  {
+    public abstract string Text { get; init; }
+  }
 
-    public class PlainTextDescription : Description
+  public class PlainTextDescription : Description
+  {
+    public override string Text { get; init; }
+    public PlainTextDescription(string text)
     {
-        public override string Text { get; init; }
+      Text = text;
     }
+  }
 
-    // TODO: Better ?
-    public class MarkdownDescription : Description
-    {
-        public override string Text { get; init; }
-    }
+  // TODO: Better ?
+  public class MarkdownDescription : Description
+  {
+    public override string Text { get; init; }
+  }
 }

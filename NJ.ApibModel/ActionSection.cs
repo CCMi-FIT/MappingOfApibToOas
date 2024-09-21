@@ -13,6 +13,8 @@ public class ActionSection : NamedSection
   public UriParametersSection? ParametersSection { get; init; }
   public AttributesSection? AttributesSection { get; init; }
 
+  public IEnumerable<RequestSection> RequestSections => Transactions.SelectMany(t => t.Requests);
+  public IEnumerable<ResponseSection> ResponseSections => Transactions.SelectMany(t => t.Responses);
   public IReadOnlyCollection<ActionTransaction> Transactions { get; }
 
   public ActionSection(HttpRequestMethod httpRequestMethod, IEnumerable<ActionTransaction> transactions)

@@ -11,6 +11,11 @@
       Pattern = pattern;
     }
 
+    public HttpStatusCodePattern(int code)
+    {
+      Pattern = code.ToString(System.Globalization.CultureInfo.InvariantCulture);
+    }
+
     private static bool Validate(string pattern)
     {
       if (pattern.Length != 3 || pattern[0] < '1' || pattern[0] > '5')
