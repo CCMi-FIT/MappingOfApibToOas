@@ -11,7 +11,7 @@ public abstract class PayloadSection : NamedSection
   public BodySection? BodySection { get; init; }
   public SchemaSection? SchemaSection { get; init; }
 
-  protected PayloadSection(string? identifier = default, string? mediaType = default) : this(identifier, mediaType is not null ? new MediaType(mediaType) : default)
+  protected PayloadSection(string identifier, string? mediaType) : this(identifier, mediaType is not null ? new MediaType(mediaType) : default)
   {
   }
 

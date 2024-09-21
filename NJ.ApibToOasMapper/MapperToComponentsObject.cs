@@ -1,6 +1,7 @@
 ﻿using NJ.ApibModel;
 using NJ.ApibToOasMapper.Model;
 using NJ.OasModel;
+using NJ.SharedModel;
 
 namespace NJ.ApibToOasMapper
 {
@@ -48,7 +49,7 @@ namespace NJ.ApibToOasMapper
       if (typeName is null)
         return null;
       var type = ApiTypesProvider.GetApiType(typeName, apiNamedTypes);
-      var result = MapperToSchemaObject.MapFromApiType(type, "application/json", true);
+      var result = MapperToSchemaObject.MapFromApiType(type, new MediaType("application/json"), true);
       return result;
     }
 

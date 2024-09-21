@@ -74,9 +74,9 @@ namespace NJ.ApibToOasMapper
       return result;
     }
 
-    private static dynamic MapAttributesToExample(AttributesSection attributes, SchemaSection schemaSection, string mediaType, IReadOnlyCollection<ApiType> apiNamedTypes)
+    private static dynamic MapAttributesToExample(AttributesSection attributes, SchemaSection schemaSection, MediaType mediaType, IReadOnlyCollection<ApiType> apiNamedTypes)
     {
-      dynamic result = mediaType switch
+      dynamic result = mediaType.Pattern switch
       {
         null => null,
         "application/json" => MapAttributesToJsonExample(attributes, schemaSection, apiNamedTypes),

@@ -38,7 +38,7 @@ namespace NJ.ApibToOasMapper
 
     public static ApiType GetApiType(AttributesSection attributesSection, IReadOnlyCollection<ApiType> namedTypes)
     {
-      var apiNamedType = GetApiType(attributesSection.TypeDefinition, namedTypes);
+      var apiNamedType = GetApiType(attributesSection.Identifier, namedTypes);
       if (apiNamedType is ApiArrayType)
         return apiNamedType;
 
@@ -57,7 +57,7 @@ namespace NJ.ApibToOasMapper
 
     public static ApiType GetApiType(AttributesSection attributesSection, SchemaSection schemaSection, IReadOnlyCollection<ApiType> namedTypes)
     {
-      var apiNamedType = GetApiType(attributesSection.TypeDefinition, namedTypes);
+      var apiNamedType = GetApiType(attributesSection.Identifier, namedTypes);
       if (apiNamedType is ApiArrayType)
         return apiNamedType;
 
@@ -83,7 +83,7 @@ namespace NJ.ApibToOasMapper
       var result = attributeSection.TypeName;
       if (result is not null)
         return result;
-      var schemaJObject = JObject.Parse(schemaSection.Schema);
+      var schemaJObject = JObject.Parse(schemaSection.Content);
       result = schemaJObject["properties"][attributeSection.Name]["type"].ToString();
       return result;
     }
@@ -110,18 +110,18 @@ namespace NJ.ApibToOasMapper
     private static ApiTypeInternal GetApiTypeInternal(DataStructureSection dataStructure)
     {
       var properties = GetProperties(dataStructure.Attributes);
-      var result = new ApiTypeInternal(dataStructure.Identifier, properties, dataStructure.TypeDefinition);
+      var result = new ApiTypeInternal(dataStructure.Identifier, properties, dataStructure.Identifier);
       return result;
     }
 
     private static ApiTypeInternal GetApiTypeInternal(AttributesSection attributesSection, string typeName)
     {
       var properties = GetProperties(attributesSection.Attributes);
-      var result = new ApiTypeInternal(typeName, properties, attributesSection.TypeDefinition);
+      var result = new ApiTypeInternal(typeName, properties, attributesSection.Identifier);
       return result;
     }
 
-    private static IReadOnlyCollection<ApiTypeProperty> GetProperties(ICollection<AttributeSection> attributeSections)
+    private static IReadOnlyCollection<ApiTypeProperty> GetProperties(IReadOnlyCollection<AttributeSection> attributeSections)
     {
       IReadOnlyCollection<ApiTypeProperty> result;
       if (attributeSections is null)

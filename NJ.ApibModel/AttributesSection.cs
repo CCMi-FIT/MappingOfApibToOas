@@ -1,22 +1,22 @@
-﻿using NJ.SharedModel;
+﻿using NJ.ApibModel.AdditionalDomainObjects;
 
 namespace NJ.ApibModel;
 
 public class AttributesSection
 {
   public virtual string Keyword { get; } = "Attributes";
+  public string Identifier { get; }
 
-  public MsonTypeDefinition TypeDefinition { get; }
+  // TODO: Utilize MsonTypeDefinition instead ?
+  public IReadOnlyCollection<AttributeSection> Attributes { get; }
 
-  // TODO: Get Attributes from TypeDefinition ?
-  //public ICollection<AttributeSection> Attributes { get; }
-
-  public AttributesSection(MsonTypeDefinition typeDefinition)
+  public AttributesSection(string identifier, IEnumerable<AttributeSection>? attributes = default)
   {
-    TypeDefinition = typeDefinition;
-  }
+    if (attributes is null)
+      Attributes = new List<AttributeSection>();
+    else
+      Attributes = attributes.ToList();
 
-  public AttributesSection(string typeDefinition) : this(new MsonTypeDefinition(typeDefinition))
-  {
+    Identifier = identifier;
   }
 }

@@ -1,13 +1,17 @@
 ﻿namespace NJ.SharedModel
 {
-    public class MsonTypeDefinition
-    {
-        // TODO: Better ?
-        public string Definition { get; }
+  // TODO: Support all MSON Specificaiton ? - https://github.com/apiaryio/mson/blob/master/MSON%20Specification.md
+  public class MsonTypeDefinition
+  {
+    public string Identifier { get; }
+    public string ParentTypeIdentifier { get; }
 
-        public MsonTypeDefinition(string definition)
-        {
-            Definition = definition;
-        }
+    public IReadOnlyDictionary<string, MsonTypeDefinition>? Members { get; init; }
+
+    public MsonTypeDefinition(string identifier, string parentTypeIdentifier = "object")
+    {
+      Identifier = identifier;
+      ParentTypeIdentifier = parentTypeIdentifier;
     }
+  }
 }

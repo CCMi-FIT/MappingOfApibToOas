@@ -1,12 +1,14 @@
 ﻿using NJ.ApibModel;
-using NJ.ApibModel.AdditionalDomainObjects;
 using NJ.ApibToOasMapper.Model;
 using NJ.OasModel;
+using NJ.OasModel.AdditionalDomainObjects;
+using NJ.SharedModel;
+using OneOf;
 using System.Text.RegularExpressions;
 
 namespace NJ.ApibToOasMapper
 {
-    public static class ResourceMapper
+  public static class ResourceMapper
   {
     private const string ResourceQueryPathParameterPattern = @"\{\?[^\}]+\}";
 
@@ -19,14 +21,14 @@ namespace NJ.ApibToOasMapper
       return result;
     }
 
-    public static IReadOnlyDictionary<string, PathItemObject> MapResourcesToDictionary(Apib apib, IReadOnlyCollection<ApiType> apiNamedTypes)
+    public static IReadOnlyDictionary<PathString, PathItemObject> MapResourcesToDictionary(Apib apib, IReadOnlyCollection<ApiType> apiNamedTypes)
     {
       var resourcesWithExistingParentSections = apib.ResourceGroupSections?.SelectMany(g => g.ResourceSections.Select(r => new ResourceInfo(r, g))) ?? Enumerable.Empty<ResourceInfo>();
       var resourcesWithNullParentSections = apib.ResourceSections?.Select(r => new ResourceInfo(r)) ?? Enumerable.Empty<ResourceInfo>();
       var resourceInfos = resourcesWithExistingParentSections.Concat(resourcesWithNullParentSections);
       var operationInfos = resourceInfos.SelectMany(ri => MapResourceSectionToOperationInfo(ri, apiNamedTypes));
       var operationInfosGroupedByPath = operationInfos.GroupBy(o => o.Path);
-      var result = operationInfosGroupedByPath.ToDictionary(g => g.Key, MapOperationInfosToPathItemObject);
+      var result = operationInfosGroupedByPath.ToDictionary(g => new PathString(g.Key), MapOperationInfosToPathItemObject);
       return result;
     }
 
@@ -74,7 +76,9 @@ namespace NJ.ApibToOasMapper
         }
       }
 
-      var result = new PathItemObject
+      var servers = new List<ServerObject>();
+      var parameters = new List<OneOf<ParameterObject, ReferenceObject>>();
+      var result = new PathItemObject(servers, parameters)
       {
         Get = get,
         Post = post,
@@ -93,7 +97,7 @@ namespace NJ.ApibToOasMapper
       var resourceSection = resourceInfo.ResourceSection;
       if (resourceSection?.UriTemplate?.Path is null)
         return Array.Empty<OperationInfo>();
-      var result = resourceSection.ActionSections.Select(a =>  MapActionSectionToOperationInfo(a, resourceInfo, apiNamedTypes));
+      var result = resourceSection.ActionSections.Select(a => MapActionSectionToOperationInfo(a, resourceInfo, apiNamedTypes));
       return result;
     }
 
