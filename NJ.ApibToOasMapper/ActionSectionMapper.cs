@@ -91,10 +91,8 @@ namespace NJ.ApibToOasMapper
       else
         @in = "query";
 
-      var result = new ParameterObject
+      var result = new ParameterObject(parameter.Name, @in)
       {
-        Name = parameter.Name,
-        In = @in,
         Description = parameter.Description,
         Required = parameter.Required,
         Example = parameter.ExampleValue?.ToString(),
@@ -105,23 +103,22 @@ namespace NJ.ApibToOasMapper
 
     public static (RequestBodyObject RequestBodyObject, IList<IParameterOrReferenceObject> ParameterObjects) MapRequestSections(ActionSection actionSection, IReadOnlyCollection<ApiType> apiNamedTypes)
     {
-      var requestSections = actionSection.RequestSections;
+      // TODO: APIB Transactions don't have direct equivalent in OAS
+      var requestSections = actionSection.Transactions.SelectMany(t => t.Requests);
       if (requestSections is null)
         return (null, new List<IParameterOrReferenceObject>());
       var parameters = requestSections.Where(r => r.HeadersSection is not null).SelectMany(r => r.HeadersSection.Select(kv => MapHeaderSectionKeyValueToParameter(kv.Key, kv.Value))).ToList();
       var mediaTypesWithMediaTypeObjects = requestSections.Where(r => r.MediaType is not null).ToDictionary(r => r.MediaType, r => MapRequestSection(r, actionSection, apiNamedTypes));
       var requestBodyObject = mediaTypesWithMediaTypeObjects.Count > 0
-        ? new RequestBodyObject { Content = mediaTypesWithMediaTypeObjects }
+        ? new RequestBodyObject(mediaTypesWithMediaTypeObjects)
         : null;
       return (requestBodyObject, parameters);
     }
 
     private static IParameterOrReferenceObject MapHeaderSectionKeyValueToParameter(string key, object value)
     {
-      var result = new ParameterObject
+      var result = new ParameterObject(key, "header")
       {
-        Name = key,
-        In = "header",
         Description = $"e.g. {value}",
         Required = false,
         Example = value,

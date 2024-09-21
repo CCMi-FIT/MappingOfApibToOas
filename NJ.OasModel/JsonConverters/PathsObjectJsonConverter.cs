@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using NJ.OasModel.AdditionalDomainObjects;
 
 namespace NJ.OasModel.JsonConverters
 {
@@ -19,7 +20,7 @@ namespace NJ.OasModel.JsonConverters
         throw new InvalidOperationException();
       var result = new PathsObject
       {
-        PathItems = serializer.Deserialize<IReadOnlyDictionary<string, PathItemObject>>(reader)
+        PathItems = serializer.Deserialize<IReadOnlyDictionary<PathString, PathItemObject>>(reader)
       };
       return result;
     }

@@ -1,12 +1,12 @@
-﻿namespace NJ.ApibModel
+﻿using NJ.SharedModel;
+
+namespace NJ.ApibModel
 {
   public class UriParameter
   {
-    public Uri Name { get; }
-    // TODO: Markdown ?
-    public string? Description { get; init; }
-    // TODO: Markdown ?
-    public string? AdditionalDescription { get; init; }
+    public string Name { get; }
+    public Description? Description { get; init; }
+    public Description? AdditionalDescription { get; init; }
     public dynamic? ExampleValue { get; init; }
     public dynamic? DefaultValue { get; init; }
     public string Type { get; }
@@ -16,7 +16,7 @@
 
     public UriParameter(string name, string type = "string", ICollection<dynamic?>? members = default)
     {
-      Name = new Uri(name);
+      Name = name;
       Type = type;
       if (members is not null)
       {

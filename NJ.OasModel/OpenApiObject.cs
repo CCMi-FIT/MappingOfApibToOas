@@ -10,7 +10,7 @@ public class OpenApiObject
   public InfoObject Info { get; init; }
   public Uri? JsonSchemaDialect { get; init; }
   
-  private readonly static ServerObject _defaultServerObject = new ServerObject { Url = "/" };
+  private readonly static ServerObject _defaultServerObject = new ServerObject("/");
   private readonly static IReadOnlyCollection<ServerObject> _defaultServerObjects = new List<ServerObject> { _defaultServerObject };
 
   private IReadOnlyCollection<ServerObject>? _servers;

@@ -7,6 +7,12 @@ Minimal TODOs
 - Finalize APIB -> Central Model -> OAS
 - OAS -> Central Model -> APIB
 
+
+Differences
+- APIB -> OAS
+  - No Transactions in OAS
+  - 
+
 Nice-to-have
 - Smart API ?
 - OAS Parser ?

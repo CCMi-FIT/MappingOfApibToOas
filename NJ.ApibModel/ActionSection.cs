@@ -1,4 +1,5 @@
 ﻿using NJ.ApibModel.AdditionalDomainObjects;
+using NJ.SharedModel;
 
 namespace NJ.ApibModel;
 

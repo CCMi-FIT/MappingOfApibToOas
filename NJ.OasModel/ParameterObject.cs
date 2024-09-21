@@ -1,4 +1,5 @@
 ﻿using NJ.OasModel.AdditionalDomainObjects;
+using NJ.SharedModel;
 
 namespace NJ.OasModel;
 
@@ -13,9 +14,20 @@ public class ParameterObject : IParameterOrReferenceObject
   public ParameterRulesForSerialization RulesForSerialization { get; init; }
   public SpecificationExtensions? SpecificationExtensions { get; init; }
 
-  public ParameterObject(string name, string @in)
+  public ParameterObject(string name, string @in) : this(name, ParseIn(@in))
   {
-    In = @in switch
+  }
+
+  public ParameterObject(string name, ParameterIn @in)
+  {
+    // TODO: Validate according to in - https://swagger.io/specification/#parameter-object
+    In = @in;
+    Name = name;
+  }
+
+  private static ParameterIn ParseIn(string @in)
+  {
+    var result = @in switch
     {
       "query" => ParameterIn.Query,
       "header" => ParameterIn.Header,
@@ -23,7 +35,6 @@ public class ParameterObject : IParameterOrReferenceObject
       "cookie" => ParameterIn.Cookie,
       _ => throw new NotSupportedException()
     };
-    // TODO: Validate according to in - https://swagger.io/specification/#parameter-object
-    Name = name;
+    return result;
   }
 }

@@ -1,4 +1,4 @@
-﻿namespace NJ.OasModel.AdditionalDomainObjects
+﻿namespace NJ.SharedModel
 {
   public class MediaRange
   {

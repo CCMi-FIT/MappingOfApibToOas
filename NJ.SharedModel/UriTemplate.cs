@@ -1,4 +1,4 @@
-﻿namespace NJ.ApibModel.AdditionalDomainObjects;
+﻿namespace NJ.SharedModel;
 
 public class UriTemplate
 {

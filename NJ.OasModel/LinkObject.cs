@@ -1,4 +1,5 @@
 ﻿using NJ.OasModel.AdditionalDomainObjects;
+using NJ.SharedModel;
 using OneOf;
 
 namespace NJ.OasModel;

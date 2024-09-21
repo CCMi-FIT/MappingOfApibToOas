@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
-using NJ.OasModel.AdditionalDomainObjects;
 using NJ.OasModel.JsonConverters;
+using NJ.SharedModel;
 using OneOf;
 
 namespace NJ.OasModel;

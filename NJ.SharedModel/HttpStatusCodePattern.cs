@@ -1,4 +1,4 @@
-﻿namespace NJ.OasModel.AdditionalDomainObjects
+﻿namespace NJ.SharedModel
 {
   public class HttpStatusCodePattern
   {
@@ -17,7 +17,7 @@
         return false;
       if (pattern[1] == 'x' && pattern[2] == 'x')
         return true;
-      if ((pattern[1] == 'x') != (pattern[2] == 'x'))
+      if (pattern[1] == 'x' != (pattern[2] == 'x'))
         return false;
       if (pattern[1] < '0' || pattern[1] > '9')
         return false;
