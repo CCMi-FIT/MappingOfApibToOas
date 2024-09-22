@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
 using NJ.OasModel;
 using NJ.ApibModel.AdditionalDomainObjects;
+using System.Xml.XPath;
 
 namespace NJ.ApibToOasMapper
 {
@@ -98,7 +99,7 @@ namespace NJ.ApibToOasMapper
       if (dataStructures is null)
         dataStructureTypes = Array.Empty<ApiTypeInternal>();
       else
-        dataStructureTypes = dataStructures.Select(GetApiTypeInternal);
+        dataStructureTypes = dataStructures.SelectMany(GetApiTypesInternal);
 
       var objectType = new ApiTypeInternal("object");
       IEnumerable<ApiTypeInternal> otherTypes = new[] { objectType };
@@ -107,10 +108,16 @@ namespace NJ.ApibToOasMapper
       return result;
     }
 
-    private static ApiTypeInternal GetApiTypeInternal(DataStructuresSection dataStructure)
+    private static IReadOnlyCollection<ApiTypeInternal> GetApiTypesInternal(DataStructuresSection dataStructure)
     {
-      var properties = GetProperties(dataStructure.Attributes);
-      var result = new ApiTypeInternal(dataStructure.Identifier, properties, dataStructure.Identifier);
+      var result = dataStructure.Attributes.Select(a => GetApiTypeInternal(a)).ToList();
+      return result;
+    }
+
+    private static ApiTypeInternal GetApiTypeInternal(AttributesSection attributesSection)
+    {
+      var properties = GetProperties(attributesSection);
+      var result = new ApiTypeInternal(attributesSection.Identifier, properties, attributesSection.ParentTypeIdentifier);
       return result;
     }
 
@@ -118,6 +125,18 @@ namespace NJ.ApibToOasMapper
     {
       var properties = GetProperties(attributesSection.Attributes);
       var result = new ApiTypeInternal(typeName, properties, attributesSection.Identifier);
+      return result;
+    }
+
+    private static IReadOnlyCollection<ApiTypeProperty> GetProperties(IEnumerable<AttributesSection> attributesSection)
+    {
+      var result = attributesSection.SelectMany(a => GetProperties(a)).ToList();
+      return result;
+    }
+
+    private static IReadOnlyCollection<ApiTypeProperty> GetProperties(AttributesSection attributesSection)
+    {
+      var result = GetProperties(attributesSection?.Attributes);
       return result;
     }
 

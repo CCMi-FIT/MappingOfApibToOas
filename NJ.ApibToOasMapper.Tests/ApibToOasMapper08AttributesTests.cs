@@ -34,14 +34,8 @@ namespace NJ.ApibToOasMapper.Tests
       var resourceDescriptionText = "A coupon contains information about a percent-off or amount-off discount you\r\nmight want to apply to a customer.";
       var couponResource = new ResourceSection("Coupon", resourceDescriptionText, new UriTemplate("/coupons/{id}"), new[] { retrieveCouponAction });
 
-      var resourceGroup = new ResourceGroupSection("Coupons")
-      {
-        ResourceSections = new[] { couponResource }
-      };
+      var resourceGroup = new ResourceGroupSection("Coupons", default(Description?), new[] { couponResource });
 
-      var apib = new Apib();
-      apib.MetadataSection = new MetadataSection(new KeyValuePair<string, string>("FORMAT", "1A"));
-      apib.ResourceGroupSections = new[] { resourceGroup };
       var apiNameAndOverviewDescriptionText = @"This API example demonstrates how to describe body attributes of a request or
 response message.
 
@@ -57,8 +51,11 @@ demonstrate how to avoid duplicates and how to reuse attribute descriptions.
 + [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/08.%20Attributes.md)
 
 + [Next: Advanced Attributes](09.%20Advanced%20Attributes.md)";
-      apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection("Attributes API", apiNameAndOverviewDescriptionText);
-
+      var apib = new Apib {
+        MetadataSection = new MetadataSection(new KeyValuePair<string, string>("FORMAT", "1A")),
+        ResourceGroupSections = new[] { resourceGroup },
+        ApiNameAndOverviewSection = new ApiNameAndOverviewSection("Attributes API", apiNameAndOverviewDescriptionText)
+      };
       ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/08. Attributes - 02.json");
     }
   }

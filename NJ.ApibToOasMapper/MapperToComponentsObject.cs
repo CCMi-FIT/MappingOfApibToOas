@@ -32,9 +32,9 @@ namespace NJ.ApibToOasMapper
       }
 
       if (apib.DataStructuresSections is not null)
-        foreach (var dataStructureSection in apib.DataStructuresSections)
+        foreach (var attributesSection in apib.DataStructuresSections.SelectMany(ds => ds.Attributes))
         {
-          var typeName = dataStructureSection.Identifier;
+          var typeName = attributesSection.Identifier;
           var schemaObject = MapTypeNameToSchema(typeName, apiNamedTypes);
           if (schemaObject is not null)
             typeNamesWithSchemas.Add(typeName, schemaObject);
