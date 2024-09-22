@@ -7,5 +7,5 @@ public class Apib
   public ApiNameAndOverviewSection? ApiNameAndOverviewSection { get; init; }
   public ICollection<ResourceSection>? ResourceSections { get; init; }
   public ICollection<ResourceGroupSection>? ResourceGroupSections { get; init; }
-  public ICollection<DataStructureSection>? DataStructuresSections { get; init; }
+  public ICollection<DataStructuresSection>? DataStructuresSections { get; init; }
 }

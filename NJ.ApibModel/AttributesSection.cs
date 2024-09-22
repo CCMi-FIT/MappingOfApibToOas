@@ -5,12 +5,13 @@ namespace NJ.ApibModel;
 public class AttributesSection
 {
   public virtual string Keyword { get; } = "Attributes";
-  public string Identifier { get; }
+  public string? Identifier { get; }
+  public string ParentTypeIdentifier { get; }
 
   // TODO: Utilize MsonTypeDefinition instead ?
   public IReadOnlyCollection<AttributeSection> Attributes { get; }
 
-  public AttributesSection(string identifier = "object", IEnumerable<AttributeSection>? attributes = default)
+  public AttributesSection(string? identifier = default, string parentTypeIdentifier = "object", IEnumerable<AttributeSection>? attributes = default)
   {
     Identifier = identifier;
     if (attributes is null)
@@ -19,7 +20,7 @@ public class AttributesSection
       Attributes = attributes.ToList();
   }
 
-  public AttributesSection(IEnumerable<AttributeSection> attributes) : this("object", attributes)
+  public AttributesSection(IEnumerable<AttributeSection> attributes) : this(default, "object", attributes)
   {
   }
 }

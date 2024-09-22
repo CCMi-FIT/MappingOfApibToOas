@@ -4,7 +4,7 @@ using NJ.SharedModel;
 
 namespace NJ.ApibToOasMapper.Tests
 {
-    public class ApibToOasMapper09AdvancedAttributesTests
+  public class ApibToOasMapper09AdvancedAttributesTests
   {
     [Fact]
     public void ApibToOasMapper09AttributesTest()
@@ -23,85 +23,50 @@ namespace NJ.ApibToOasMapper.Tests
       };
 
       var transaction = new ActionTransaction(default, new[] { retrieveResponse });
-      var retrieveCouponAction = new ActionSection("Retrieve a Coupon", "Retrieves the coupon with the given ID.", HttpRequestMethod.Get)
-      {
-        ResponseSections = new[] { retrieveResponse }
-      };
+      var retrieveCouponAction = new ActionSection("Retrieve a Coupon", "Retrieves the coupon with the given ID.", HttpRequestMethod.Get, new[] { retrieveResponse });
 
-      var couponResource = new ResourceSection("Coupon", new UriTemplate("/coupons/{id}"))
+      var couponResourceDescription = "A coupon contains information about a percent-off or amount-off discount you\r\nmight want to apply to a customer.";
+      var couponResource = new ResourceSection("Coupon", couponResourceDescription, new UriTemplate("/coupons/{id}"), new[] { retrieveCouponAction })
       {
-        Description =
-          "A coupon contains information about a percent-off or amount-off discount you\r\nmight want to apply to a customer.",
-        ActionSections = new[] { retrieveCouponAction },
-        ParametersSection = new UriParametersSection(new[] {new UriParameter("id", true, "string", "The ID of the desired coupon.") }),
-        AttributesSection = new AttributesSection
-        {
-          TypeDefinition = "object",
-          Attributes = new List<AttributeSection>
-          {
+        ParametersSection = new UriParametersSection(new[] { new UriParameter("id", true, "string", "The ID of the desired coupon.") }),
+        AttributesSection = new AttributesSection("Coupon", attributes: new AttributeSection[] {
             new("id", "string", null, true, "250FF"),
             new("created", "number", "Time stamp", false, 1415203908),
             new("percent_off", "number", "A positive integer between 1 and 100 that represents the discount the coupon will apply.", false, 25),
             new("redeem_by", "number", "Date after which the coupon can no longer be redeemed", false)
-          }
-        }
+          })
       };
 
-      var listAllCouponsAction =
-        new ActionSection("List all Coupons", "Returns a list of your coupons.", HttpRequestMethod.Get)
-        {
-          ParametersSection = new UriParametersSection(new[] {new UriParameter("limit", false, "number", "A limit on the number of objects to be returned. Limit can range\nbetween 1 and 100 items.") { DefaultValue = 10} }),
-          ResponseSections = new List<ResponseSection>
-          {
-            new ResponseSection(200, "application/json")
-            {
-              AttributesSection = new AttributesSection { TypeDefinition = "Coupons" }
-            }
-          }
-        };
-
-      var createCouponAction = new ActionSection("Create a Coupon", "Creates a new Coupon.", HttpRequestMethod.Post)
+      var listAllCouponsActionResponse = new ResponseSection(200, "application/json")
       {
-        AttributesSection = new AttributesSection
-        {
-          TypeDefinition = "object",
-          Attributes = new List<AttributeSection>
-          {
-            new("percent_off", "number", null, false, 25),
-            new("redeem_by", "number", null, false)
-          }
-        },
-        RequestSections = new List<RequestSection> { new RequestSection(null, "application/json") },
-        ResponseSections = new List<ResponseSection>
-        {
-          new ResponseSection(200, "application/json")
-          {
-            AttributesSection = new AttributesSection { TypeDefinition = "Coupon" }
-          }
-        }
+        AttributesSection = new AttributesSection("Coupons")
+      };
+      var listAllCouponsActionParameters = new UriParametersSection(new[] { new UriParameter("limit", false, "number", "A limit on the number of objects to be returned. Limit can range\nbetween 1 and 100 items.") { DefaultValue = 10 } });
+      var listAllCouponsAction = new ActionSection("List all Coupons", "Returns a list of your coupons.", HttpRequestMethod.Get, new[] { listAllCouponsActionResponse })
+      {
+        ParametersSection = listAllCouponsActionParameters
       };
 
-      var couponsResource = new ResourceSection("Coupons", new UriTemplate("/coupons{?limit}"))
+      var createCouponActionResponse = new ResponseSection(200, "application/json")
       {
-        AttributesSection = new AttributesSection
-        {
-          TypeDefinition = "array[Coupon]"
-        },
-        ActionSections = new[] { listAllCouponsAction, createCouponAction }
+        AttributesSection = new AttributesSection("Coupon")
+      };
+      var createCouponAction = new ActionSection("Create a Coupon", "Creates a new Coupon.", HttpRequestMethod.Post, new[] { new RequestSection(null, "application/json") }, new[] { createCouponActionResponse })
+      {
+        AttributesSection = new AttributesSection(default, "object", new AttributeSection[] {
+          new("percent_off", "number", null, false, 25),
+          new("redeem_by", "number", null, false)
+        })
       };
 
-      var resourceGroup = new ResourceGroupSection("Coupons")
+      var couponsResource = new ResourceSection("Coupons", default(string?), new UriTemplate("/coupons{?limit}"), new[] { listAllCouponsAction, createCouponAction })
       {
-        ResourceSections = new[] { couponResource, couponsResource }
+        AttributesSection = new AttributesSection(default, "array[Coupon]")
       };
 
-      var apib = new Apib();
-      apib.MetadataSection = new MetadataSection { { "FORMAT", "1A" } };
-      apib.ResourceGroupSections = new[] { resourceGroup };
-      apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection
-      {
-        Name = "Advanced Attributes API",
-        Description = @"Improving the previous [Attributes](08.%20Attributes.md) description example,
+      var resourceGroup = new ResourceGroupSection("Coupons", default(Description?), new[] { couponResource, couponsResource });
+
+      var apiNameAndOverviewDescription = @"Improving the previous [Attributes](08.%20Attributes.md) description example,
 this API example describes the `Coupon` resource attributes (data structure)
 regardless of the serialization format. These attributes can be later
 referenced using the resource name.
@@ -125,7 +90,12 @@ description of action attributes is somewhat duplicate to the definition of
 
 + [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/09.%20Advanced%20Attributes.md)
 
-+ [Next: Data Structures](10.%20Data%20Structures.md)"
++ [Next: Data Structures](10.%20Data%20Structures.md)";
+      var apib = new Apib
+      {
+        MetadataSection = new MetadataSection(("FORMAT", "1A")),
+        ResourceGroupSections = new[] { resourceGroup },
+        ApiNameAndOverviewSection = new ApiNameAndOverviewSection("Advanced Attributes API", apiNameAndOverviewDescription)
       };
 
       ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/09. Advanced Attributes.json");

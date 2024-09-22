@@ -107,7 +107,7 @@ namespace NJ.ApibToOasMapper
       return result;
     }
 
-    private static ApiTypeInternal GetApiTypeInternal(DataStructureSection dataStructure)
+    private static ApiTypeInternal GetApiTypeInternal(DataStructuresSection dataStructure)
     {
       var properties = GetProperties(dataStructure.Attributes);
       var result = new ApiTypeInternal(dataStructure.Identifier, properties, dataStructure.Identifier);
