@@ -1,6 +1,5 @@
 ﻿using NJ.OasModel.AdditionalDomainObjects;
 using NJ.Common.Extensions;
-using OneOf;
 
 namespace NJ.OasModel;
 
@@ -20,7 +19,7 @@ public class OpenApiObject
     init => _servers = value;
   }
   public PathsObject? Paths { get; init; }
-  public IReadOnlyDictionary<string, OneOf<PathItemObject, ReferenceObject>>? WebHooks { get; init; }
+  public IReadOnlyDictionary<string, IPathItemOrReferenceObject>? WebHooks { get; init; }
   public ComponentsObject? Components { get; init; }
 
   // TODO: What should allow object look like ?

@@ -15,7 +15,7 @@ namespace NJ.ApibToOasMapper.Tests
       {
         NullValueHandling = NullValueHandling.Ignore,
         DefaultValueHandling = DefaultValueHandling.Ignore,
-        Converters = new List<JsonConverter> { new StringNewLineJsonConverter(), new OneOfJsonConverter<RequestBodyObject, ReferenceObject>() }
+        Converters = new List<JsonConverter> { new StringNewLineJsonConverter() }
       };
 
       var result = ApibToOasMapper.Map(apib);

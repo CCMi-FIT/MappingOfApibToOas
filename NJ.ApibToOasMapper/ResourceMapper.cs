@@ -3,7 +3,6 @@ using NJ.ApibToOasMapper.Model;
 using NJ.OasModel;
 using NJ.OasModel.AdditionalDomainObjects;
 using NJ.SharedModel;
-using OneOf;
 using System.Text.RegularExpressions;
 
 namespace NJ.ApibToOasMapper
@@ -77,7 +76,7 @@ namespace NJ.ApibToOasMapper
       }
 
       var servers = new List<ServerObject>();
-      var parameters = new List<OneOf<ParameterObject, ReferenceObject>>();
+      var parameters = new List<IParameterOrReferenceObject>();
       var result = new PathItemObject(servers, parameters)
       {
         Get = get,

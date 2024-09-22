@@ -1,5 +1,4 @@
 ﻿using NJ.SharedModel;
-using OneOf;
 
 namespace NJ.OasModel.AdditionalDomainObjects
 {
@@ -16,7 +15,7 @@ namespace NJ.OasModel.AdditionalDomainObjects
     // TODO: Validate that example matches schema and encoding properties
     // TODO: Validate that example and examples are mutually exclusive
     public object? Example { get; init; }
-    public IReadOnlyDictionary<string, OneOf<ExampleObject, ReferenceObject>>? Examples { get; init; }
+    public IReadOnlyDictionary<string, IExampleOrReferenceObject>? Examples { get; init; }
 
     public ParameterSchemaStyleRulesForSerialization(SchemaObject schema, ParameterIn parameterIn, bool allowReserved = default, bool? explode = default) : this(schema, GetDefaultStyleForIn(parameterIn), allowReserved, explode)
     {

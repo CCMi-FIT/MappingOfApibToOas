@@ -3,7 +3,6 @@ using NJ.ApibToOasMapper.Model;
 using NJ.OasModel;
 using NJ.OasModel.AdditionalDomainObjects;
 using NJ.SharedModel;
-using OneOf;
 
 namespace NJ.ApibToOasMapper
 {
@@ -13,9 +12,9 @@ namespace NJ.ApibToOasMapper
     {
       var (requestBodyObject, requestBodyParameters) = MapRequestSections(actionSection, apiNamedTypes);
       var responseSectionsGroupedByStatusCode = actionSection.ResponseSections.GroupBy(s => s.HttpStatusCode);
-      var statusCodesWithResponseObjects = responseSectionsGroupedByStatusCode.ToDictionary(g => new HttpStatusCodePattern(g.Key), g => (OneOf<ResponseObject, ReferenceObject>)MapToResponseObject(g.Key, g, apiNamedTypes));
+      var statusCodesWithResponseObjects = responseSectionsGroupedByStatusCode.ToDictionary(g => new HttpStatusCodePattern(g.Key), g => (IResponseOrReferenceObject)MapToResponseObject(g.Key, g, apiNamedTypes));
       var responses = new ResponsesObject { HttpStatusCodesWithResponses = statusCodesWithResponseObjects };
-      var parameterObjectsFromUriTemplate = MapUriTemplate(actionSection, resourceSection).Cast<OneOf<ParameterObject, ReferenceObject>>();
+      var parameterObjectsFromUriTemplate = MapUriTemplate(actionSection, resourceSection);
 
       var tags = ResourceGroupSectionToTagsMapper.MapToStrings(new[] { resourceGroupSection });
       var parameters = requestBodyParameters.Concat(parameterObjectsFromUriTemplate).ToList();
@@ -44,15 +43,15 @@ namespace NJ.ApibToOasMapper
       return result;
     }
 
-    private static IReadOnlyDictionary<string, OneOf<HeaderObject, ReferenceObject>> MapHeaderSectionToNamesWithHeaderObjects(HeadersSection headersSection)
+    private static IReadOnlyDictionary<string, IHeaderOrReferenceObject> MapHeaderSectionToNamesWithHeaderObjects(HeadersSection headersSection)
     {
       if (headersSection is null)
-        return new Dictionary<string, OneOf<HeaderObject, ReferenceObject>>();
+        return new Dictionary<string, IHeaderOrReferenceObject>();
       var result = headersSection.ToDictionary(h => h.Key, h => MapHeaderToHeaderObject(h.Value));
       return result;
     }
 
-    private static OneOf<HeaderObject, ReferenceObject> MapHeaderToHeaderObject(object headerValue)
+    private static IHeaderOrReferenceObject MapHeaderToHeaderObject(object headerValue)
     {
       var typeString = headerValue switch
       {
@@ -107,12 +106,12 @@ namespace NJ.ApibToOasMapper
       return result;
     }
 
-    public static (RequestBodyObject RequestBodyObject, IList<OneOf<ParameterObject, ReferenceObject>> ParameterObjects) MapRequestSections(ActionSection actionSection, IReadOnlyCollection<ApiType> apiNamedTypes)
+    public static (RequestBodyObject RequestBodyObject, IList<IParameterOrReferenceObject> ParameterObjects) MapRequestSections(ActionSection actionSection, IReadOnlyCollection<ApiType> apiNamedTypes)
     {
       // TODO: APIB Transactions don't have direct equivalent in OAS
       var requestSections = actionSection.RequestSections;
       if (requestSections is null)
-        return (null, new List<OneOf<ParameterObject, ReferenceObject>>());
+        return (null, new List<IParameterOrReferenceObject>());
       var parameters = requestSections.Where(r => r.HeadersSection is not null).SelectMany(r => r.HeadersSection.Select(kv => MapHeaderSectionKeyValueToParameter(kv.Key, kv.Value))).ToList();
       var mediaTypesWithMediaTypeObjects = requestSections.Where(r => r.MediaType is not null).ToDictionary(r => (MediaRange)r.MediaType, r => MapRequestSection(r, actionSection, apiNamedTypes));
       var requestBodyObject = mediaTypesWithMediaTypeObjects.Count > 0
@@ -121,7 +120,7 @@ namespace NJ.ApibToOasMapper
       return (requestBodyObject, parameters);
     }
 
-    private static OneOf<ParameterObject, ReferenceObject> MapHeaderSectionKeyValueToParameter(string key, object value)
+    private static IParameterOrReferenceObject MapHeaderSectionKeyValueToParameter(string key, object value)
     {
       var @in = ParameterIn.Header;
       var schema = MapperToSchemaObject.Map(value?.ToString());

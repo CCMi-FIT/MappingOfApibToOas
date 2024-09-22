@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using NJ.OasModel.JsonConverters;
 using NJ.SharedModel;
-using OneOf;
 
 namespace NJ.OasModel;
 
@@ -9,7 +8,7 @@ namespace NJ.OasModel;
 [JsonConverter(typeof(ResponsesObjectJsonConverter))]
 public class ResponsesObject
 {
-  public OneOf<ResponseObject, ReferenceObject>? Default { get; init; }
+  public IResponseOrReferenceObject? Default { get; init; }
   // TODO: only keys 100-599 + 'x' support (like 1xx) are supported
-  public IReadOnlyDictionary<HttpStatusCodePattern, OneOf<ResponseObject, ReferenceObject>>? HttpStatusCodesWithResponses { get; init; }
+  public IReadOnlyDictionary<HttpStatusCodePattern, IResponseOrReferenceObject>? HttpStatusCodesWithResponses { get; init; }
 }

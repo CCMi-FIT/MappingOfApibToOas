@@ -1,5 +1,4 @@
 ﻿using NJ.SharedModel;
-using OneOf;
 
 namespace NJ.OasModel;
 
@@ -17,14 +16,14 @@ public class PathItemObject : IPathItemOrReferenceObject
   public OperationObject? Patch { get; init; }
   public OperationObject? Trace { get; init; }
   public IReadOnlyCollection<ServerObject> Servers { get; }
-  public IReadOnlyCollection<OneOf<ParameterObject, ReferenceObject>> Parameters { get; }
+  public IReadOnlyCollection<IParameterOrReferenceObject> Parameters { get; }
   public SpecificationExtensions? SpecificationExtensions { get; init; }
 
-  public PathItemObject(IEnumerable<ServerObject> servers, IReadOnlyCollection<OneOf<ParameterObject, ReferenceObject>> parameters)
+  public PathItemObject(IEnumerable<ServerObject> servers, IReadOnlyCollection<IParameterOrReferenceObject> parameters)
   {
     // TODO: Validate ref: 1) format 2) that it links to valid item
     Servers = servers?.ToList() ?? new List<ServerObject>();
     // TODO: Validate that there are no duplicities (i.e. combinations of name and location)
-    Parameters = parameters?.ToList() ?? new List<OneOf<ParameterObject, ReferenceObject>>();
+    Parameters = parameters?.ToList() ?? new List<IParameterOrReferenceObject>();
   }
 }

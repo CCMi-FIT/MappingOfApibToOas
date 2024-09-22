@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using NJ.SharedModel;
-using OneOf;
 
 namespace NJ.OasModel.JsonConverters
 {
@@ -21,7 +20,7 @@ namespace NJ.OasModel.JsonConverters
         throw new InvalidOperationException();
       var result = new ResponsesObject
       {
-        HttpStatusCodesWithResponses = serializer.Deserialize<IReadOnlyDictionary<HttpStatusCodePattern, OneOf<ResponseObject, ReferenceObject>>>(reader)
+        HttpStatusCodesWithResponses = serializer.Deserialize<IReadOnlyDictionary<HttpStatusCodePattern, IResponseOrReferenceObject>>(reader)
       };
       return result;
     }

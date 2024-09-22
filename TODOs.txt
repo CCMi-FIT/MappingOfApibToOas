@@ -20,6 +20,6 @@ Nice-to-have
 
 Technical TODOs
 - Remove JSON Converters from OAS / APIB DO
-- Central Package Versions
 - .NET 8
-- Nullable enable
+- Nullable enable - warnings as errors
+- OneOf ?
