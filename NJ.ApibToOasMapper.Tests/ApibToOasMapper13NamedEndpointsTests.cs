@@ -44,9 +44,6 @@ namespace NJ.ApibToOasMapper.Tests
       var createNewTaskResource = new ResourceSection("Create a new task", default(Description?), new UriTemplate("/tasks"), HttpRequestMethod.Post, new[] { createNewTaskAction });
       var quickStartGroup = new ResourceGroupSection("Quick start", default(Description?), new[] { createMessageResource, createNewTaskResource });
 
-      var apib = new Apib();
-      apib.MetadataSection = new MetadataSection(("FORMAT", "1A"));
-      apib.ResourceGroupSections = new[] { quickStartGroup };
       var apiNameAndOverviewDescription = @"This API example demonstrates how to define a standalone endpoint with an identifier.
 
 ## API Blueprint
@@ -56,7 +53,11 @@ namespace NJ.ApibToOasMapper.Tests
 + [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/13.%20Named%20Endpoints.md)
 
 + [Next: JSON Schema](14.%20JSON%20Schema.md)";
-      apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection("Named Endpoints API", apiNameAndOverviewDescription);
+      var apib = new Apib {
+        MetadataSection = new MetadataSection(("FORMAT", "1A")),
+        ResourceGroupSections = new[] { quickStartGroup },
+        ApiNameAndOverviewSection = new ApiNameAndOverviewSection("Named Endpoints API", apiNameAndOverviewDescription)
+      };
 
       ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/13. Named Endpoints.json");
     }

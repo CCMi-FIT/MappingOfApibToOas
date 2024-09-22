@@ -49,9 +49,6 @@ and simple naming is the best way to go.";
 
       var messagesResourceGroup = new ResourceGroupSection("Messages", @"Group of all messages-related resources.", new[] { resource });
 
-      var apib = new Apib();
-      apib.MetadataSection = new MetadataSection(("FORMAT", "1A"));
-      apib.ResourceGroupSections = new[] { messagesResourceGroup };
       var apiNameAndOverviewDescription = @"Following the [Responses](05.%20Responses.md) example, this API will show you
 how to define multiple requests and what data these requests can bear. Let's
 demonstrate multiple requests on a trivial example of content negotiation.
@@ -63,7 +60,11 @@ demonstrate multiple requests on a trivial example of content negotiation.
 + [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/06.%20Requests.md)
 
 + [Next: Parameters](07.%20Parameters.md)";
-      apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection("Requests API", apiNameAndOverviewDescription);
+      var apib = new Apib {
+        MetadataSection = new MetadataSection(("FORMAT", "1A")),
+        ResourceGroupSections = new[] { messagesResourceGroup },
+        ApiNameAndOverviewSection = new ApiNameAndOverviewSection("Requests API", apiNameAndOverviewDescription)
+      };
 
       ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/06. Requests.json");
     }

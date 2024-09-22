@@ -50,9 +50,6 @@ namespace NJ.ApibToOasMapper.Tests
 
       var messageResourceGroup = new ResourceGroupSection("Messages", "Group of all messages-related resources.", new[] { messageResource });
 
-      var apib = new Apib();
-      apib.MetadataSection = new MetadataSection(("FORMAT", "1A"));
-      apib.ResourceGroupSections = new[] { messageResourceGroup };
       var apiNameAndOverviewDescription = @"Resource model is a [resource manifestation](http://www.w3.org/TR/di-gloss/#def-resource-manifestation).
 One particular representation of your resource.
 
@@ -71,7 +68,12 @@ and then reference it later where you would normally write a `request` or
 + [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/11.%20Resource%20Model.md)
 
 + [Next: Advanced Action](12.%20Advanced%20Action.md)";
-      apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection("Resource Model API", apiNameAndOverviewDescription);
+      var apib = new Apib
+      {
+        MetadataSection = new MetadataSection(("FORMAT", "1A")),
+        ResourceGroupSections = new[] { messageResourceGroup },
+        ApiNameAndOverviewSection = new ApiNameAndOverviewSection("Resource Model API", apiNameAndOverviewDescription)
+      };
 
       ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/11. Resource Model.json");
     }

@@ -1,78 +1,45 @@
 ﻿using NJ.ApibModel;
-using NJ.ApibModel.AdditionalDomainObjects;
+using NJ.SharedModel;
 
 namespace NJ.ApibToOasMapper.Tests
 {
-    public class ApibToOasMapper04GroupingResourcesTests
+  public class ApibToOasMapper04GroupingResourcesTests
   {
     [Fact]
     public void ApibToOasMapper04GroupingResourcesTest()
     {
-      var retrieveResponse = new ResponseSection
+      var retrieveResponse = new ResponseSection(200, "text/plain")
       {
-        HttpStatusCode = 200,
-        MediaType = "text/plain",
-        BodySection = new BodySection { Content = "Hello World!\n" }
+        BodySection = new BodySection("Hello World!\n")
       };
-      var retrieveAction = new ActionSection
-      {
-        Identifier = "Retrieve a Message",
-        HttpRequestMethod = HttpRequestMethod.Get,
-        ResponseSections = new[] { retrieveResponse }
-      };
+      var retrieveAction = new ActionSection("Retrieve a Message", default(string?), HttpRequestMethod.Get, new[] { retrieveResponse });
 
-      var updateRequest = new RequestSection
+      var updateRequest = new RequestSection(default, "text/plain")
       {
-        MediaType = "text/plain",
-        BodySection = new BodySection { Content = "All your base are belong to us.\n" }
+        BodySection = new BodySection("All your base are belong to us.\n")
       };
-      var updateResponse = new ResponseSection
-      {
-        HttpStatusCode = 204
-      };
-      var updateAction = new ActionSection
-      {
-        Identifier = "Update a Message",
-        HttpRequestMethod = HttpRequestMethod.Put,
-        RequestSections = new[] { updateRequest },
-        ResponseSections = new[] { updateResponse }
-      };
+      var updateResponse = new ResponseSection(204);
+      var updateAction = new ActionSection("Update a Message", default(string?), HttpRequestMethod.Put, new[] { updateRequest }, new[] { updateResponse });
 
-      var resource = new ResourceSection
-      {
-        Identifier = "My Message",
-        UriTemplate = new UriTemplate("/message"),
-        ActionSections = new[] { retrieveAction, updateAction }
-      };
+      var resource = new ResourceSection("My Message", default(string?), new UriTemplate("/message"), new[] { retrieveAction, updateAction });
 
-      var messagesResourceGroup = new ResourceGroupSection("Messages")
-      {
-        Description = @"Group of all messages-related resources.
+      var messagesResourceGroupDescription = @"Group of all messages-related resources.
 
 This is the first group of resources in this document. It is **recognized** by
 the **keyword `group`** and its name is `Messages`.
 
 Any following resource definition is considered to be a part of this group
 until another group is defined. It is **customary** to increase header level of
-resources (and actions) nested under a resource.",
-        ResourceSections = new[] { resource }
-      };
+resources (and actions) nested under a resource.";
+      var messagesResourceGroup = new ResourceGroupSection("Messages", messagesResourceGroupDescription, new[] { resource });
 
-      var usersResourceGroup = new ResourceGroupSection("Users")
-      {
-        Description = @"Group of all user-related resources.
+      var usersResourceGroupDescription = @"Group of all user-related resources.
 
 This is the second group in this blueprint. For now, no resources were defined
-here and as such we will omit it from the next installment of this course."
-      };
+here and as such we will omit it from the next installment of this course.";
+      var usersResourceGroup = new ResourceGroupSection("Users", usersResourceGroupDescription);
 
-      var apib = new Apib();
-      apib.MetadataSection = new MetadataSection { { "FORMAT", "1A" } };
-      apib.ResourceGroupSections = new[] { messagesResourceGroup, usersResourceGroup };
-      apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection
-      {
-        Name = "Grouping Resources API",
-        Description = @"This API example demonstrates how to group resources and form **groups of
+      var apiNameAndOverviewDescription = @"This API example demonstrates how to group resources and form **groups of
 resources**. You can create as many or as few groups as you like. If you do not
 create any group all your resources will be part of an ""unnamed"" group.
 
@@ -82,7 +49,12 @@ create any group all your resources will be part of an ""unnamed"" group.
 
 + [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/04.%20Grouping%20Resources.md)
 
-+ [Next: Responses](05.%20Responses.md)"
++ [Next: Responses](05.%20Responses.md)";
+      var apib = new Apib
+      {
+        MetadataSection = new MetadataSection(("FORMAT", "1A")),
+        ResourceGroupSections = new[] { messagesResourceGroup, usersResourceGroup },
+        ApiNameAndOverviewSection = new ApiNameAndOverviewSection("Grouping Resources API", apiNameAndOverviewDescription)
       };
 
       ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/04. Grouping Resources.json");

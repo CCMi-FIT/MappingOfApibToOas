@@ -5,7 +5,7 @@ namespace NJ.ApibModel;
 public class ResourceGroupSection : NamedSection
 {
   public override string? Keyword { get; } = "Group";
-  public ICollection<ResourceSection> ResourceSections { get; set; }
+  public ICollection<ResourceSection> ResourceSections { get; }
 
   public ResourceGroupSection(string identifier, Description? description = default, IEnumerable<ResourceSection>? resourceSections = default) : base(identifier, description)
   {

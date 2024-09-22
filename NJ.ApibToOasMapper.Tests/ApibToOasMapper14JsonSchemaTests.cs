@@ -85,9 +85,6 @@ namespace NJ.ApibToOasMapper.Tests
         ParametersSection = new UriParametersSection(new[] { new UriParameter("id", true, "string", "Unique identifier for a note") { ExampleValue = "abc123" } }),
       };
 
-      var apib = new Apib();
-      apib.MetadataSection = new MetadataSection(("FORMAT", "1A"));
-      apib.ResourceSections = new[] { notesResource };
       var apiNameAndOverviewDescription = @"Every request and response can have a schema. Below you will find examples
 using [JSON Schema](http://json-schema.org/) to describe the format of request
 and response body content.
@@ -99,7 +96,11 @@ and response body content.
 + [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/14.%20JSON%20Schema.md)
 
 + [Next: Advanced JSON Schema](15.%20Advanced%20JSON%20Schema.md)";
-      apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection("JSON Schema", apiNameAndOverviewDescription);
+      var apib = new Apib {
+        MetadataSection = new MetadataSection(("FORMAT", "1A")),
+        ResourceSections = new[] { notesResource },
+        ApiNameAndOverviewSection = new ApiNameAndOverviewSection("JSON Schema", apiNameAndOverviewDescription)
+      };
 
       ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/14. JSON Schema - 02.json");
     }

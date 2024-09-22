@@ -60,9 +60,6 @@ namespace NJ.ApibToOasMapper.Tests
         ParametersSection = new UriParametersSection(new[] { new UriParameter("id", true, "string", "Unique identifier for a note") { ExampleValue = "abc123" } })
       };
 
-      var apib = new Apib();
-      apib.MetadataSection = new MetadataSection(("FORMAT", "1A"));
-      apib.ResourceSections = new[] { notesResource };
       var apiNameAndOverviewDescription = @"The JSON body and JSON Schema for a request or response can be generated from
 the attributes section MSON data structure. The generated schema can also be
 overridden by providing an explicit schema, as you can see in the examples
@@ -73,7 +70,12 @@ below.
 + [Previous: JSON Schema](14.%20JSON%20Schema.md)
 
 + [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/15.%20Advanced%20JSON%20Schema.md)";
-      apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection("Advanced JSON Schema", apiNameAndOverviewDescription);
+      var apib = new Apib
+      {
+        MetadataSection = new MetadataSection(("FORMAT", "1A")),
+        ResourceSections = new[] { notesResource },
+        ApiNameAndOverviewSection = new ApiNameAndOverviewSection("Advanced JSON Schema", apiNameAndOverviewDescription)
+      };
 
       ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/15. Advanced JSON Schema - 02.json");
     }

@@ -14,11 +14,11 @@ public class ResourceSection : NamedSection
   public IReadOnlyCollection<ActionSection> ActionSections { get; }
 
 
-  public ResourceSection(string? identifier, string? description, UriTemplate uriTemplate, HttpRequestMethod httpRequestMethod, IEnumerable<ActionSection> actionSections) : this(identifier, description is not null ? new PlainTextDescription(description) : default, uriTemplate, httpRequestMethod, actionSections)
+  public ResourceSection(string? identifier, string? description, UriTemplate uriTemplate, HttpRequestMethod? httpRequestMethod, IEnumerable<ActionSection> actionSections) : this(identifier, description is not null ? new PlainTextDescription(description) : default, uriTemplate, httpRequestMethod, actionSections)
   {
   }
 
-  public ResourceSection(string? identifier, Description? description, UriTemplate uriTemplate, HttpRequestMethod httpRequestMethod, IEnumerable<ActionSection> actionSections) : this(identifier, description, uriTemplate, actionSections)
+  public ResourceSection(string? identifier, Description? description, UriTemplate uriTemplate, HttpRequestMethod? httpRequestMethod, IEnumerable<ActionSection> actionSections) : this(identifier, description, uriTemplate, actionSections)
   {
     HttpRequestMethod = httpRequestMethod;
   }

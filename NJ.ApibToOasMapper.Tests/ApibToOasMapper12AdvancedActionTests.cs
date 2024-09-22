@@ -53,36 +53,20 @@ namespace NJ.ApibToOasMapper.Tests
 
       var deleteTaskResponse = new ResponseSection(204);
       var deleteTaskAction =
-        new ActionSection("Delete Task", null, HttpRequestMethod.Delete, new UriTemplate("/task/{id}"))
+        new ActionSection("Delete Task", null, HttpRequestMethod.Delete, new[] { deleteTaskResponse })
         {
+          UriTemplate = new UriTemplate("/task/{id}"),
           ParametersSection = new UriParametersSection(new List<UriParameter> { new UriParameter("id", true, "string", "") }),
-          ResponseSections = new List<ResponseSection> { deleteTaskResponse }
         };
 
-      var tasksResource = new ResourceSection("Tasks", new UriTemplate("/tasks/tasks{?status,priority}"))
+      var tasksResource = new ResourceSection("Tasks", default(string?), new UriTemplate("/tasks/tasks{?status,priority}"), new[] { listAllTasksAction, retrieveTaskAction, deleteTaskAction })
       {
-        ParametersSection = new UriParametersSection
-        {
-          Parameters = new List<UriParameter>
-          {
+        ParametersSection = new UriParametersSection(new[] {
             new UriParameter("status", true, "string", ""),
             new UriParameter("priority", true, "number", "")
-          }
-        },
-        ActionSections = new List<ActionSection>
-        {
-          listAllTasksAction,
-          retrieveTaskAction,
-          deleteTaskAction
-        }
+          })
       };
-      var apib = new Apib();
-      apib.MetadataSection = new MetadataSection { { "FORMAT", "1A" } };
-      apib.ResourceSections = new[] { tasksResource };
-      apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection
-      {
-        Name = "Advanced Action API",
-        Description = @"A resource action is – in fact – a state transition. This API example
+      var apiNameAndOverviewDescription = @"A resource action is – in fact – a state transition. This API example
 demonstrates an action - state transition - to another resource.
 
 ## API Blueprint
@@ -91,7 +75,11 @@ demonstrates an action - state transition - to another resource.
 
 + [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/12.%20Advanced%20Action.md)
 
-+ [Next: Named Endpoints](13.%20Named%20Endpoints.md)"
++ [Next: Named Endpoints](13.%20Named%20Endpoints.md)";
+      var apib = new Apib {
+        MetadataSection = new MetadataSection (("FORMAT", "1A")),
+        ResourceSections = new[] { tasksResource },
+        ApiNameAndOverviewSection = new ApiNameAndOverviewSection("Advanced Action API", apiNameAndOverviewDescription)
       };
 
       ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/12. Advanced Action - 02.json");

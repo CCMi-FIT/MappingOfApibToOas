@@ -1,20 +1,15 @@
 ﻿using NJ.ApibModel;
-using NJ.ApibModel.AdditionalDomainObjects;
+using NJ.SharedModel;
 
 namespace NJ.ApibToOasMapper.Tests
 {
-    public class ApibToOasMapper01SimplestApiTests
+  public class ApibToOasMapper01SimplestApiTests
   {
     [Fact]
     public void ApibToOasMapper01SimplestApiTest()
     {
-      var apib = new Apib();
-      apib.MetadataSection = new MetadataSection { { "FORMAT", "1A" } };
-      apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection
-      {
-        Name = "The Simplest API",
-        Description =
-          @"This is one of the simplest APIs written in the **API Blueprint**. One plain
+      var metadataSection = new MetadataSection(("FORMAT", "1A"));
+      var apiNameAndOverviewDescription = @"This is one of the simplest APIs written in the **API Blueprint**. One plain
 resource combined with a method and that's it! We will explain what is going on
 in the next installment - 
 [Resource and Actions](02.%20Resource%20and%20Actions.md).
@@ -31,30 +26,29 @@ API Blueprint** and as such you can **parse** it with the
 
 ## API Blueprint
 + [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/01.%20Simplest%20API.md)
-+ [Next: Resource and Actions](02.%20Resource%20and%20Actions.md)"
-      };
-      apib.ResourceSections = new[]
-      {
-        new ResourceSection
-        {
-          HttpRequestMethod = HttpRequestMethod.Get,
-          UriTemplate = new UriTemplate("/message"),
-          Description = "Hello World!",
-          ActionSections = new []
++ [Next: Resource and Actions](02.%20Resource%20and%20Actions.md)";
+
+      var actionSections = new[]
           {
-            new ActionSection
-            {
-              ResponseSections = new[]
+            new ActionSection(default, default(string?), HttpRequestMethod.Get, new[]
               {
                 new ResponseSection(200, "text/plain")
                 {
                   BodySection = new BodySection("Hello World!\r\n")
                 }
-              },
-              HttpRequestMethod = HttpRequestMethod.Get
-            }
-          }
-        }
+              })
+          };
+      var resourceSections = new[]
+      {
+        new ResourceSection(default, "Hello World!", new UriTemplate("/message"), HttpRequestMethod.Get, actionSections)
+      };
+      var apiNameAndOverviewSection = new ApiNameAndOverviewSection("The Simplest API", apiNameAndOverviewDescription);
+
+      var apib = new Apib
+      {
+        MetadataSection = metadataSection,
+        ApiNameAndOverviewSection = apiNameAndOverviewSection,
+        ResourceSections = resourceSections
       };
 
       ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/01. Simplest API.json");

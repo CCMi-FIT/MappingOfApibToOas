@@ -1,5 +1,6 @@
 ﻿using NJ.ApibModel;
 using NJ.ApibModel.AdditionalDomainObjects;
+using NJ.SharedModel;
 
 namespace NJ.ApibToOasMapper.Tests
 {
@@ -8,54 +9,25 @@ namespace NJ.ApibToOasMapper.Tests
     [Fact]
     public void ApibToOasMapper03NamesResourceAndActionsTest()
     {
-      var retrieveResponse = new ResponseSection
+      var retrieveResponse = new ResponseSection(200, "text/plain")
       {
-        HttpStatusCode = 200,
-        MediaType = "text/plain",
-        BodySection = new BodySection { Content = "Hello World!\n" }
+        BodySection = new BodySection("Hello World!\n")
       };
-      var retrieveAction = new ActionSection
-      {
-        Identifier = "Retrieve a Message",
-        HttpRequestMethod = HttpRequestMethod.Get,
-        Description = "Now this is informative! No extra explanation needed here. This action clearly\r\nretrieves the message.",
-        ResponseSections = new[] { retrieveResponse }
-      };
+      var retrieveActionDescription = "Now this is informative! No extra explanation needed here. This action clearly\r\nretrieves the message.";
+      var retrieveAction = new ActionSection("Retrieve a Message", retrieveActionDescription, HttpRequestMethod.Get, new[] { retrieveResponse });
 
-      var updateRequest = new RequestSection
+      var updateRequest = new RequestSection(default, "text/plain")
       {
-        MediaType = "text/plain",
-        BodySection = new BodySection { Content = "All your base are belong to us.\n" }
+        BodySection = new BodySection("All your base are belong to us.\n")
       };
-      var updateResponse = new ResponseSection
-      {
-        HttpStatusCode = 204
-      };
-      var updateAction = new ActionSection
-      {
-        Identifier = "Update a Message",
-        HttpRequestMethod = HttpRequestMethod.Put,
-        Description = "`Update a message` - nice and simple naming is the best way to go.",
-        RequestSections = new[] { updateRequest },
-        ResponseSections = new[] { updateResponse }
-      };
+      var updateResponse = new ResponseSection(204);
+      var updateActionDescription = "`Update a message` - nice and simple naming is the best way to go.";
+      var updateAction = new ActionSection("Update a Message", updateActionDescription, HttpRequestMethod.Put, new[] { updateRequest }, new[] { updateResponse });
 
-      var resource = new ResourceSection
-      {
-        Identifier = "My Message",
-        UriTemplate = new UriTemplate("/message"),
-        Description = @"OK, `My Message` probably isn't the best name for our resource but it will do for now. Note the URI `/message` is enclosed in square brackets.",
-        ActionSections = new[] { retrieveAction, updateAction }
-      };
+      var resourceDescription = @"OK, `My Message` probably isn't the best name for our resource but it will do for now. Note the URI `/message` is enclosed in square brackets.";
+      var resource = new ResourceSection("My Message", resourceDescription, new UriTemplate("/message"), new[] { retrieveAction, updateAction });
 
-      var apib = new Apib();
-      apib.MetadataSection = new MetadataSection { { "FORMAT", "1A" } };
-      apib.ResourceSections = new[] { resource };
-      apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection
-      {
-        Name = "Named Resource and Actions API",
-        Description =
-          @"This API example demonstrates how to name a resource and its actions, to give
+      var apiNameAndOverviewDescription = @"This API example demonstrates how to name a resource and its actions, to give
 the reader a better idea about what the resource is used for.
 
 ## API Blueprint
@@ -64,7 +36,12 @@ the reader a better idea about what the resource is used for.
 
 + [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/03.%20Named%20Resource%20and%20Actions.md)
 
-+ [Next: Grouping Resources](04.%20Grouping%20Resources.md)"
++ [Next: Grouping Resources](04.%20Grouping%20Resources.md)";
+      var apib = new Apib
+      {
+        MetadataSection = new MetadataSection(("FORMAT", "1A")),
+        ResourceSections = new[] { resource },
+        ApiNameAndOverviewSection = new ApiNameAndOverviewSection("Named Resource and Actions API", apiNameAndOverviewDescription)
       };
 
       ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/03. Named Resource and Actions.json");
