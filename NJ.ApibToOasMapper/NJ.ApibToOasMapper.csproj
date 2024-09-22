@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="JsonSchema.Net" Version="5.2.6" />
-    <PackageReference Include="JsonSchema.Net.Generation" Version="3.3.2" />
-    <PackageReference Include="NJsonSchema" Version="10.9.0" />
+    <PackageReference Include="JsonSchema.Net" />
+    <PackageReference Include="JsonSchema.Net.Generation" />
+    <PackageReference Include="NJsonSchema" />
   </ItemGroup>
 
   <ItemGroup>
