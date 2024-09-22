@@ -2,6 +2,8 @@
 using Newtonsoft.Json.Linq;
 using NJ.ApibModel;
 using NJ.ApibToOasMapper.Tests.JsonHelpers;
+using NJ.OasModel;
+using NJ.OasModel.JsonConverters;
 
 namespace NJ.ApibToOasMapper.Tests
 {
@@ -13,7 +15,7 @@ namespace NJ.ApibToOasMapper.Tests
       {
         NullValueHandling = NullValueHandling.Ignore,
         DefaultValueHandling = DefaultValueHandling.Ignore,
-        Converters = new List<JsonConverter> { new StringNewLineJsonConverter() }
+        Converters = new List<JsonConverter> { new StringNewLineJsonConverter(), new OneOfJsonConverter<RequestBodyObject, ReferenceObject>() }
       };
 
       var result = ApibToOasMapper.Map(apib);

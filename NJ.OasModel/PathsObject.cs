@@ -1,10 +1,7 @@
-﻿using Newtonsoft.Json;
-using NJ.OasModel.AdditionalDomainObjects;
-using NJ.OasModel.JsonConverters;
+﻿using NJ.OasModel.AdditionalDomainObjects;
 
 namespace NJ.OasModel;
 
-[JsonConverter(typeof(PathsObjectJsonConverter))]
 public class PathsObject
 {
   // TODO: Validate distinct PathString (including templates)

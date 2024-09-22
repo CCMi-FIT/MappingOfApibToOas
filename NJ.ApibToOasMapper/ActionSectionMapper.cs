@@ -13,7 +13,7 @@ namespace NJ.ApibToOasMapper
     {
       var (requestBodyObject, requestBodyParameters) = MapRequestSections(actionSection, apiNamedTypes);
       var responseSectionsGroupedByStatusCode = actionSection.ResponseSections.GroupBy(s => s.HttpStatusCode);
-      var statusCodesWithResponseObjects = responseSectionsGroupedByStatusCode.ToDictionary(g => new SharedModel.HttpStatusCodePattern(g.Key), g => (OneOf<ResponseObject, ReferenceObject>)MapToResponseObject(g.Key, g, apiNamedTypes));
+      var statusCodesWithResponseObjects = responseSectionsGroupedByStatusCode.ToDictionary(g => new HttpStatusCodePattern(g.Key), g => (OneOf<ResponseObject, ReferenceObject>)MapToResponseObject(g.Key, g, apiNamedTypes));
       var responses = new ResponsesObject { HttpStatusCodesWithResponses = statusCodesWithResponseObjects };
       var parameterObjectsFromUriTemplate = MapUriTemplate(actionSection, resourceSection).Cast<OneOf<ParameterObject, ReferenceObject>>();
 
