@@ -12,11 +12,10 @@ public class OperationObject
   public IReadOnlyCollection<IParameterOrReferenceObject> Parameters { get; }
   public IRequestBodyOrReferenceObject? RequestBody { get; init; }
   public ResponsesObject? Responses { get; init; }
-  public IReadOnlyDictionary<string, ICallbackOrReferenceObject> Callbacks { get; }
+  public IReadOnlyDictionary<string, ICallbackOrReferenceObject>? Callbacks { get; }
   public bool Deprecated { get; init; }
   public IReadOnlyCollection<SecurityRequirementObject>? Security { get; init; }
   public IReadOnlyCollection<ServerObject>? Servers { get; init; }
-
 
   public OperationObject(
     IEnumerable<string>? tags = default,
@@ -29,6 +28,6 @@ public class OperationObject
     // TODO: Validate that there are no duplicite name+location combinations
     Parameters = parameters?.ToList() ?? new List<IParameterOrReferenceObject>();
     // TODO: Ensure that keys are unique
-    Callbacks = callbacks?.ToDictionary(c => c.Key, c => c.Value) ?? new Dictionary<string, ICallbackOrReferenceObject>();
+    Callbacks = callbacks?.ToDictionary(c => c.Key, c => c.Value);
   }
 }

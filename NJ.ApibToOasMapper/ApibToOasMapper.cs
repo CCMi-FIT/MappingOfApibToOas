@@ -9,11 +9,9 @@ public static class ApibToOasMapper
   public static OpenApiObject Map(Apib apib)
   {
     var namedTypes = ApiTypesProvider.GetNamedApiTypes(apib);
-    var result = new OpenApiObject
+    var result = new OpenApiObject(new OpenApiVersion("3", "1", "0"), ApiNameAndOverviewSectionMapper.Map(apib.ApiNameAndOverviewSection))
     {
-      OpenApi = new OpenApiVersion("3", "1", "0"),
       Servers = MetadataSectionToServersMapper.Map(apib.MetadataSection),
-      Info = ApiNameAndOverviewSectionMapper.Map(apib.ApiNameAndOverviewSection),
       Paths = ResourceMapper.MapResources(apib, namedTypes),
       Tags = ResourceGroupSectionToTagsMapper.MapToTagObjects(apib.ResourceGroupSections),
       Components = MapperToComponentsObject.Map(apib, namedTypes)

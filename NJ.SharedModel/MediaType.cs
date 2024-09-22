@@ -1,6 +1,6 @@
 ﻿namespace NJ.SharedModel
 {
-  public class MediaType : MediaRange
+  public record MediaType : MediaRange
   {
     private const string _regexPattern = @"^[^/]+/(?:\*|[^/]+)$";
     public MediaType(string pattern) : base(pattern)

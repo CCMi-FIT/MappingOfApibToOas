@@ -1,6 +1,6 @@
 ﻿namespace NJ.OasModel.AdditionalDomainObjects
 {
-  public class PathString
+  public struct PathString
   {
     private const string _segmentRegex = @"[a-zA-Z0-9\.\-_]+";
     private const string _templatedSegmentRegex = $@"{{{_segmentRegex}}}";

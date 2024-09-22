@@ -1,6 +1,6 @@
 ﻿namespace NJ.SharedModel
 {
-  public class HttpStatusCodePattern
+  public struct HttpStatusCodePattern
   {
     public string Pattern { get; }
 

@@ -5,8 +5,8 @@ namespace NJ.OasModel;
 
 public class OpenApiObject
 {
-  public OpenApiVersion OpenApi { get; init; }
-  public InfoObject Info { get; init; }
+  public OpenApiVersion OpenApi { get; }
+  public InfoObject Info { get; }
   public Uri? JsonSchemaDialect { get; init; }
   
   private readonly static ServerObject _defaultServerObject = new ServerObject("/");
@@ -27,6 +27,7 @@ public class OpenApiObject
   public static readonly IReadOnlyCollection<SecurityRequirementObject> _defaultAllowSecurityRequirementObjects = new List<SecurityRequirementObject> { _defaultAllowSecurityRequirementObject };
 
   private IReadOnlyCollection<SecurityRequirementObject>? _security;
+
   public IReadOnlyCollection<SecurityRequirementObject>? Security
   {
     get => _security.IsNotNullOrEmpty() ? _security : _defaultAllowSecurityRequirementObjects;
@@ -35,4 +36,10 @@ public class OpenApiObject
   public IReadOnlyCollection<TagObject>? Tags { get; init; }
   public ExternalDocumentationObject? ExternalDocs { get; init; }
   public SpecificationExtensions? SpecificationExtensions { get; init; }
+
+  public OpenApiObject(OpenApiVersion openApi, InfoObject info)
+  {
+    OpenApi = openApi;
+    Info = info;
+  }
 }

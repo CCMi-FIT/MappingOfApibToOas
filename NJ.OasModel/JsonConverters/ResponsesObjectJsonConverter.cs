@@ -1,23 +1,29 @@
 ﻿using Newtonsoft.Json;
+using NJ.OasModel.AdditionalDomainObjects;
 using NJ.SharedModel;
 
 namespace NJ.OasModel.JsonConverters
 {
-  public class ResponsesObjectJsonConverter : JsonConverter
+  public class ResponsesObjectJsonConverter : JsonConverter<ResponsesObject>
   {
-    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+    public override void WriteJson(JsonWriter writer, ResponsesObject value, JsonSerializer serializer)
     {
       if (value is null)
-        return;
-      if (value is not ResponsesObject responsesObject)
-        throw new InvalidOperationException();
-      serializer.Serialize(writer, responsesObject.HttpStatusCodesWithResponses, typeof(IDictionary<string, IResponseOrReferenceObject>));
+        throw new ArgumentNullException(nameof(value));
+
+      writer.WriteStartObject();
+
+      foreach (var kvp in value.HttpStatusCodesWithResponses)
+      {
+        writer.WritePropertyName(SerializeHttpStatusCodePattern(kvp.Key, serializer));
+        serializer.Serialize(writer, kvp.Value);
+      }
+
+      writer.WriteEndObject();
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public override ResponsesObject? ReadJson(JsonReader reader, Type objectType, ResponsesObject? existingValue, bool hasExistingValue, JsonSerializer serializer)
     {
-      if (!CanConvert(objectType))
-        throw new InvalidOperationException();
       var result = new ResponsesObject
       {
         HttpStatusCodesWithResponses = serializer.Deserialize<IReadOnlyDictionary<HttpStatusCodePattern, IResponseOrReferenceObject>>(reader)
@@ -25,6 +31,16 @@ namespace NJ.OasModel.JsonConverters
       return result;
     }
 
-    public override bool CanConvert(Type objectType) => objectType.IsAssignableFrom(typeof(ResponsesObject));
+    private string SerializeHttpStatusCodePattern(HttpStatusCodePattern httpStatusCodePattern, JsonSerializer serializer)
+    {
+      var stringWriter = new StringWriter();
+      using (var jsonWriter = new JsonTextWriter(stringWriter))
+        serializer.Serialize(jsonWriter, httpStatusCodePattern);
+      var serializedKey = stringWriter.ToString();
+      if (serializedKey.StartsWith("\"") && serializedKey.EndsWith("\""))
+        serializedKey = serializedKey.Substring(1, serializedKey.Length - 2);
+
+      return serializedKey;
+    }
   }
 }

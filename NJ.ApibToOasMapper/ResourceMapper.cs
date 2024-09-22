@@ -75,9 +75,8 @@ namespace NJ.ApibToOasMapper
         }
       }
 
-      var servers = new List<ServerObject>();
       var parameters = new List<IParameterOrReferenceObject>();
-      var result = new PathItemObject(servers, parameters)
+      var result = new PathItemObject(default, parameters)
       {
         Get = get,
         Post = post,
