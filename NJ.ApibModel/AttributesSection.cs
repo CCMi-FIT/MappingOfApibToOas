@@ -10,13 +10,16 @@ public class AttributesSection
   // TODO: Utilize MsonTypeDefinition instead ?
   public IReadOnlyCollection<AttributeSection> Attributes { get; }
 
-  public AttributesSection(string identifier, IEnumerable<AttributeSection>? attributes = default)
+  public AttributesSection(string identifier = "object", IEnumerable<AttributeSection>? attributes = default)
   {
+    Identifier = identifier;
     if (attributes is null)
       Attributes = new List<AttributeSection>();
     else
       Attributes = attributes.ToList();
+  }
 
-    Identifier = identifier;
+  public AttributesSection(IEnumerable<AttributeSection> attributes) : this("object", attributes)
+  {
   }
 }

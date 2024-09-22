@@ -1,16 +1,15 @@
 ﻿using NJ.ApibModel;
-using NJ.ApibModel.AdditionalDomainObjects;
+using NJ.SharedModel;
+using System.Net.WebSockets;
 
 namespace NJ.ApibToOasMapper.Tests
 {
-    public class ApibToOasMapper11ResourceModelTests
+  public class ApibToOasMapper11ResourceModelTests
   {
     [Fact]
     public void ApibToOasMapper11ResourceModelTest()
     {
-      var updateMessageAction = new ActionSection("Update a Message", null, HttpRequestMethod.Put)
-      {
-        RequestSections = new List<RequestSection>()
+      var updateMsgRequestSections = new List<RequestSection>()
         {
           new RequestSection("Request Update Plain Text Message", "text/plain")
           {
@@ -20,33 +19,21 @@ namespace NJ.ApibToOasMapper.Tests
           {
             BodySection = new BodySection("{ \"message\": \"All your base are belong to us.\" }")
           }
-        },
-        ResponseSections = new List<ResponseSection>
-        {
-          new ResponseSection(204)
-        }
+        };
+      var updateMsgResponseSections = new List<ResponseSection>();
+      var updateMessageAction = new ActionSection("Update a Message", default, HttpRequestMethod.Put, updateMsgRequestSections, updateMsgResponseSections);
+      {
       };
 
+      var retrieveMsgResponseSections = new[] { new ResponseSection(200) { BodySection = new BodySection("[My Message][]") } };
       var retrieveMessageAction = new ActionSection("Retrieve a Message", "At this point we will utilize our `Message` resource model and reference it in\r\n`Response 200`.",
-        HttpRequestMethod.Get)
-      {
-        ResponseSections = new List<ResponseSection>
-        {
-          new ResponseSection(200)
-          {
-            BodySection = new BodySection("[My Message][]")
-          }
-        }
-      };
+        HttpRequestMethod.Get, retrieveMsgResponseSections);
 
-      var messageResource = new ResourceSection("My Message", new UriTemplate("/message"))
+      var actionSections = new[] { retrieveMessageAction, updateMessageAction };
+      var resourceModelSection = new ResourceModelSection(default, "application/vnd.siren+json", "This is the `application/vnd.siren+json` message resource representation.")
       {
-        ResourceModelSection = new ResourceModelSection
-        {
-          MediaType = "application/vnd.siren+json",
-          Description = "This is the `application/vnd.siren+json` message resource representation.",
-          HeadersSection = new HeadersSection(new Dictionary<string, object> { ["Location"] = "http://api.acme.com/message" }),
-          BodySection = new BodySection(@"{
+        HeadersSection = new HeadersSection(new Dictionary<string, object> { ["Location"] = "http://api.acme.com/message" }),
+        BodySection = new BodySection(@"{
               ""class"": [ ""message"" ],
               ""properties"": {
                     ""message"": ""Hello World!""
@@ -55,22 +42,18 @@ namespace NJ.ApibToOasMapper.Tests
                     { ""rel"": ""self"" , ""href"": ""/message"" }
               ]
             }")
-        },
-        ActionSections = new List<ActionSection> { retrieveMessageAction, updateMessageAction }
+      };
+      var messageResource = new ResourceSection("My Message", new UriTemplate("/message"), actionSections)
+      {
+        ResourceModelSection = resourceModelSection
       };
 
-      var messageResourceGroup = new ResourceGroupSection("Messages", "Group of all messages-related resources.")
-      {
-        ResourceSections = new List<ResourceSection> { messageResource }
-      };
+      var messageResourceGroup = new ResourceGroupSection("Messages", "Group of all messages-related resources.", new[] { messageResource });
 
       var apib = new Apib();
-      apib.MetadataSection = new MetadataSection { { "FORMAT", "1A" } };
+      apib.MetadataSection = new MetadataSection(("FORMAT", "1A"));
       apib.ResourceGroupSections = new[] { messageResourceGroup };
-      apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection
-      {
-        Name = "Resource Model API",
-        Description = @"Resource model is a [resource manifestation](http://www.w3.org/TR/di-gloss/#def-resource-manifestation).
+      var apiNameAndOverviewDescription = @"Resource model is a [resource manifestation](http://www.w3.org/TR/di-gloss/#def-resource-manifestation).
 One particular representation of your resource.
 
 Furthermore, in API Blueprint, any `resource model` you have defined can be
@@ -87,8 +70,8 @@ and then reference it later where you would normally write a `request` or
 
 + [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/11.%20Resource%20Model.md)
 
-+ [Next: Advanced Action](12.%20Advanced%20Action.md)"
-      };
++ [Next: Advanced Action](12.%20Advanced%20Action.md)";
+      apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection("Resource Model API", apiNameAndOverviewDescription);
 
       ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/11. Resource Model.json");
     }

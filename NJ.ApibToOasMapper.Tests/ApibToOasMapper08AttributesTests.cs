@@ -1,24 +1,21 @@
 ﻿using NJ.ApibModel;
 using NJ.ApibModel.AdditionalDomainObjects;
+using NJ.SharedModel;
 
 namespace NJ.ApibToOasMapper.Tests
 {
     public class ApibToOasMapper08AttributesTests
   {
-    [Fact]
+    [Fact] 
     public void ApibToOasMapper08AttributesTest()
     {
-      var attributes = new AttributesSection
-      {
-        TypeDefinition = "object",
-        Attributes = new List<AttributeSection>
+      var attributes = new AttributesSection(new List<AttributeSection>
         {
           new("id", "string", null, true, "250FF"),
           new("created", "number", "Time stamp", false, 1415203908),
           new("percent_off", "number", "A positive integer between 1 and 100 that represents the discount\nthe coupon will apply.", false, 25),
           new("redeem_by", "number", "Date after which the coupon can no longer be redeemed", false)
-        }
-      };
+        });
 
       var retrieveResponse = new ResponseSection(200, "application/json")
       {
@@ -31,17 +28,11 @@ namespace NJ.ApibToOasMapper.Tests
 }")
       };
 
-      var retrieveCouponAction = new ActionSection("Retrieve a Coupon", "Retrieves the coupon with the given ID.", HttpRequestMethod.Get)
-      {
-        ResponseSections = new[] { retrieveResponse }
-      };
+      var transactions = new ActionTransaction(default, new[] { retrieveResponse });
+      var retrieveCouponAction = new ActionSection("Retrieve a Coupon", "Retrieves the coupon with the given ID.", HttpRequestMethod.Get, new[] { retrieveResponse });
 
-      var couponResource = new ResourceSection("Coupon", new UriTemplate("/coupons/{id}"))
-      {
-        Description =
-          "A coupon contains information about a percent-off or amount-off discount you\r\nmight want to apply to a customer.",
-        ActionSections = new[] { retrieveCouponAction }
-      };
+      var resourceDescriptionText = "A coupon contains information about a percent-off or amount-off discount you\r\nmight want to apply to a customer.";
+      var couponResource = new ResourceSection("Coupon", resourceDescriptionText, new UriTemplate("/coupons/{id}"), new[] { retrieveCouponAction });
 
       var resourceGroup = new ResourceGroupSection("Coupons")
       {
@@ -49,12 +40,9 @@ namespace NJ.ApibToOasMapper.Tests
       };
 
       var apib = new Apib();
-      apib.MetadataSection = new MetadataSection { { "FORMAT", "1A" } };
+      apib.MetadataSection = new MetadataSection(new KeyValuePair<string, string>("FORMAT", "1A"));
       apib.ResourceGroupSections = new[] { resourceGroup };
-      apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection
-      {
-        Name = "Attributes API",
-        Description = @"This API example demonstrates how to describe body attributes of a request or
+      var apiNameAndOverviewDescriptionText = @"This API example demonstrates how to describe body attributes of a request or
 response message.
 
 In this case, the description is complementary (and duplicate!) to the provided
@@ -68,8 +56,8 @@ demonstrate how to avoid duplicates and how to reuse attribute descriptions.
 
 + [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/08.%20Attributes.md)
 
-+ [Next: Advanced Attributes](09.%20Advanced%20Attributes.md)"
-      };
++ [Next: Advanced Attributes](09.%20Advanced%20Attributes.md)";
+      apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection("Attributes API", apiNameAndOverviewDescriptionText);
 
       ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/08. Attributes - 02.json");
     }

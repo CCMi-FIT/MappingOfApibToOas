@@ -1,30 +1,27 @@
 ﻿using NJ.ApibModel;
-using NJ.ApibModel.AdditionalDomainObjects;
+using NJ.SharedModel;
 
 namespace NJ.ApibToOasMapper.Tests
 {
-    public class ApibToOasMapper14JsonSchemaTests
+  public class ApibToOasMapper14JsonSchemaTests
   {
     [Fact]
     public void ApibToOasMapper14JsonSchemaTest()
     {
       var getNoteResponse = new ResponseSection(200, "application/json")
       {
-        BodySection = new BodySection
-        {
-          Content = @"{
-                ""id"": ""abc123"",
-                ""title"": ""This is a note"",
-                ""content"": ""This is the note content."",
-                ""tags"": [
-                    ""todo"",
-                    ""home""
-                ]
-            }"
-        },
+        BodySection = new BodySection(@"{
+            ""id"": ""abc123"",
+            ""title"": ""This is a note"",
+            ""content"": ""This is the note content."",
+            ""tags"": [
+                ""todo"",
+                ""home""
+            ]
+        }"),
         SchemaSection = new SchemaSection
         {
-          Schema = @"{
+          Content = @"{
                 ""type"": ""object"",
                 ""properties"": {
                     ""id"": {
@@ -46,14 +43,12 @@ namespace NJ.ApibToOasMapper.Tests
             }"
         }
       };
-      var getNoteAction = new ActionSection("Get a note", "Gets a single note by its unique identifier.", HttpRequestMethod.Get)
+      var getNoteAction = new ActionSection("Get a note", "Gets a single note by its unique identifier.", HttpRequestMethod.Get, new[] { getNoteResponse })
       {
-        ResponseSections = new List<ResponseSection> { getNoteResponse }
       };
 
-      var updateNoteRequest = new RequestSection
+      var updateNoteRequest = new RequestSection(default, "application/json")
       {
-        MediaType = "application/json",
         BodySection = new BodySection(@"{
             ""title"": ""This is another note"",
             ""tags"": [
@@ -63,7 +58,7 @@ namespace NJ.ApibToOasMapper.Tests
         }"),
         SchemaSection = new SchemaSection
         {
-          Schema = @"{
+          Content = @"{
               ""type"": ""object"",
               ""properties"": {
                   ""title"": {
@@ -84,27 +79,16 @@ namespace NJ.ApibToOasMapper.Tests
         }
       };
       var updateNoteResponse = new ResponseSection(204);
-      var updateNoteAction = new ActionSection("Update a note", "Modify a note's data using its unique identifier. You can edit the `title`,\r\n`content`, and `tags`.", HttpRequestMethod.Patch)
+      var updateNoteAction = new ActionSection("Update a note", "Modify a note's data using its unique identifier. You can edit the `title`,\r\n`content`, and `tags`.", HttpRequestMethod.Patch, new[] { updateNoteRequest }, new[] { updateNoteResponse });
+      var notesResource = new ResourceSection("Notes", default(Description?), new UriTemplate("/notes/{id}"), new[] { getNoteAction, updateNoteAction })
       {
-        RequestSections = new List<RequestSection> { updateNoteRequest },
-        ResponseSections = new[] { updateNoteResponse }
-      };
-      var notesResource = new ResourceSection("Notes", new UriTemplate("/notes/{id}"))
-      {
-        ParametersSection = new UriParametersSection
-        {
-          Parameters = new List<UriParameter> { new UriParameter("id", true, "string", "Unique identifier for a note") { ExampleValue = "abc123" } }
-        },
-        ActionSections = new List<ActionSection> { getNoteAction, updateNoteAction }
+        ParametersSection = new UriParametersSection(new[] { new UriParameter("id", true, "string", "Unique identifier for a note") { ExampleValue = "abc123" } }),
       };
 
       var apib = new Apib();
-      apib.MetadataSection = new MetadataSection { { "FORMAT", "1A" } };
+      apib.MetadataSection = new MetadataSection(("FORMAT", "1A"));
       apib.ResourceSections = new[] { notesResource };
-      apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection
-      {
-        Name = "JSON Schema",
-        Description = @"Every request and response can have a schema. Below you will find examples
+      var apiNameAndOverviewDescription = @"Every request and response can have a schema. Below you will find examples
 using [JSON Schema](http://json-schema.org/) to describe the format of request
 and response body content.
 
@@ -114,8 +98,8 @@ and response body content.
 
 + [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/14.%20JSON%20Schema.md)
 
-+ [Next: Advanced JSON Schema](15.%20Advanced%20JSON%20Schema.md)"
-      };
++ [Next: Advanced JSON Schema](15.%20Advanced%20JSON%20Schema.md)";
+      apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection("JSON Schema", apiNameAndOverviewDescription);
 
       ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/14. JSON Schema - 02.json");
     }

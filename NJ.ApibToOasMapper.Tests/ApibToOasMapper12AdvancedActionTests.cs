@@ -1,9 +1,9 @@
 ﻿using NJ.ApibModel;
-using NJ.ApibModel.AdditionalDomainObjects;
+using NJ.SharedModel;
 
 namespace NJ.ApibToOasMapper.Tests
 {
-    public class ApibToOasMapper12AdvancedActionTests
+  public class ApibToOasMapper12AdvancedActionTests
   {
     [Fact]
     public void ApibToOasMapper12AdvancedActionTest()
@@ -27,19 +27,11 @@ namespace NJ.ApibToOasMapper.Tests
       };
 
 
-      var listAllTasksAction = new ActionSection("List All Tasks", null, HttpRequestMethod.Get)
+      var listAllTasksAction = new ActionSection("List All Tasks", null, HttpRequestMethod.Get, new[] { listAllTasksResponse });
       {
-        ResponseSections = new List<ResponseSection> { listAllTasksResponse }
       };
 
-      var retrieveTaskAction = new ActionSection("Retrieve Task", "This is a state transition to another resource.", HttpRequestMethod.Get, new UriTemplate("/task/{id}"))
-      {
-        ParametersSection = new UriParametersSection()
-        {
-          Parameters = new List<UriParameter> { new UriParameter("id", true, "string", "") }
-        },
-        ResponseSections = new List<ResponseSection>
-        {
+      var responseSections = new[] {
           new ResponseSection(200, "application/json")
           {
             BodySection = new BodySection(@"{
@@ -49,6 +41,13 @@ namespace NJ.ApibToOasMapper.Tests
                 ""type"": ""task""
             }")
           }
+        };
+      var retrieveTaskAction = new ActionSection("Retrieve Task", "This is a state transition to another resource.", HttpRequestMethod.Get, responseSections)
+      {
+        UriTemplate = new UriTemplate("/task/{id}"),
+        ParametersSection = new UriParametersSection(new[] { new UriParameter("id", true, "string", "") })
+        {
+          Parameters = new List<UriParameter> { new UriParameter("id", true, "string", "") }
         }
       };
 

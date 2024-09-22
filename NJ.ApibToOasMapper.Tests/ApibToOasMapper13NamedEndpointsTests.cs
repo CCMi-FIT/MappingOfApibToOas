@@ -1,16 +1,15 @@
 ﻿using NJ.ApibModel;
-using NJ.ApibModel.AdditionalDomainObjects;
+using NJ.SharedModel;
 
 namespace NJ.ApibToOasMapper.Tests
 {
-    public class ApibToOasMapper13NamedEndpointsTests
+  public class ApibToOasMapper13NamedEndpointsTests
   {
     [Fact]
     public void ApibToOasMapper13NamedEndpointsTest()
     {
-      var createMessageRequest = new RequestSection
+      var createMessageRequest = new RequestSection(default, "application/json")
       {
-        MediaType = "application/json",
         BodySection = new BodySection("{ \"message\": \"Hello World!\" }")
       };
       var createMessageResponse = new ResponseSection(201)
@@ -18,20 +17,14 @@ namespace NJ.ApibToOasMapper.Tests
         HeadersSection = new HeadersSection(new Dictionary<string, object> { ["Location"] = "/messages/1337" })
       };
       var createMessageAction =
-        new ActionSection("Create message", "Start out by creating a message for the world to see.", HttpRequestMethod.Post, new UriTemplate("/messages"))
+        new ActionSection("Create message", "Start out by creating a message for the world to see.", HttpRequestMethod.Post, new[] { createMessageRequest }, new[] { createMessageResponse })
         {
-          RequestSections = new List<RequestSection> { createMessageRequest },
-          ResponseSections = new List<ResponseSection> { createMessageResponse }
+          UriTemplate = new UriTemplate("/messages")
         };
-      var createMessageResource = new ResourceSection("Create message", new UriTemplate("/messages"))
-      {
-        HttpRequestMethod = HttpRequestMethod.Post,
-        ActionSections = new List<ActionSection> { createMessageAction }
-      };
+      var createMessageResource = new ResourceSection("Create message", default(Description?), new UriTemplate("/messages"), new[] { createMessageAction });
 
-      var createNewTaskRequest = new RequestSection
+      var createNewTaskRequest = new RequestSection("application/json")
       {
-        MediaType = "application/json",
         BodySection = new BodySection(@"{
             ""name"": ""Exercise in gym"",
             ""done"": false,
@@ -43,26 +36,18 @@ namespace NJ.ApibToOasMapper.Tests
         HeadersSection = new HeadersSection(new Dictionary<string, object> { ["Location"] = "/tasks/1992" })
       };
 
-      var createNewTaskAction = new ActionSection("Create a new task", "Now create a task that you need to do at a later date.", HttpRequestMethod.Post, new UriTemplate("/tasks"))
+      var createNewTaskAction = new ActionSection("Create a new task", "Now create a task that you need to do at a later date.", HttpRequestMethod.Post, new[] { createNewTaskRequest }, new[] { createNewTaskResponse })
       {
-        RequestSections = new List<RequestSection> { createNewTaskRequest },
-        ResponseSections = new List<ResponseSection> { createNewTaskResponse }
+        UriTemplate = new UriTemplate("/tasks")
       };
 
-      var createNewTaskResource = new ResourceSection("Create a new task", new UriTemplate("/tasks"))
-      {
-        HttpRequestMethod = HttpRequestMethod.Post,
-        ActionSections = new List<ActionSection> { createNewTaskAction }
-      };
-      var quickStartGroup = new ResourceGroupSection("Quick start") { ResourceSections = new List<ResourceSection> { createMessageResource, createNewTaskResource } };
+      var createNewTaskResource = new ResourceSection("Create a new task", default(Description?), new UriTemplate("/tasks"), HttpRequestMethod.Post, new[] { createNewTaskAction });
+      var quickStartGroup = new ResourceGroupSection("Quick start", default(Description?), new[] { createMessageResource, createNewTaskResource });
 
       var apib = new Apib();
-      apib.MetadataSection = new MetadataSection { { "FORMAT", "1A" } };
+      apib.MetadataSection = new MetadataSection(("FORMAT", "1A"));
       apib.ResourceGroupSections = new[] { quickStartGroup };
-      apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection
-      {
-        Name = "Named Endpoints API",
-        Description = @"This API example demonstrates how to define a standalone endpoint with an identifier.
+      var apiNameAndOverviewDescription = @"This API example demonstrates how to define a standalone endpoint with an identifier.
 
 ## API Blueprint
 
@@ -70,8 +55,8 @@ namespace NJ.ApibToOasMapper.Tests
 
 + [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/13.%20Named%20Endpoints.md)
 
-+ [Next: JSON Schema](14.%20JSON%20Schema.md)"
-      };
++ [Next: JSON Schema](14.%20JSON%20Schema.md)";
+      apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection("Named Endpoints API", apiNameAndOverviewDescription);
 
       ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/13. Named Endpoints.json");
     }

@@ -1,5 +1,6 @@
 ﻿namespace NJ.ApibModel.AdditionalDomainObjects
 {
+  // TODO: Use MsonTypeDefinition Intead ?
   public class AttributeSection
   {
     public string Name { get; }

@@ -1,5 +1,6 @@
 ﻿using NJ.ApibModel;
 using NJ.ApibModel.AdditionalDomainObjects;
+using NJ.SharedModel;
 
 namespace NJ.ApibToOasMapper.Tests
 {
@@ -8,10 +9,7 @@ namespace NJ.ApibToOasMapper.Tests
     [Fact]
     public void ApibToOasMapper09AttributesTest()
     {
-      var attributes = new AttributesSection
-      {
-        TypeDefinition = "Coupon"
-      };
+      var attributes = new AttributesSection("Coupon");
 
       var retrieveResponse = new ResponseSection(200, "application/json")
       {
@@ -24,6 +22,7 @@ namespace NJ.ApibToOasMapper.Tests
 }")
       };
 
+      var transaction = new ActionTransaction(default, new[] { retrieveResponse });
       var retrieveCouponAction = new ActionSection("Retrieve a Coupon", "Retrieves the coupon with the given ID.", HttpRequestMethod.Get)
       {
         ResponseSections = new[] { retrieveResponse }
