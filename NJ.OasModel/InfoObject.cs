@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace NJ.OasModel;
+﻿namespace NJ.OasModel;
 
 public class InfoObject
 {
