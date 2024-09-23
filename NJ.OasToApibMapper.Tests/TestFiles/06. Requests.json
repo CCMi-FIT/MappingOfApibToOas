@@ -1,0 +1,115 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Requests API",
+        "version": "1.0.0",
+        "description": "Following the [Responses](05.%20Responses.md) example, this API will show you\nhow to define multiple requests and what data these requests can bear. Let's\ndemonstrate multiple requests on a trivial example of content negotiation.\n\n## API Blueprint\n\n+ [Previous: Responses](05.%20Responses.md)\n\n+ [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/06.%20Requests.md)\n\n+ [Next: Parameters](07.%20Parameters.md)"
+    },
+    "paths": {
+        "/message": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {
+                            "X-My-Message-Header": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "text/plain": {
+                                "example": "Hello World!\n"
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "message": "Hello World!"
+                                }
+                            }
+                        }
+                    }
+                },
+                "summary": "Retrieve a Message",
+                "operationId": "Retrieve a Message",
+                "description": "In API Blueprint, _requests_ can hold exactly the same kind of information and\ncan be described using exactly the same structure as _responses_, only with\ndifferent signature – using the `Request` keyword. The string that follows\nafter the `Request` keyword is a request identifier. Again, using explanatory\nand simple naming is the best way to go.",
+                "tags": [
+                    "Messages"
+                ],
+                "parameters": [
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "e.g. text/plain",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "text/plain"
+                    },
+                    {
+                        "name": "Accept",
+                        "in": "header",
+                        "description": "e.g. application/json",
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "application/json"
+                    }
+                ]
+            },
+            "put": {
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "headers": {},
+                        "content": {}
+                    }
+                },
+                "summary": "Update a Message",
+                "operationId": "Update a Message",
+                "description": "",
+                "tags": [
+                    "Messages"
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "text/plain": {
+                            "example": "All your base are belong to us.\n"
+                        },
+                        "application/json": {
+                            "example": {
+                                "message": "All your base are belong to us."
+                            },
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "message": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {}
+    },
+    "tags": [
+        {
+            "name": "Messages",
+            "description": "Group of all messages-related resources."
+        }
+    ]
+}

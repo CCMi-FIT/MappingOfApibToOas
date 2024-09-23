@@ -1,0 +1,108 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Named Endpoints API",
+        "version": "1.0.0",
+        "description": "This API example demonstrates how to define a standalone endpoint with an identifier.\n\n## API Blueprint\n\n+ [Previous: Advanced Action](12.%20Advanced%20Action.md)\n\n+ [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/13.%20Named%20Endpoints.md)\n\n+ [Next: JSON Schema](14.%20JSON%20Schema.md)"
+    },
+    "paths": {
+        "/messages": {
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "headers": {
+                            "Location": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {}
+                    }
+                },
+                "summary": "Create message",
+                "operationId": "Create message",
+                "description": "Start out by creating a message for the world to see.",
+                "tags": [
+                    "Quick start"
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "message": "Hello World!"
+                            },
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "message": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tasks": {
+            "post": {
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "headers": {
+                            "Location": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {}
+                    }
+                },
+                "summary": "Create a new task",
+                "operationId": "Create a new task",
+                "description": "Now create a task that you need to do at a later date.",
+                "tags": [
+                    "Quick start"
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "example": {
+                                "name": "Exercise in gym",
+                                "done": false,
+                                "type": "task"
+                            },
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "done": {
+                                        "type": "boolean"
+                                    },
+                                    "type": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {}
+    },
+    "tags": [
+        {
+            "name": "Quick start"
+        }
+    ]
+}

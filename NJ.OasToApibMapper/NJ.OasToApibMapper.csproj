@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="JsonSchema.Net" />
+    <PackageReference Include="JsonSchema.Net.Generation" />
+    <PackageReference Include="NJsonSchema" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NJ.ApibModel\NJ.ApibModel.csproj" />
+    <ProjectReference Include="..\NJ.OasModel\NJ.OasModel.csproj" />
+  </ItemGroup>
+
+</Project>

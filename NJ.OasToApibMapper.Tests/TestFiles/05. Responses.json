@@ -1,0 +1,83 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Responses API",
+        "version": "1.0.0",
+        "description": "In this API example we will discuss what information a response can bear and\nhow to define multiple responses. Technically a response is represented by a\npayload that is sent back in response to a request.\n\n## API Blueprint\n\n+ [Previous: Grouping Resources](04.%20Grouping%20Resources.md)\n\n+ [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/05.%20Responses.md)\n\n+ [Next: Requests](06.%20Requests.md)"
+    },
+    "paths": {
+        "/message": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "headers": {
+                            "X-My-Message-Header": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "content": {
+                            "text/plain": {
+                                "example": "Hello World!\n"
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    }
+                                },
+                                "example": {
+                                    "message": "Hello World!"
+                                }
+                            }
+                        }
+                    }
+                },
+                "summary": "Retrieve a Message",
+                "operationId": "Retrieve a Message",
+                "description": "This action has **two** responses defined: One returning plain text and the\nother a JSON representation of our resource. Both have the same HTTP status\ncode. Also both responses bear additional information in the form of a custom\nHTTP header. Note that both responses have set the `Content-Type` HTTP header\njust by specifying `(text/plain)` or `(application/json)` in their respective\nsignatures.",
+                "tags": [
+                    "Messages"
+                ],
+                "parameters": []
+            },
+            "put": {
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "headers": {},
+                        "content": {}
+                    }
+                },
+                "summary": "Update a Message",
+                "operationId": "Update a Message",
+                "description": "",
+                "tags": [
+                    "Messages"
+                ],
+                "parameters": [],
+                "requestBody": {
+                    "content": {
+                        "text/plain": {
+                            "example": "All your base are belong to us.\n"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {}
+    },
+    "tags": [
+        {
+            "name": "Messages",
+            "description": "Group of all messages-related resources."
+        }
+    ]
+}
