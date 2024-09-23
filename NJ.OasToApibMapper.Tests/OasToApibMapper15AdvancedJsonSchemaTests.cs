@@ -1,48 +1,23 @@
 ﻿using NJ.ApibModel;
 
-namespace NJ.ApibToOasMapper.Tests
+namespace NJ.OasToApibMapper.Tests
 {
-  public class ApibToOasMapper14JsonSchemaTests
+  public class OasToApibMapper15AdvancedJsonSchemaTests
   {
     [Fact]
-    public void ApibToOasMapper14JsonSchemaTest()
+    public void ApibToOasMapper15AdvancedJsonSchemaTest()
     {
       var getNoteResponse = new ResponseSection(200, "application/json")
       {
-        BodySection = new BodySection
+        AttributesSection = new AttributesSection
         {
-          Content = @"{
-                ""id"": ""abc123"",
-                ""title"": ""This is a note"",
-                ""content"": ""This is the note content."",
-                ""tags"": [
-                    ""todo"",
-                    ""home""
-                ]
-            }"
-        },
-        SchemaSection = new SchemaSection
-        {
-          Schema = @"{
-                ""type"": ""object"",
-                ""properties"": {
-                    ""id"": {
-                        ""type"": ""string""
-                    },
-                    ""title"": {
-                        ""type"": ""string""
-                    },
-                    ""content"": {
-                        ""type"": ""string""
-                    },
-                    ""tags"": {
-                        ""type"": ""array"",
-                        ""items"": {
-                            ""type"": ""string""
-                        }
-                    }
-                }
-            }"
+          Attributes = new List<AttributeSection>
+          {
+            new AttributeSection("id", null, true, "string", "abc123"),
+            new AttributeSection("title", null, true, "string", "This is a note"),
+            new AttributeSection("content", null, true, "string", "This is the note content."),
+            new AttributeSection("tags", null, true, "array[string]", new[] {"todo", "home"}),
+          }
         }
       };
       var getNoteAction = new ActionSection("Get a note", "Gets a single note by its unique identifier.", HttpRequestMethod.Get)
@@ -53,17 +28,20 @@ namespace NJ.ApibToOasMapper.Tests
       var updateNoteRequest = new RequestSection
       {
         MediaType = "application/json",
-        BodySection = new BodySection(@"{
-            ""title"": ""This is another note"",
-            ""tags"": [
-                ""todo"",
-                ""work""
-            ]
-        }"),
+        AttributesSection = new AttributesSection
+        {
+          Attributes = new List<AttributeSection>
+          {
+            new AttributeSection("title", null, true, "string", "This is another note"),
+            new AttributeSection("content", null, true),
+            new AttributeSection("tags", null, true, "array[string]", new[] { "todo", "work" }),
+          }
+        },
         SchemaSection = new SchemaSection
         {
           Schema = @"{
               ""type"": ""object"",
+              ""description"": ""This is a custom schema!"",
               ""properties"": {
                   ""title"": {
                       ""type"": ""string""
@@ -102,21 +80,20 @@ namespace NJ.ApibToOasMapper.Tests
       apib.ResourceSections = new[] { notesResource };
       apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection
       {
-        Name = "JSON Schema",
-        Description = @"Every request and response can have a schema. Below you will find examples
-using [JSON Schema](http://json-schema.org/) to describe the format of request
-and response body content.
+        Name = "Advanced JSON Schema",
+        Description = @"The JSON body and JSON Schema for a request or response can be generated from
+the attributes section MSON data structure. The generated schema can also be
+overridden by providing an explicit schema, as you can see in the examples
+below.
 
 ## API Blueprint
 
-+ [Previous: Named Endpoints](13.%20Named%20Endpoints.md)
++ [Previous: JSON Schema](14.%20JSON%20Schema.md)
 
-+ [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/14.%20JSON%20Schema.md)
-
-+ [Next: Advanced JSON Schema](15.%20Advanced%20JSON%20Schema.md)"
++ [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/15.%20Advanced%20JSON%20Schema.md)"
       };
 
-      ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/14. JSON Schema - 02.json");
+      OasToApibMapperTestRunner.RunTest(apib, "TestFiles/15. Advanced JSON Schema - 02.json");
     }
   }
 }

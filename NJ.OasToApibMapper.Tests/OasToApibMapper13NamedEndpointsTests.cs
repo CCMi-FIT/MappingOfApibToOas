@@ -1,8 +1,8 @@
 ﻿using NJ.ApibModel;
 
-namespace NJ.ApibToOasMapper.Tests
+namespace NJ.OasToApibMapper.Tests
 {
-  public class ApibToOasMapper13NamedEndpointsTests
+  public class OasToApibMapper13NamedEndpointsTests
   {
     [Fact]
     public void ApibToOasMapper13NamedEndpointsTest()
@@ -72,7 +72,7 @@ namespace NJ.ApibToOasMapper.Tests
 + [Next: JSON Schema](14.%20JSON%20Schema.md)"
       };
 
-      ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/13. Named Endpoints.json");
+      OasToApibMapperTestRunner.RunTest(apib, "TestFiles/13. Named Endpoints.json");
     }
   }
 }

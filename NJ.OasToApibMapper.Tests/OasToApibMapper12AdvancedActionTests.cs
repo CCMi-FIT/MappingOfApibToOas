@@ -1,8 +1,8 @@
 ﻿using NJ.ApibModel;
 
-namespace NJ.ApibToOasMapper.Tests
+namespace NJ.OasToApibMapper.Tests
 {
-  public class ApibToOasMapper12AdvancedActionTests
+  public class OasToApibMapper12AdvancedActionTests
   {
     [Fact]
     public void ApibToOasMapper12AdvancedActionTest()
@@ -94,7 +94,7 @@ demonstrates an action - state transition - to another resource.
 + [Next: Named Endpoints](13.%20Named%20Endpoints.md)"
       };
 
-      ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/12. Advanced Action - 02.json");
+      OasToApibMapperTestRunner.RunTest(apib, "TestFiles/12. Advanced Action - 02.json");
     }
   }
 }

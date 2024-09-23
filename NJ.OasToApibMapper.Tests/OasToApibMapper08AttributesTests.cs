@@ -1,8 +1,8 @@
 ﻿using NJ.ApibModel;
 
-namespace NJ.ApibToOasMapper.Tests
+namespace NJ.OasToApibMapper.Tests
 {
-  public class ApibToOasMapper08AttributesTests
+  public class OasToApibMapper08AttributesTests
   {
     [Fact]
     public void ApibToOasMapper08AttributesTest()
@@ -70,7 +70,7 @@ demonstrate how to avoid duplicates and how to reuse attribute descriptions.
 + [Next: Advanced Attributes](09.%20Advanced%20Attributes.md)"
       };
 
-      ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/08. Attributes - 02.json");
+      OasToApibMapperTestRunner.RunTest(apib, "TestFiles/08. Attributes - 02.json");
     }
   }
 }

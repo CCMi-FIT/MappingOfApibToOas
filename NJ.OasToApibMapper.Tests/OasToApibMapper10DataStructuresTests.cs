@@ -1,8 +1,8 @@
 ﻿using NJ.ApibModel;
 
-namespace NJ.ApibToOasMapper.Tests
+namespace NJ.OasToApibMapper.Tests
 {
-  public class ApibToOasMapper10DataStructuresTests
+  public class OasToApibMapper10DataStructuresTests
   {
     [Fact]
     public void ApibToOasMapper10DataStructuresTest()
@@ -124,7 +124,7 @@ Doing so enables us to reuse it as a base-type of other attribute definitions.
 + [Next: Resource Model](11.%20Resource%20Model.md)"
       };
 
-      ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/10. Data Structures - 02.json");
+      OasToApibMapperTestRunner.RunTest(apib, "TestFiles/10. Data Structures - 02.json");
     }
   }
 }

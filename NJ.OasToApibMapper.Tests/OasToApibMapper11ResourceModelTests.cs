@@ -1,8 +1,8 @@
 ﻿using NJ.ApibModel;
 
-namespace NJ.ApibToOasMapper.Tests
+namespace NJ.OasToApibMapper.Tests
 {
-  public class ApibToOasMapper11ResourceModelTests
+  public class OasToApibMapper11ResourceModelTests
   {
     [Fact]
     public void ApibToOasMapper11ResourceModelTest()
@@ -89,7 +89,7 @@ and then reference it later where you would normally write a `request` or
 + [Next: Advanced Action](12.%20Advanced%20Action.md)"
       };
 
-      ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/11. Resource Model.json");
+      OasToApibMapperTestRunner.RunTest(apib, "TestFiles/11. Resource Model.json");
     }
   }
 }

@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace NJ.ApibToOasMapper.Tests.JsonHelpers
+namespace NJ.OasToApibMapper.Tests.JsonHelpers
 {
   public static class JsonHelper
   {

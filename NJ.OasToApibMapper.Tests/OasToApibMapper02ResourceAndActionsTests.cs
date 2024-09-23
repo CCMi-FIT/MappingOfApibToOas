@@ -1,8 +1,8 @@
 ﻿using NJ.ApibModel;
 
-namespace NJ.ApibToOasMapper.Tests
+namespace NJ.OasToApibMapper.Tests
 {
-  public class ApibToOasMapper02ResourceAndActionsTests
+  public class OasToApibMapper02ResourceAndActionsTests
   {
     [Fact]
     public void ApibToOasMapper02ResourceAndActionsTest()
@@ -62,7 +62,7 @@ namespace NJ.ApibToOasMapper.Tests
         messageResource
       };
 
-      ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/02. Resource and Actions.json");
+      OasToApibMapperTestRunner.RunTest(apib, "TestFiles/02. Resource and Actions.json");
     }
   }
 }

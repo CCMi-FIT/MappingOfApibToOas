@@ -1,8 +1,8 @@
 ﻿using NJ.ApibModel;
 
-namespace NJ.ApibToOasMapper.Tests
+namespace NJ.OasToApibMapper.Tests
 {
-  public class ApibToOasMapper03NamedResourceAndActionsTests
+  public class OasToApibMapper03NamedResourceAndActionsTests
   {
     [Fact]
     public void ApibToOasMapper03NamesResourceAndActionsTest()
@@ -66,7 +66,7 @@ the reader a better idea about what the resource is used for.
 + [Next: Grouping Resources](04.%20Grouping%20Resources.md)"
       };
 
-      ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/03. Named Resource and Actions.json");
+      OasToApibMapperTestRunner.RunTest(apib, "TestFiles/03. Named Resource and Actions.json");
     }
   }
 }

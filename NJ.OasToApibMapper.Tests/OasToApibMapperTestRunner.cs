@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NJ.ApibModel;
-using NJ.ApibToOasMapper.Tests.JsonHelpers;
+using NJ.OasToApibMapper.Tests.JsonHelpers;
 
-namespace NJ.ApibToOasMapper.Tests
+namespace NJ.OasToApibMapper.Tests
 {
-  public static class ApibToOasMapperTestRunner
+  public static class OasToApibMapperTestRunner
   {
-    public static void RunTest(Apib apib, string pathToExpectedOasJsonFile)
+    public static void RunTest(Apib expectedApib, string pathToOasJsonFile)
     {
       var jsonSettings = new JsonSerializerSettings
       {
@@ -16,13 +16,13 @@ namespace NJ.ApibToOasMapper.Tests
         Converters = new List<JsonConverter> { new StringNewLineJsonConverter() }
       };
 
-      var result = ApibToOasMapper.Map(apib);
+      var result = ApibToOasMapper.Map(expectedApib);
       var resultJson = JsonConvert.SerializeObject(result, jsonSettings);
-      var expectedJson = File.ReadAllText(pathToExpectedOasJsonFile);
+      var expectedJson = File.ReadAllText(pathToOasJsonFile);
 
       var resultJObject = JsonHelper.DeserializeWithLowerCase(resultJson);
       var expectedResultJObject = JsonHelper.DeserializeWithLowerCase(expectedJson);
-      var equals = JObject.EqualityComparer.Equals(resultJObject, expectedResultJObject);
+      var equals = JToken.EqualityComparer.Equals(resultJObject, expectedResultJObject);
 
       Assert.True(equals);
     }

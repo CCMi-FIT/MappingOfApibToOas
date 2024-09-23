@@ -1,8 +1,8 @@
 ﻿using NJ.ApibModel;
 
-namespace NJ.ApibToOasMapper.Tests
+namespace NJ.OasToApibMapper.Tests
 {
-  public class ApibToOasMapper07ParametersTests
+  public class OasToApibMapper07ParametersTests
   {
     [Fact]
     public void ApibToOasMapper07ParametersTest()
@@ -159,7 +159,7 @@ communicating with our API about messages.
 + [Next: Attributes](08.%20Attributes.md)"
       };
 
-      ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/07. Parameters - 02.json");
+      OasToApibMapperTestRunner.RunTest(apib, "TestFiles/07. Parameters - 02.json");
     }
   }
 }

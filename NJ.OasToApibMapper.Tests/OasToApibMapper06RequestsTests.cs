@@ -1,18 +1,26 @@
 ﻿using NJ.ApibModel;
 
-namespace NJ.ApibToOasMapper.Tests
+namespace NJ.OasToApibMapper.Tests
 {
-  public class ApibToOasMapper05ResponsesTests
+  public class OasToApibMapper06RequestsTests
   {
     [Fact]
-    public void ApibToOasMapper05ResponsesTest()
+    public void ApibToOasMapper06RequestsTest()
     {
+      var retrieveTextPlainRequest = new RequestSection("Plain Text Message")
+      {
+        HeadersSection = new HeadersSection { { "Accept", "text/plain" } }
+      };
       var retrieveTextPlainResponse = new ResponseSection
       {
         HttpStatusCode = 200,
         MediaType = "text/plain",
         HeadersSection = new HeadersSection(new Dictionary<string, object> { { "X-My-Message-Header", 42 } }),
         BodySection = new BodySection { Content = "Hello World!\n" }
+      };
+      var retrieveJsonRequest = new RequestSection("JSON Message")
+      {
+        HeadersSection = new HeadersSection { { "Accept", "application/json" } }
       };
       var retrieveApplicationJsonResponse = new ResponseSection
       {
@@ -25,19 +33,24 @@ namespace NJ.ApibToOasMapper.Tests
       {
         Identifier = "Retrieve a Message",
         HttpRequestMethod = HttpRequestMethod.Get,
+        RequestSections = new[] { retrieveTextPlainRequest, retrieveJsonRequest },
         ResponseSections = new[] { retrieveTextPlainResponse, retrieveApplicationJsonResponse },
-        Description = @"This action has **two** responses defined: One returning plain text and the
-other a JSON representation of our resource. Both have the same HTTP status
-code. Also both responses bear additional information in the form of a custom
-HTTP header. Note that both responses have set the `Content-Type` HTTP header
-just by specifying `(text/plain)` or `(application/json)` in their respective
-signatures."
+        Description = @"In API Blueprint, _requests_ can hold exactly the same kind of information and
+can be described using exactly the same structure as _responses_, only with
+different signature – using the `Request` keyword. The string that follows
+after the `Request` keyword is a request identifier. Again, using explanatory
+and simple naming is the best way to go."
       };
 
-      var updateRequest = new RequestSection
+      var updateTextPlainRequest = new RequestSection("Update Plain Text Message")
       {
         MediaType = "text/plain",
         BodySection = new BodySection { Content = "All your base are belong to us.\n" }
+      };
+      var updateJsonRequest = new RequestSection("Update JSON Message")
+      {
+        MediaType = "application/json",
+        BodySection = new BodySection { Content = "{ \"message\": \"All your base are belong to us.\" }" }
       };
       var updateResponse = new ResponseSection
       {
@@ -47,7 +60,7 @@ signatures."
       {
         Identifier = "Update a Message",
         HttpRequestMethod = HttpRequestMethod.Put,
-        RequestSections = new[] { updateRequest },
+        RequestSections = new[] { updateTextPlainRequest, updateJsonRequest },
         ResponseSections = new[] { updateResponse }
       };
 
@@ -69,21 +82,21 @@ signatures."
       apib.ResourceGroupSections = new[] { messagesResourceGroup };
       apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection
       {
-        Name = "Responses API",
-        Description = @"In this API example we will discuss what information a response can bear and
-how to define multiple responses. Technically a response is represented by a
-payload that is sent back in response to a request.
+        Name = "Requests API",
+        Description = @"Following the [Responses](05.%20Responses.md) example, this API will show you
+how to define multiple requests and what data these requests can bear. Let's
+demonstrate multiple requests on a trivial example of content negotiation.
 
 ## API Blueprint
 
-+ [Previous: Grouping Resources](04.%20Grouping%20Resources.md)
++ [Previous: Responses](05.%20Responses.md)
 
-+ [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/05.%20Responses.md)
++ [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/06.%20Requests.md)
 
-+ [Next: Requests](06.%20Requests.md)"
++ [Next: Parameters](07.%20Parameters.md)"
       };
 
-      ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/05. Responses.json");
+      OasToApibMapperTestRunner.RunTest(apib, "TestFiles/06. Requests.json");
     }
   }
 }

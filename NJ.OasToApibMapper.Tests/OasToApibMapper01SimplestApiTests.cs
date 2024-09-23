@@ -1,8 +1,8 @@
 ﻿using NJ.ApibModel;
 
-namespace NJ.ApibToOasMapper.Tests
+namespace NJ.OasToApibMapper.Tests
 {
-  public class ApibToOasMapper01SimplestApiTests
+  public class OasToApibMapper01SimplestApiTests
   {
     [Fact]
     public void ApibToOasMapper01SimplestApiTest()
@@ -56,7 +56,7 @@ API Blueprint** and as such you can **parse** it with the
         }
       };
 
-      ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/01. Simplest API.json");
+      OasToApibMapperTestRunner.RunTest(apib, "TestFiles/01. Simplest API.json");
     }
   }
 }

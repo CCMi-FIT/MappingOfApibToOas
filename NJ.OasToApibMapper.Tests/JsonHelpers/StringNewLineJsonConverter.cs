@@ -1,10 +1,10 @@
 ﻿using Newtonsoft.Json;
 
-namespace NJ.ApibToOasMapper.Tests.JsonHelpers
+namespace NJ.OasToApibMapper.Tests.JsonHelpers
 {
   public class StringNewLineJsonConverter : JsonConverter
   {
-    public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
+    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
     {
       if (value is string originalString)
       {
@@ -13,7 +13,7 @@ namespace NJ.ApibToOasMapper.Tests.JsonHelpers
       }
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
     {
       if (!CanConvert(objectType))
         throw new InvalidOperationException();

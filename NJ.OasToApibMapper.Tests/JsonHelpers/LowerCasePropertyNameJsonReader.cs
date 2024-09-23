@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace NJ.ApibToOasMapper.Tests.JsonHelpers
+namespace NJ.OasToApibMapper.Tests.JsonHelpers
 {
   public class LowerCasePropertyNameJsonReader : JsonTextReader
   {

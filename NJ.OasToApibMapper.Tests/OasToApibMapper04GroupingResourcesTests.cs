@@ -1,8 +1,8 @@
 ﻿using NJ.ApibModel;
 
-namespace NJ.ApibToOasMapper.Tests
+namespace NJ.OasToApibMapper.Tests
 {
-  public class ApibToOasMapper04GroupingResourcesTests
+  public class OasToApibMapper04GroupingResourcesTests
   {
     [Fact]
     public void ApibToOasMapper04GroupingResourcesTest()
@@ -84,7 +84,7 @@ create any group all your resources will be part of an ""unnamed"" group.
 + [Next: Responses](05.%20Responses.md)"
       };
 
-      ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/04. Grouping Resources.json");
+      OasToApibMapperTestRunner.RunTest(apib, "TestFiles/04. Grouping Resources.json");
     }
   }
 }

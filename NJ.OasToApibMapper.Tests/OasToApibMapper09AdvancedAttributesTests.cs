@@ -1,8 +1,8 @@
 ﻿using NJ.ApibModel;
 
-namespace NJ.ApibToOasMapper.Tests
+namespace NJ.OasToApibMapper.Tests
 {
-  public class ApibToOasMapper09AdvancedAttributesTests
+  public class OasToApibMapper09AdvancedAttributesTests
   {
     [Fact]
     public void ApibToOasMapper09AttributesTest()
@@ -33,7 +33,7 @@ namespace NJ.ApibToOasMapper.Tests
         Description =
           "A coupon contains information about a percent-off or amount-off discount you\r\nmight want to apply to a customer.",
         ActionSections = new[] { retrieveCouponAction },
-        ParametersSection = new UriParametersSection(new[] {new UriParameter("id", true, "string", "The ID of the desired coupon.") }),
+        ParametersSection = new UriParametersSection(new[] { new UriParameter("id", true, "string", "The ID of the desired coupon.") }),
         AttributesSection = new AttributesSection
         {
           TypeDefinition = "object",
@@ -50,7 +50,7 @@ namespace NJ.ApibToOasMapper.Tests
       var listAllCouponsAction =
         new ActionSection("List all Coupons", "Returns a list of your coupons.", HttpRequestMethod.Get)
         {
-          UriParametersSection = new UriParametersSection(new[] {new UriParameter("limit", false, "number", "A limit on the number of objects to be returned. Limit can range\nbetween 1 and 100 items.") { DefaultValue = 10} }),
+          UriParametersSection = new UriParametersSection(new[] { new UriParameter("limit", false, "number", "A limit on the number of objects to be returned. Limit can range\nbetween 1 and 100 items.") { DefaultValue = 10 } }),
           ResponseSections = new List<ResponseSection>
           {
             new ResponseSection(200, "application/json")
@@ -128,7 +128,7 @@ description of action attributes is somewhat duplicate to the definition of
 + [Next: Data Structures](10.%20Data%20Structures.md)"
       };
 
-      ApibToOasMapperTestRunner.RunTest(apib, "TestFiles/09. Advanced Attributes.json");
+      OasToApibMapperTestRunner.RunTest(apib, "TestFiles/09. Advanced Attributes.json");
     }
   }
 }
