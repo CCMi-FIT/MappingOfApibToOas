@@ -21,7 +21,6 @@
                 },
                 "summary": "Retrieve a Message",
                 "operationId": "Retrieve a Message",
-                "description": "",
                 "tags": [
                     "Messages"
                 ],
@@ -37,7 +36,6 @@
                 },
                 "summary": "Update a Message",
                 "operationId": "Update a Message",
-                "description": "",
                 "tags": [
                     "Messages"
                 ],

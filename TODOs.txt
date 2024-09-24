@@ -1,3 +1,16 @@
+Develop extensions for:
+- Symmetric Conversion
+  - i.e. mapApibToOas(mapOasToApib(oas)) == oas
+  - and mapOasToApib(mapApibToOas(apib)) == apib
+- for OAS utilize extensions
+- for APIB develop own extensions ?
+
+
+
+Tests
+1
+What to do about Metadata Section ?
+
 2Test
 - Resource Description APIB -> OAS
 
@@ -6,3 +19,7 @@
 
 4Test
 - Mapping Resource Group to Tag ?
+  - Tags are on Operation Object rather than PathItemObject - because there is no Tags on PathItemObject ?
+  - Really bad for Tags -> Groups mapping.. no better way
+  - The other way ignores tags (quite asymmetric)
+- Description "" vs null

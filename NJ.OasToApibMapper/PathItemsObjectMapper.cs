@@ -1,5 +1,6 @@
 ﻿using NJ.ApibModel;
 using NJ.OasModel;
+using NJ.OasToApibMapper.HelperModel;
 
 namespace NJ.OasToApibMapper
 {

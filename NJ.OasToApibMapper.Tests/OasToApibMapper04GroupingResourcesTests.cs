@@ -9,9 +9,9 @@ namespace NJ.OasToApibMapper.Tests
     public void ApibToOasMapper04GroupingResourcesTest()
     {
       var openApiObject = CreateOpenApiObject();
-      var apib = CreateExpectedApib();
+      var expectedApib = CreateExpectedApib();
 
-      OasToApibMapperTestRunner.RunTest(apib, "TestFiles/04. Grouping Resources.json");
+      OasToApibMapperTestRunner.RunTest(openApiObject, expectedApib);
     }
     private static OpenApiObject CreateOpenApiObject()
     {
@@ -19,7 +19,17 @@ namespace NJ.OasToApibMapper.Tests
       {
         Title = "Grouping Resources API",
         Version = "1.0.0",
-        Description = "This API example demonstrates how to group resources and form **groups of\nresources**. You can create as many or as few groups as you like. If you do not\ncreate any group all your resources will be part of an \"unnamed\" group.\n\n## API Blueprint\n\n+ [Previous: Named Resource and Actions](03.%20Named%20Resource%20and%20Actions.md)\n\n+ [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/04.%20Grouping%20Resources.md)\n\n+ [Next: Responses](05.%20Responses.md)"
+        Description = @"This API example demonstrates how to group resources and form **groups of
+resources**. You can create as many or as few groups as you like. If you do not
+create any group all your resources will be part of an ""unnamed"" group.
+
+## API Blueprint
+
++ [Previous: Named Resource and Actions](03.%20Named%20Resource%20and%20Actions.md)
+
++ [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/04.%20Grouping%20Resources.md)
+
++ [Next: Responses](05.%20Responses.md)"
       };
       var getOperationObject = new OperationObject
       {
@@ -31,7 +41,6 @@ namespace NJ.OasToApibMapper.Tests
               "200",
               new ResponseObject
               {
-                Description = "OK",
                 Headers = new Dictionary<string, IHeaderOrReferenceObject>(),
                 Content = new Dictionary<string, MediaTypeObject>
                 {
@@ -50,8 +59,7 @@ namespace NJ.OasToApibMapper.Tests
         Summary = "Retrieve a Message",
         OperationId = "Retrieve a Message",
         Tags = new[] { "Messages" },
-        Parameters = new IParameterOrReferenceObject[0],
-        Description = ""
+        Parameters = new IParameterOrReferenceObject[0]
       };
       var putOperationObject = new OperationObject
       {
@@ -63,7 +71,6 @@ namespace NJ.OasToApibMapper.Tests
               "204",
               new ResponseObject
               {
-                Description = "No Content",
                 Headers = new Dictionary<string, IHeaderOrReferenceObject>(),
                 Content = new Dictionary<string, MediaTypeObject>()
               }
@@ -74,7 +81,6 @@ namespace NJ.OasToApibMapper.Tests
         OperationId = "Update a Message",
         Tags = new[] { "Messages" },
         Parameters = new IParameterOrReferenceObject[0],
-        Description = "",
         RequestBody = new RequestBodyObject
         {
           Content = new Dictionary<string, MediaTypeObject>
@@ -93,8 +99,7 @@ namespace NJ.OasToApibMapper.Tests
             {
               Get = getOperationObject,
               Put = putOperationObject,
-              Summary = "My Message",
-              Description = @"OK, `My Message` probably isn't the best name for our resource but it will do for now. Note the URI `/message` is enclosed in square brackets."
+              Summary = "My Message"
             }
           }
         }
@@ -166,30 +171,8 @@ namespace NJ.OasToApibMapper.Tests
         ActionSections = new[] { retrieveAction, updateAction }
       };
 
-      var messagesResourceGroup = new ResourceGroupSection("Messages")
-      {
-        Description = @"Group of all messages-related resources.
-
-This is the first group of resources in this document. It is **recognized** by
-the **keyword `group`** and its name is `Messages`.
-
-Any following resource definition is considered to be a part of this group
-until another group is defined. It is **customary** to increase header level of
-resources (and actions) nested under a resource.",
-        ResourceSections = new[] { resource }
-      };
-
-      var usersResourceGroup = new ResourceGroupSection("Users")
-      {
-        Description = @"Group of all user-related resources.
-
-This is the second group in this blueprint. For now, no resources were defined
-here and as such we will omit it from the next installment of this course."
-      };
-
       var apib = new Apib();
-      apib.MetadataSection = new MetadataSection { { "FORMAT", "1A" } };
-      apib.ResourceGroupSections = new[] { messagesResourceGroup, usersResourceGroup };
+      apib.ResourceSections = new[] { resource };
       apib.ApiNameAndOverviewSection = new ApiNameAndOverviewSection
       {
         Name = "Grouping Resources API",
