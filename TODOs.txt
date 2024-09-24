@@ -23,3 +23,7 @@ What to do about Metadata Section ?
   - Really bad for Tags -> Groups mapping.. no better way
   - The other way ignores tags (quite asymmetric)
 - Description "" vs null
+
+5Test
+- Dynamic ?
+- Explciit Properties ? .. and other things ?
