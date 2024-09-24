@@ -9,7 +9,7 @@ namespace NJ.Common.Extensions
     {
       if (enumerable is null)
         return true;
-      if (enumerable.Any())
+      if (!enumerable.Any())
         return true;
       return false;
     }

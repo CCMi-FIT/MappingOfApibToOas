@@ -17,7 +17,7 @@ namespace NJ.OasToApibMapper.Tests
       {
         Identifier = "Retrieve a Message",
         HttpRequestMethod = HttpRequestMethod.Get,
-        Description = "Now this is informative! No extra explanation needed here. This action clearly\r\nretrieves the message.",
+        Description = "Now this is informative! No extra explanation needed here. This action clearly\nretrieves the message.",
         ResponseSections = new[] { retrieveResponse }
       };
 

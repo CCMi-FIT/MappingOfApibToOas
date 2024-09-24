@@ -26,7 +26,7 @@ namespace NJ.OasToApibMapper.Tests
         }
       };
 
-      var retrieveMessageAction = new ActionSection("Retrieve a Message", "At this point we will utilize our `Message` resource model and reference it in\r\n`Response 200`.",
+      var retrieveMessageAction = new ActionSection("Retrieve a Message", "At this point we will utilize our `Message` resource model and reference it in\n`Response 200`.",
         HttpRequestMethod.Get)
       {
         ResponseSections = new List<ResponseSection>

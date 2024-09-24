@@ -31,7 +31,7 @@ namespace NJ.OasToApibMapper.Tests
       var couponResource = new ResourceSection("Coupon", new UriTemplate("/coupons/{id}"))
       {
         Description =
-          "A coupon contains information about a percent-off or amount-off discount you\r\nmight want to apply to a customer.",
+          "A coupon contains information about a percent-off or amount-off discount you\nmight want to apply to a customer.",
         ActionSections = new[] { retrieveCouponAction },
         ParametersSection = new UriParametersSection(new[] { new UriParameter("id", true, "string", "The ID of the desired coupon.") }),
         AttributesSection = new AttributesSection

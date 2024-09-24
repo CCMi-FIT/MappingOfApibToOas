@@ -1,5 +1,7 @@
 ﻿using NJ.ApibModel;
+using NJ.Common.Extensions;
 using NJ.OasModel;
+using System.Net.WebSockets;
 
 namespace NJ.OasToApibMapper
 {
@@ -9,10 +11,35 @@ namespace NJ.OasToApibMapper
     {
       var apibHttpRequestMethod = ParseHttpMethod(httpMethod);
       var responseSections = MapResponsesObject(operationObject.Responses);
+      var requestBodySection = MapRequestObject(operationObject.RequestBody);
       var result = new ActionSection(default, operationObject.Description, apibHttpRequestMethod)
       {
-        ResponseSections = responseSections.ToList()
+        ResponseSections = responseSections.ToList(),
+        RequestSections = requestBodySection?.ToList()
       };
+      return result;
+    }
+
+    private static IEnumerable<RequestSection> MapRequestObject(IRequestBodyOrReferenceObject requestBodyOrReferenceObject)
+    {
+      if (requestBodyOrReferenceObject is null)
+        return null;
+      if (requestBodyOrReferenceObject is not RequestBodyObject requestBodyObject)
+        throw new NotSupportedException();
+      var content = requestBodyObject.Content;
+      var result = new List<RequestSection>();
+      foreach (var contentItem in content)
+      {
+        // TODO Article - mention this constraint
+        if (content?.Count != 1)
+          throw new NotSupportedException();
+        var requestSection = new RequestSection
+        {
+          MediaType = contentItem.Key,
+          BodySection = new BodySection(contentItem.Value.Example)
+        };
+        result.Add(requestSection);
+      }
       return result;
     }
 
@@ -46,11 +73,20 @@ namespace NJ.OasToApibMapper
 
       var httpStatusCodeInt = int.Parse(httpStatusCode);
 
-      // Conversion Constraint
-      var contentItem = responseObject.Content.Single();
-      var mediaType = contentItem.Key;
-      var example = contentItem.Value.Example;
-      var result = new ResponseSection(httpStatusCodeInt, mediaType) { BodySection = new BodySection(example) };
+      ResponseSection result;
+      var content = responseObject.Content;
+      if (content.IsNotNullOrEmpty())
+      {
+        // ARTICLE TODO: Conversion Constraint
+        var contentItem = responseObject.Content.Single();
+        var mediaType = contentItem.Key;
+        var example = contentItem.Value.Example;
+        result = new ResponseSection(httpStatusCodeInt, mediaType) { BodySection = new BodySection(example) };
+      }
+      else
+      {
+        result = new ResponseSection(httpStatusCodeInt);
+      }
       return result;
     }
   }

@@ -8,7 +8,7 @@ namespace NJ.OasToApibMapper.Tests.JsonHelpers
     {
       if (value is string originalString)
       {
-        var replaced = originalString.Replace("\r\n", "\n");
+        var replaced = originalString.Replace("\n", "\n");
         writer.WriteValue(replaced);
       }
     }
@@ -18,7 +18,7 @@ namespace NJ.OasToApibMapper.Tests.JsonHelpers
       if (!CanConvert(objectType))
         throw new InvalidOperationException();
       var originalString = serializer.Deserialize<string>(reader);
-      var result = originalString.Replace("\n", "\r\n");
+      var result = originalString.Replace("\n", "\n");
       return result;
     }
 

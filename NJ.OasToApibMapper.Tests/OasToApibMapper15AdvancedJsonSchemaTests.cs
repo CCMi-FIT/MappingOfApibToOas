@@ -61,7 +61,7 @@ namespace NJ.OasToApibMapper.Tests
         }
       };
       var updateNoteResponse = new ResponseSection(204);
-      var updateNoteAction = new ActionSection("Update a note", "Modify a note's data using its unique identifier. You can edit the `title`,\r\n`content`, and `tags`.", HttpRequestMethod.Patch)
+      var updateNoteAction = new ActionSection("Update a note", "Modify a note's data using its unique identifier. You can edit the `title`,\n`content`, and `tags`.", HttpRequestMethod.Patch)
       {
         RequestSections = new List<RequestSection> { updateNoteRequest },
         ResponseSections = new[] { updateNoteResponse }

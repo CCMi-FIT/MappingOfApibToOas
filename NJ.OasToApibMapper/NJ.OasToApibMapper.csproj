@@ -14,6 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NJ.ApibModel\NJ.ApibModel.csproj" />
+    <ProjectReference Include="..\NJ.Common\NJ.Common.csproj" />
     <ProjectReference Include="..\NJ.OasModel\NJ.OasModel.csproj" />
   </ItemGroup>
 

@@ -16,7 +16,8 @@ namespace NJ.OasToApibMapper
         var resourceSection = new ResourceSection
         {
           UriTemplate = uriTemplate,
-          ActionSections = actionSections
+          ActionSections = actionSections,
+          Description = pathItemObject.Description
         };
         yield return resourceSection;
       }

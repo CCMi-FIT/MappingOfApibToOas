@@ -17,6 +17,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		Directory.Packages.props = Directory.Packages.props
 		Nuget.config = Nuget.config
+		TODOs.txt = TODOs.txt
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NJ.OasToApibMapper", "NJ.OasToApibMapper\NJ.OasToApibMapper.csproj", "{D152DC99-90B2-4148-BE4B-15D9543A5597}"
