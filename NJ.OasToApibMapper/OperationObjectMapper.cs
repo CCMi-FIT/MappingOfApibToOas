@@ -12,10 +12,11 @@ namespace NJ.OasToApibMapper
       var apibHttpRequestMethod = ParseHttpMethod(httpMethod);
       var responseSections = MapResponsesObject(operationObject.Responses);
       var requestBodySection = MapRequestObject(operationObject.RequestBody);
-      var result = new ActionSection(default, operationObject.Description, apibHttpRequestMethod)
+      // TODO: or operationId ?
+      var result = new ActionSection(operationObject.Summary, operationObject.Description, apibHttpRequestMethod)
       {
         ResponseSections = responseSections.ToList(),
-        RequestSections = requestBodySection?.ToList()
+        RequestSections = requestBodySection?.ToList(),
       };
       return result;
     }
