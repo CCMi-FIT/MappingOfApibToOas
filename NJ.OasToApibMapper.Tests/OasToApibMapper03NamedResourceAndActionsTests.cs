@@ -13,7 +13,6 @@ namespace NJ.OasToApibMapper.Tests
       OasToApibMapperTestRunner.RunTest(openApiObject, expectedApib);
     }
 
-
     private static OpenApiObject CreateOpenApiObject()
     {
       var infoObject = new InfoObject

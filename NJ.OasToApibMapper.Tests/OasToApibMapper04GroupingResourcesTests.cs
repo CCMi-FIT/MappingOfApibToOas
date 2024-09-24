@@ -1,4 +1,5 @@
 ﻿using NJ.ApibModel;
+using NJ.OasModel;
 
 namespace NJ.OasToApibMapper.Tests
 {
@@ -6,6 +7,127 @@ namespace NJ.OasToApibMapper.Tests
   {
     [Fact]
     public void ApibToOasMapper04GroupingResourcesTest()
+    {
+      var openApiObject = CreateOpenApiObject();
+      var apib = CreateExpectedApib();
+
+      OasToApibMapperTestRunner.RunTest(apib, "TestFiles/04. Grouping Resources.json");
+    }
+    private static OpenApiObject CreateOpenApiObject()
+    {
+      var infoObject = new InfoObject
+      {
+        Title = "Grouping Resources API",
+        Version = "1.0.0",
+        Description = "This API example demonstrates how to group resources and form **groups of\nresources**. You can create as many or as few groups as you like. If you do not\ncreate any group all your resources will be part of an \"unnamed\" group.\n\n## API Blueprint\n\n+ [Previous: Named Resource and Actions](03.%20Named%20Resource%20and%20Actions.md)\n\n+ [This: Raw API Blueprint](https://raw.github.com/apiaryio/api-blueprint/master/examples/04.%20Grouping%20Resources.md)\n\n+ [Next: Responses](05.%20Responses.md)"
+      };
+      var getOperationObject = new OperationObject
+      {
+        Responses = new ResponsesObject
+        {
+          HttpStatusCodesWithResponses = new Dictionary<string, IResponseOrReferenceObject>
+          {
+            {
+              "200",
+              new ResponseObject
+              {
+                Description = "OK",
+                Headers = new Dictionary<string, IHeaderOrReferenceObject>(),
+                Content = new Dictionary<string, MediaTypeObject>
+                {
+                  {
+                    "text/plain",
+                    new MediaTypeObject
+                    {
+                      Example = "Hello World!\n"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        Summary = "Retrieve a Message",
+        OperationId = "Retrieve a Message",
+        Tags = new[] { "Messages" },
+        Parameters = new IParameterOrReferenceObject[0],
+        Description = ""
+      };
+      var putOperationObject = new OperationObject
+      {
+        Responses = new ResponsesObject
+        {
+          HttpStatusCodesWithResponses = new Dictionary<string, IResponseOrReferenceObject>
+          {
+            {
+              "204",
+              new ResponseObject
+              {
+                Description = "No Content",
+                Headers = new Dictionary<string, IHeaderOrReferenceObject>(),
+                Content = new Dictionary<string, MediaTypeObject>()
+              }
+            }
+          }
+        },
+        Summary = "Update a Message",
+        OperationId = "Update a Message",
+        Tags = new[] { "Messages" },
+        Parameters = new IParameterOrReferenceObject[0],
+        Description = "",
+        RequestBody = new RequestBodyObject
+        {
+          Content = new Dictionary<string, MediaTypeObject>
+          {
+            { "text/plain", new MediaTypeObject { Example = "All your base are belong to us.\n" } }
+          }
+        }
+      };
+      var pathsObject = new PathsObject
+      {
+        PathItems = new Dictionary<string, PathItemObject>
+        {
+          {
+            "/message",
+            new PathItemObject
+            {
+              Get = getOperationObject,
+              Put = putOperationObject,
+              Summary = "My Message",
+              Description = @"OK, `My Message` probably isn't the best name for our resource but it will do for now. Note the URI `/message` is enclosed in square brackets."
+            }
+          }
+        }
+      };
+
+      var components = new ComponentsObject { Schemas = new Dictionary<string, SchemaObject>() };
+
+      var tags = new[]
+      {
+        new TagObject
+        {
+          Name = "Messages",
+          Description = "Group of all messages-related resources.\n\nThis is the first group of resources in this document. It is **recognized** by\nthe **keyword `group`** and its name is `Messages`.\n\nAny following resource definition is considered to be a part of this group\nuntil another group is defined. It is **customary** to increase header level of\nresources (and actions) nested under a resource."
+        },
+        new TagObject
+        {
+          Name = "Users",
+          Description = "Group of all user-related resources.\n\nThis is the second group in this blueprint. For now, no resources were defined\nhere and as such we will omit it from the next installment of this course."
+        }
+      };
+
+      var openApiObject = new OpenApiObject
+      {
+        OpenApi = "3.0.3",
+        Info = infoObject,
+        Paths = pathsObject,
+        Components = components,
+        Tags = new TagObject[0]
+      };
+      return openApiObject;
+    }
+
+    private static Apib CreateExpectedApib()
     {
       var retrieveResponse = new ResponseSection
       {
@@ -83,8 +205,7 @@ create any group all your resources will be part of an ""unnamed"" group.
 
 + [Next: Responses](05.%20Responses.md)"
       };
-
-      OasToApibMapperTestRunner.RunTest(apib, "TestFiles/04. Grouping Resources.json");
+      return apib;
     }
   }
 }
