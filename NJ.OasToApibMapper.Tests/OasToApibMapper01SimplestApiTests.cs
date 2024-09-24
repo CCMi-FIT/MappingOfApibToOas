@@ -1,7 +1,5 @@
-﻿using Newtonsoft.Json;
-using NJ.ApibModel;
+﻿using NJ.ApibModel;
 using NJ.OasModel;
-using System.ComponentModel;
 
 namespace NJ.OasToApibMapper.Tests
 {
@@ -9,6 +7,13 @@ namespace NJ.OasToApibMapper.Tests
   {
     [Fact]
     public void ApibToOasMapper01SimplestApiTest()
+    {
+      var openApiObject = CreateOpenApiObject();
+      var expectedApib = CreateExpectedApib();
+      OasToApibMapperTestRunner.RunTest(openApiObject, expectedApib);
+    }
+
+    private static OpenApiObject CreateOpenApiObject()
     {
       var infoObject = new InfoObject
       {
@@ -87,7 +92,11 @@ API Blueprint** and as such you can **parse** it with the
         Components = components,
         Tags = new TagObject[0]
       };
+      return openApiObject;
+    }
 
+    private static Apib CreateExpectedApib()
+    {
       var expectedApib = new Apib();
       // TODO ?
       //expectedApib.MetadataSection = new MetadataSection { { "FORMAT", "1A" } };
@@ -138,7 +147,7 @@ API Blueprint** and as such you can **parse** it with the
           }
         }
       };
-      OasToApibMapperTestRunner.RunTest(openApiObject, expectedApib);
+      return expectedApib;
     }
   }
 }

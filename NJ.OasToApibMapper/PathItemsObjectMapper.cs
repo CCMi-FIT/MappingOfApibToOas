@@ -1,6 +1,5 @@
 ﻿using NJ.ApibModel;
 using NJ.OasModel;
-using System.Net.WebSockets;
 
 namespace NJ.OasToApibMapper
 {
@@ -37,56 +36,7 @@ namespace NJ.OasToApibMapper
         ("Trace", pathItemObject.Trace)
       }.Where(i => i.OperationObject is not null);
 
-      var result = httpMethodsWithOperationObjects.Select(i => MapOperationObject(i.HttpMethod, i.OperationObject)).ToList();
-      return result;
-    }
-
-    private static ActionSection MapOperationObject(string httpMethod, OperationObject operationObject)
-    {
-      var apibHttpRequestMethod = ParseHttpMethod(httpMethod);
-      var responseSections = MapResponsesObject(operationObject.Responses);
-      var result = new ActionSection(default, operationObject.Description, apibHttpRequestMethod)
-      {
-        ResponseSections = responseSections.ToList()
-      };
-      return result;
-    }
-
-    private static HttpRequestMethod ParseHttpMethod(string httpMethod)
-    {
-      var result = httpMethod switch
-      {
-        "Get" => HttpRequestMethod.Get,
-        "Post" => HttpRequestMethod.Post,
-        "Put" => HttpRequestMethod.Put,
-        "Delete" => HttpRequestMethod.Delete,
-        "Options" => HttpRequestMethod.Options,
-        "Head" => HttpRequestMethod.Head,
-        "Patch" => HttpRequestMethod.Patch,
-        "Trace" => HttpRequestMethod.Trace,
-        _ => throw new NotSupportedException()
-      };
-      return result;
-    }
-
-    private static IEnumerable<ResponseSection> MapResponsesObject(ResponsesObject responsesObject)
-    {
-      var result = responsesObject.HttpStatusCodesWithResponses.Select(i => MapResponseObject(i.Key, i.Value));
-      return result;
-    }
-
-    private static ResponseSection MapResponseObject(string httpStatusCode, IResponseOrReferenceObject responseOrReferenceObject)
-    {
-      if (responseOrReferenceObject is not ResponseObject responseObject)
-        throw new InvalidOperationException();
-
-      var httpStatusCodeInt = int.Parse(httpStatusCode);
-
-      // Conversion Constraint
-      var contentItem = responseObject.Content.Single();
-      var mediaType = contentItem.Key;
-      var example = contentItem.Value.Example;
-      var result = new ResponseSection(httpStatusCodeInt, mediaType) { BodySection = new BodySection(example) };
+      var result = httpMethodsWithOperationObjects.Select(i => OperationObjectMapper.Map(i.HttpMethod, i.OperationObject)).ToList();
       return result;
     }
   }
